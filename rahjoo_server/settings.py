@@ -118,4 +118,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = '/media/amir/Files/Work/IoT/Rahjoo/Managing Server/rahjoo_server/rahjoo_server/static/Static_Seed_Project'
 STATIC_URL = '/static/'
