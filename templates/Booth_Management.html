@@ -81,7 +81,7 @@
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
-                <div class="col-lg-12">_
+                <div class="col-lg-12">
                     <div class="tabs-container">
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#tab-1"> Booth Details</a></li>
@@ -96,30 +96,32 @@
                                             <h5>Booth Details Managements </h5>
                                         </div>
                                         <div class="ibox-content">
-                                            <form method="get" class="form-horizontal">
+                                            <form action="" method="post" class="form-horizontal">{% csrf_token %}
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Name</label>
                                                     <div class="col-sm-4">
-                                                        <input disabled type="text" class="form-control editable_element">
+                                                        {{ form.name }}
+                                                        {#                                                        <input disabled type="text" class="form-control editable_element">#}
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Owner</label>
                                                     <div class="col-sm-4">
-                                                        <input disabled type="text" class="form-control editable_element">
+                                                        {{ form.owner }}
+                                                        {#                                                        <input disabled type="text" class="form-control editable_element">#}
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Description</label>
                                                     <div class="col-sm-4">
-                                                        <textarea disabled class="form-control editable_element" rows="5" id="comment"></textarea>
+                                                        {{ form.description }}
+                                                        {#                                                        <textarea disabled class="form-control editable_element" rows="5" id="comment"></textarea>#}
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-4 col-sm-offset-2">
-                                                        <button id="edit_button" class="btn btn-info">Edit</button>
-                                                        <button id="save_button" class="btn btn-primary">Save</button>
-
+                                                        <button type="button" id="edit_button" class="btn btn-info">Edit</button>
+                                                        <button type="submit" id="save_button" class="btn btn-primary">Save</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -744,7 +746,8 @@
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                                                        class="sr-only">Close</span>
                                                                 </button>
                                                                 <h4 class="modal-title">Modal title</h4>
                                                                 <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
@@ -761,13 +764,17 @@
                                                                         <div class="col-sm-10">
                                                                             <div class="summernote">
                                                                                 <h3>Lorem Ipsum is simply</h3>
-                                                                                dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy
+                                                                                dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong>
+                                                                                standard dummy
                                                                                 text ever since the 1500s,
-                                                                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
+                                                                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
+                                                                                only
                                                                                 five centuries, but also the leap into electronic
-                                                                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
+                                                                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
+                                                                                only
                                                                                 five centuries, but also the leap into electronic
-                                                                                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                                                                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                                                                                sheets
                                                                                 containing Lorem Ipsum passages, and more recently with
                                                                                 <br/>
 
@@ -797,7 +804,8 @@
                                                     <div class="modal-dialog modal-lg" style="width: 800px;">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                                                        class="sr-only">Close</span>
                                                                 </button>
                                                                 <h4 class="modal-title">Modal title</h4>
                                                                 <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
