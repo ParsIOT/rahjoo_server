@@ -2,10 +2,10 @@ import http, json
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from .forms import Booth_Details_Form
 
-from .models import Booth_Details
+from .models import Booth_Details, Product_Details
 
 
 def index(request):
@@ -27,7 +27,7 @@ def save_booth_details(request):
 	return render(request, 'Booth_Management.html', {'form': form})
 
 
-def view_booth_details(request):
+def view_booth_List(request):
 	booths = Booth_Details.objects.all()
 	response = {}
 	r = {}
@@ -37,5 +37,19 @@ def view_booth_details(request):
 		r['description'] = booth.description
 		response[booth.id] = r
 		r = {}
-	# return JsonResponse(serializers.serialize('json', booths), safe=False)
 	return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+def view_products_details(request):
+	response = {}
+	all_products = Product_Details.objects.all()
+	d = {}
+	for product in all_products:
+		d['name'] = product.name
+		d['model'] = product.model
+		d['description'] = product.description
+		d['price'] = product.price
+		d['status'] = product.status
+		response[product.id] = d
+		d = {}
+	return render_to_response('Products_Details.html', {'response': response})
