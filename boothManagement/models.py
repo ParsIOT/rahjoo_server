@@ -11,3 +11,12 @@ class Booth_Details(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class Product_Details(models.Model):
+	id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=100)
+	model = models.CharField(max_length=100)
+	description = models.CharField(max_length=300)
+	price = models.IntegerField()
+	status = models.BooleanField(default=True)
