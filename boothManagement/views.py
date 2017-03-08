@@ -53,3 +53,35 @@ def view_products_details(request):
 		response[product.id] = d
 		d = {}
 	return render_to_response('Products_Details.html', {'response': response})
+
+
+def view_Products_list(request):
+	response = {}
+	all_products = Product_Details.objects.order_by('name')
+	d = {}
+	for product in all_products:
+		d['name'] = product.name
+		d['model'] = product.model
+		d['description'] = product.description
+		d['price'] = product.price
+		d['status'] = product.status
+		d['owner_booth'] = product.owner_booth.id
+		response[product.id] = d
+		d = {}
+	return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+def view_booth_products(request, booth_Id):
+	boothProducts = Product_Details.objects.filter(owner_booth__id=booth_Id)
+	response = {}
+	d = {}
+	for product in boothProducts:
+		d['name'] = product.name
+		d['model'] = product.model
+		d['description'] = product.description
+		d['price'] = product.price
+		d['status'] = product.status
+		d['owner_booth'] = product.owner_booth.id
+		response[product.id] = d
+		d = {}
+	return HttpResponse(json.dumps(response), content_type="application/json")
