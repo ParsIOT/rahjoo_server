@@ -20,3 +20,4 @@ class Product_Details(models.Model):
 	description = models.CharField(max_length=300)
 	price = models.IntegerField()
 	status = models.BooleanField(default=True)
+	owner_booth = models.ForeignKey(Booth_Details, on_delete=models.CASCADE)
