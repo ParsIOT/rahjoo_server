@@ -29,13 +29,13 @@ def save_booth_details(request):
 
 def view_booth_List(request):
 	booths = Booth_Details.objects.all()
-	response = {}
+	response = {'booths': []}
 	r = {}
 	for booth in booths:
 		r['name'] = booth.name
 		r['owner'] = booth.owner
 		r['description'] = booth.description
-		response[booth.id] = r
+		response['booths'].append(r)
 		r = {}
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
@@ -56,7 +56,7 @@ def view_products_details(request):
 
 
 def view_Products_list(request):
-	response = {}
+	response = {'products_list': []}
 	all_products = Product_Details.objects.order_by('name')
 	d = {}
 	for product in all_products:
@@ -66,14 +66,14 @@ def view_Products_list(request):
 		d['price'] = product.price
 		d['status'] = product.status
 		d['owner_booth'] = product.owner_booth.id
-		response[product.id] = d
+		response['products_list'].append(d)
 		d = {}
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 
 def view_booth_products(request, booth_Id):
 	boothProducts = Product_Details.objects.filter(owner_booth__id=booth_Id)
-	response = {}
+	response = {'booth_Products': []}
 	d = {}
 	for product in boothProducts:
 		d['name'] = product.name
@@ -82,6 +82,6 @@ def view_booth_products(request, booth_Id):
 		d['price'] = product.price
 		d['status'] = product.status
 		d['owner_booth'] = product.owner_booth.id
-		response[product.id] = d
+		response['booth_Products'].append(d)
 		d = {}
 	return HttpResponse(json.dumps(response), content_type="application/json")
