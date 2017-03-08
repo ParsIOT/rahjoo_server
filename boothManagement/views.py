@@ -1,6 +1,6 @@
-import http
-
-from django.http import HttpResponse, HttpResponseRedirect
+import http, json
+from django.core import serializers
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.shortcuts import render
 from .forms import Booth_Details_Form
@@ -25,3 +25,17 @@ def save_booth_details(request):
 		form = Booth_Details_Form()
 
 	return render(request, 'Booth_Management.html', {'form': form})
+
+
+def view_booth_details(request):
+	booths = Booth_Details.objects.all()
+	response = {}
+	r = {}
+	for booth in booths:
+		r['name'] = booth.name
+		r['owner'] = booth.owner
+		r['description'] = booth.description
+		response[booth.id] = r
+		r = {}
+	# return JsonResponse(serializers.serialize('json', booths), safe=False)
+	return HttpResponse(json.dumps(response), content_type="application/json")
