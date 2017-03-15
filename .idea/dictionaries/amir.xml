@@ -2,7 +2,17 @@
   <dictionary name="amir">
     <words>
       <w>amir</w>
+      <w>backends</w>
+      <w>boothmanagment</w>
+      <w>clickjacking</w>
+      <w>csrf</w>
+      <w>footable</w>
+      <w>howto</w>
+      <w>inspinia</w>
+      <w>pythonpath</w>
       <w>rahjoo</w>
+      <w>slimscroll</w>
+      <w>summernote</w>
     </words>
   </dictionary>
 </component>

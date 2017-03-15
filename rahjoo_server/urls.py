@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from boothManagement.views import user_login
 
 urlpatterns = [
 	url(r'^booth/', include('boothManagement.urls')),
 	url(r'^admin/', admin.site.urls),
+	url(r'^accounts/login/$', user_login),
 ]
