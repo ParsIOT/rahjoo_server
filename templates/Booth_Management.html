@@ -16,26 +16,58 @@
             <div class="panel-body">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title" style="border-width: 0px">
-                        <h5>Booth Details Managements </h5>
+                        <h5>Booth Owner Profile </h5>
                     </div>
                     <div class="ibox-content">
                         <form action="" method="post" class="form-horizontal">{% csrf_token %}
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Name</label>
-                                <div class="col-sm-4">
-                                    {{ form.name }}
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">First Name:</label>
+                                    <div class="col-sm-8">
+                                        {{ form.firstName }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">Last Name:</label>
+                                    <div class="col-sm-8">
+                                        {{ form.lastName }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Owner</label>
-                                <div class="col-sm-4">
-                                    {{ form.owner }}
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">Email</label>
+                                    <div class="col-sm-8">
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">Owner Company</label>
+                                    <div class="col-sm-8">
+                                        {{ form.company }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Description</label>
-                                <div class="col-sm-4">
-                                    {{ form.description }}
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">Booth Name</label>
+                                    <div class="col-sm-8">
+                                        {{ form.boothName }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="col-sm-4 control-label">Phone</label>
+                                    <div class="col-sm-8">
+                                        {{ form.phone }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Description</label>
+                                    <div class="col-sm-9">
+                                        {{ form.description }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

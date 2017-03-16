@@ -1,12 +1,11 @@
 import http, json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response
-from django.contrib.auth import authenticate
 from django.contrib.auth import authenticate, login, logout
-from .forms import Booth_Details_Form, Login_Form
+from .forms import Booth_Owner_Profile, Login_Form
 from .models import *
 
 
@@ -17,20 +16,22 @@ def index(request):
 
 
 @login_required
-def save_booth_details(request):
+def BoothOwnerProfile(request):
 	currentUser = User.objects.get(username=request.user.username)
 
 	if request.method == 'POST':
-		form = Booth_Details_Form(data=request.POST)
-
-		print(form.errors)
-		if form.is_valid():
-			form.save()
+		profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
+		print(profile_form.errors)
+		if profile_form.is_valid():
+			profile_form.instance = Booth_Owner.objects.get(user=request.user)
+			profile_form.save(commit=False)
+			profile_form.user = request.user
+			profile_form.save()
 			return HttpResponseRedirect('#')
 	else:
-		form = Booth_Details_Form()
+		profile_form = Booth_Owner_Profile(user=request.user)
 
-	return render(request, 'Booth_Management.html', {'form': form})
+	return render(request, 'Booth_Management.html', {'form': profile_form})
 
 
 @login_required
@@ -39,7 +40,7 @@ def view_booth_List(request):
 	response = {'booths': []}
 	r = {}
 	for booth in booths:
-		r['name'] = booth.name
+		r['name'] = booth.BoothName
 		r['owner'] = booth.owner.user.get_username()
 		r['description'] = booth.description
 		response['booths'].append(r)

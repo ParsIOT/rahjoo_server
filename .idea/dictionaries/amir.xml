@@ -2,10 +2,12 @@
   <dictionary name="amir">
     <words>
       <w>amir</w>
+      <w>attrs</w>
       <w>backends</w>
       <w>boothmanagment</w>
       <w>clickjacking</w>
       <w>csrf</w>
+      <w>firstname</w>
       <w>footable</w>
       <w>howto</w>
       <w>inspinia</w>
