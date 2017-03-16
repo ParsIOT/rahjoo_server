@@ -16,6 +16,8 @@
     <link href="{% static "css/style.css" %}" rel="stylesheet">
     {% block head %}
     {% endblock head %}
+    {% block style %}
+    {% endblock style %}
 </head>
 
 <body>
@@ -48,6 +50,12 @@
                     <a href="{% url "viewProductsDetails" %}">
                         <i class="fa fa-th-large"></i>
                         <span class="nav-label">Products Details</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url "advertisement" %}">
+                        <i class="fa fa-th-large"></i>
+                        <span class="nav-label">Advertisements</span>
                     </a>
                 </li>
             </ul>

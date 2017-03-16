@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^viewProductsList/$', views.view_Products_list, name='viewProductsList'),
 	url(r'^viewBoothProducts/(?P<booth_Id>[0-9]+)/$', views.view_booth_products, name='viewBoothProducts'),
 	url(r'^login/$', views.user_login, name='login_url'),
+	url(r'^advertisements$', views.advertisement, name='advertisement'),
 ]
