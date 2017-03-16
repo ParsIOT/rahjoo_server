@@ -27,7 +27,8 @@ def BoothOwnerProfile(request):
 			profile_form.save()
 			return HttpResponseRedirect('#')
 	else:
-		init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name, 'email': currentUser.user.email, 'company': currentUser.company,
+		init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name,
+		             'email': currentUser.user.email, 'company': currentUser.company,
 		             'boothName': currentUser.boothName, 'phone': currentUser.phone,
 		             'description': currentUser.description}
 		profile_form.initial = init_data
@@ -115,3 +116,9 @@ def user_login(request):
 	else:
 		login_form = Login_Form()
 	return render(request, 'login.html', {'login_form': login_form})
+
+
+def advertisement(request):
+	template = loader.get_template('advertisement.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
