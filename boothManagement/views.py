@@ -17,11 +17,9 @@ def index(request):
 
 @login_required
 def BoothOwnerProfile(request):
-	currentUser = User.objects.get(username=request.user.username)
-
+	currentUser = Booth_Owner.objects.get(user=request.user)
+	profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
 	if request.method == 'POST':
-		profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
-		print(profile_form.errors)
 		if profile_form.is_valid():
 			profile_form.instance = Booth_Owner.objects.get(user=request.user)
 			profile_form.save(commit=False)
@@ -29,7 +27,10 @@ def BoothOwnerProfile(request):
 			profile_form.save()
 			return HttpResponseRedirect('#')
 	else:
-		profile_form = Booth_Owner_Profile(user=request.user)
+		init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name, 'email': currentUser.user.email, 'company': currentUser.company,
+		             'boothName': currentUser.boothName, 'phone': currentUser.phone,
+		             'description': currentUser.description}
+		profile_form.initial = init_data
 
 	return render(request, 'Booth_Management.html', {'form': profile_form})
 
