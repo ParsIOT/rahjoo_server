@@ -19,6 +19,7 @@ from boothManagement.views import user_login
 
 urlpatterns = [
 	url(r'^booth/', include('boothManagement.urls')),
+	url(r'^ajax/', include('ajax.urls')),
 	url(r'^admin/', admin.site.urls),
 	url(r'^accounts/login/$', user_login),
 ]
