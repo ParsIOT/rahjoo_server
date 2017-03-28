@@ -1,0 +1,230 @@
+{% extends 'Base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Advertisements
+{% endblock title %}
+{% block style %}
+    <style>
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+    </style>
+
+
+{% endblock style %}
+{% block head %}
+    <link href="{% static "css/plugins/leaflet/leaflet.css" %}" rel="stylesheet">
+{% endblock head %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title" style="border-width: 0">
+                        <h5>Booth Advertisments </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="col-sm-3 control-label">Advertisement Name:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="col-sm-3 control-label">Advertisement Text:</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="map" style="height: 300px"></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2" style="padding-top: 60px;">
+                                    <button type="button" id="edit_button" class="btn btn-info">Edit</button>
+                                    <button type="submit" id="save_button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static "js/plugins/leaflet/leaflet.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+            var map = L.map('map', {
+                crs: L.CRS.Simple,
+                minZoom: -2
+            });
+            map.setView([200, 200], -2);
+
+            var bounds = [[-400, -300], [400, 300]];
+            var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
+
+            function makeRec(x1, y1, x2, y2) {
+                return [[y1, x1], [y2, x1], [y2, x2], [y1, x2]]
+            }
+
+            map.on('click', function (e) {
+                console.log(e.latlng.lat + "," + e.latlng.lng);
+            });
+
+            var allRecAreas = {{ response | safe}};
+            var polygons = [];
+            for (i = 0; i < allRecAreas.length; i++) {
+                var t_x = allRecAreas[i]['t_x'];
+                var t_y = allRecAreas[i]['t_y'];
+                var b_x = allRecAreas[i]['b_x'];
+                var b_y = allRecAreas[i]['b_y'];
+                polygons.push(makeRec(t_x, t_y, b_x, b_y));
+            }
+            c = [];
+            ///////////////
+            var sections = {
+                "type": "FeatureCollection", "features": []
+            };
+
+            for (var i = 0; i < polygons.length; i++) {
+                sections.features.push(
+                        {
+                            "type": "Feature",
+                            "id": i.toString(),
+                            "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [polygons[i]]
+                            }
+                        }
+                )
+            }
+            var selectedSections = [];
+
+            // control that shows state info on hover
+            var info = L.control();
+
+            info.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                this.update();
+                return this._div;
+            };
+
+            // method that we will use to update the control based on feature properties passed
+            info.update = function (props) {
+                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
+            };
+
+            info.addTo(map);
+
+
+            function getColor(d) {
+                return d > 100 ? '#800026' :
+                        d > 90 ? '#BD0026' :
+                                d > 80 ? '#E31A1C' :
+                                        d > 70 ? '#FC4E2A' :
+                                                d > 60 ? '#FD8D3C' :
+                                                        d > 50 ? '#FEB24C' :
+                                                                d > 40 ? '#FED976' :
+                                                                        d > 30 ? '#e2ca26' :
+                                                                                d > 20 ? '#e5d044' :
+                                                                                        d > 10 ? '#efdf77' :
+                                                                                                '#e8e0a4';
+            }
+
+            function style(feature) {
+                return {
+                    fillColor: getColor(feature.properties.price),
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.7
+                };
+            }
+
+            function sectionHover(e) {
+                var layer = e.target;
+                if (layer.options.color != "green") {
+                    layer.setStyle({
+                        weight: 3,
+                        color: '#666',
+                        dashArray: '',
+                        fillOpacity: 0.6
+                    });
+
+                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                        layer.bringToFront();
+                    }
+                }
+                info.update(layer.feature.properties);
+            }
+
+            function sectionMouseOut(e) {
+                var layer = e.target;
+                if (layer.options.color == "#666") {
+                    geojson.resetStyle(e.target);
+                    info.update();
+                }
+
+            }
+
+            function sectionClick(e) {
+                var layer = e.target;
+                if (layer.options.color != "green") {
+                    selectedSections.push(layer.feature.properties.name);
+                    layer.setStyle({
+                        weight: 3,
+                        color: 'green',
+                        dashArray: '',
+                        fillOpacity: 0.6
+                    });
+                } else {
+                    selectedSections.pop(layer.feature.properties.name);
+                    layer.setStyle({
+                        weight: 2,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    });
+                }
+            }
+
+
+            function onEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: sectionHover,
+                    mouseout: sectionMouseOut,
+                    click: sectionClick
+                });
+            }
+
+            geojson = L.geoJson(sections, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+
+        });
+    </script>
+{% endblock script %}

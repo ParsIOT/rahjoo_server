@@ -4,3 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Product_Details)
 admin.site.register(Booth_Owner)
+admin.site.register(Advertisement_Area)

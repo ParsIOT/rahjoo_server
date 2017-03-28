@@ -41,3 +41,12 @@ class Product_Details(models.Model):
 
 	def __str__(self):
 		return "Product '" + self.name + "' owned by booth '" + self.owner_booth.boothName + "'"
+
+
+class Advertisement_Area(models.Model):
+	section_name = models.CharField(max_length=30)
+	topLeft_x = models.DecimalField(max_digits=5, decimal_places=2)
+	topLeft_y = models.DecimalField(max_digits=5, decimal_places=2)
+	bottomRight_x = models.DecimalField(max_digits=5, decimal_places=2)
+	bottomRight_y = models.DecimalField(max_digits=5, decimal_places=2)
+	base_price = models.IntegerField()

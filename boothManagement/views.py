@@ -1,4 +1,5 @@
-import http, json
+import http
+import simplejson as json
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -119,6 +120,9 @@ def user_login(request):
 
 
 def advertisement(request):
-	template = loader.get_template('advertisement.html')
-	context = {}
-	return HttpResponse(template.render(context, request))
+	response = []
+	allAdvertisementAreas = Advertisement_Area.objects.all()
+	for area in allAdvertisementAreas:
+		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
+
+	return render(request, 'Advertisements.html', {'response': json.dumps(response)})
