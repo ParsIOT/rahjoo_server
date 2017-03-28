@@ -9,6 +9,7 @@
     <link href="{% static "css/plugins/summernote/summernote-bs3.css" %}" rel="stylesheet">
     <link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
     <link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
+
 {% endblock head %}
 {% block content %}
     <div class="row">
@@ -49,7 +50,6 @@
                                         <span class="label label-danger">Disable</span>
                                     {% endif %}
                                 </td>
-                                {#                                <td><span class="label label-danger">Disabled</span></td>#}
                                 <td class="text-right">
                                     <div class="btn-group">
                                         <button class="btn-white btn btn-xs product_view_button">View</button>
@@ -85,49 +85,58 @@
                     <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
                 </div>
                 <div class="modal-body">
-                    <fieldset class="form-horizontal">
+                    <form class="form-horizontal">
                         <div class="form-group"><label class="col-sm-2 control-label">Name:</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Product name"></div>
+                            <div class="col-sm-10">
+                                <p id="modal_product_name" class="form-control-static"></p>
+                            </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Price:</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="$160.00"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Model:</label>
+                            <div class="col-sm-10"><input id="modal_product_model" type="text" class="form-control" placeholder="Product Model"></div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Description:</label>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price:</label>
+                            <div class="col-sm-10"><input id="modal_product_price" type="text" class="form-control" placeholder="$160.00"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Status:</label>
+                            <div class="col-sm-10">
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input id="modal_product_status" type="checkbox" checked class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="modal_product_status">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Description:</label>
                             <div class="col-sm-10">
                                 <div class="summernote">
-                                    <h3>Lorem Ipsum is simply</h3>
-                                    dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong>
-                                    standard dummy
-                                    text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-                                    only
+
                                     five centuries, but also the leap into electronic
                                     when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
                                     only
                                     five centuries, but also the leap into electronic
-                                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                                    sheets
-                                    containing Lorem Ipsum passages, and more recently with
-                                    <br/>
+
 
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Meta Tag Title:</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="..."></div>
+                        <div class="pull-right">
+                            {#                            <button type="submit" id="submitProductDetails" class="btn btn-primary pull-right">Save changes</button>#}
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Meta Tag Description:</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Sheets containing Lorem"></div>
-                        </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Meta Tag Keywords:</label>
-                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Lorem, Ipsum, has, been"></div>
-                        </div>
-                    </fieldset>
+
+                    </form>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" id="submitProductDetails" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>
@@ -210,13 +219,8 @@
                                     The generated Lorem Ipsum is therefore always free
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -226,8 +230,6 @@
     <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
     <script src="{% static "js/plugins/summernote/summernote.min.js" %}"></script>
     <script src="{% static "js/plugins/slick/slick.min.js" %}"></script>
-
-
     <script>
         $(document).ready(function () {
 
@@ -236,16 +238,73 @@
             $('.product-images').slick({
                 dots: true
             });
-            $("#edit_button").click(function () {
-                $(".editable_element").prop('disabled', false);
-            });
 
+            var $row;
             $('.product_edit_button').click(function () {
+                $row = $(this).closest("tr");
+                var name = $row.find("td:nth-child(1)").text().trim();
+                var model = $row.find("td:nth-child(2)").text().trim();
+                var description = $row.find("td:nth-child(3)").text().trim();
+                var price = $row.find("td:nth-child(4)").text().trim();
+                var $status = $row.find("td:nth-child(5)");
+
+                $('#modal_product_name').html(name);
+                $('#modal_product_model').val(model);
+                $('#modal_product_price').val(price);
+
+
+                if ($status.text().trim() == 'Enable') {
+                    $("#modal_product_status").attr('checked', true)
+                } else {
+                    $("#modal_product_status").attr('checked', false)
+
+                }
+
+                $('.summernote').summernote('code', description);
+
                 $('#myModal').modal('show');
             });
+
+            $('#submitProductDetails').click(function () {
+                var productName = $('#modal_product_name').html();
+                var productModel = $('#modal_product_model').val();
+                var productPrice = $('#modal_product_price').val();
+                var productStatus = $("#modal_product_status").is(":checked");
+                var productDescription = $('.summernote').summernote('code');
+                $.ajax({
+                    url: '../../ajax/editProductDetails',
+                    data: {
+                        'productName': productName,
+                        'productModel': productModel,
+                        'productPrice': productPrice,
+                        'productStatus': productStatus,
+                        'productDescription': productDescription
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('SUCCESS!!!');
+                        $row.find("td:nth-child(2)").text(data['n_model']);
+                        $row.find("td:nth-child(4)").text(data['n_price']);
+                        $status = $row.find("td:nth-child(5)").find('span:first');
+                        if (data['n_status']) {
+                            $status.removeClass('label-danger').addClass('label-primary');
+                            $status.text('Enable');
+                        } else {
+                            $status.removeClass('label-primary').addClass('label-danger');
+                            $status.text('Disable');
+                        }
+                        $row.find("td:nth-child(3)").text(data['n_description']);
+                    }
+                });
+            });
+
+
+            {#modal 2#}
             $('.product_view_button').click(function () {
                 $('#myModal2').modal('show');
             });
+
         });
+
     </script>
 {% endblock script %}
