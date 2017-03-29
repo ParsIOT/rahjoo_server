@@ -13,13 +13,13 @@ class Booth_Owner_Profile(forms.ModelForm):
 		self.request = kwargs.pop('request', None)
 		super(Booth_Owner_Profile, self).__init__(*args, **kwargs)
 
-	firstName = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	lastName = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	email = forms.EmailField(max_length=40, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	boothName = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	company = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	phone = forms.CharField(max_length=12, widget=forms.TextInput(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
-	description = forms.CharField(max_length=300, widget=forms.Textarea(attrs={'class': 'form-control editable_element', 'disabled': 'true'}))
+	firstName = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+	lastName = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+	email = forms.EmailField(max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
+	boothName = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+	company = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+	phone = forms.CharField(max_length=12, widget=forms.TextInput(attrs={'class': 'form-control '}))
+	description = forms.CharField(max_length=300, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '6'}))
 
 	def clean(self):
 		super(Booth_Owner_Profile, self).clean()
