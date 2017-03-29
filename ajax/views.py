@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
+from django.db.models import Sum
 
 from boothManagement import models
 import json
@@ -42,10 +43,20 @@ def checkProductOwner(username, productName):
 		return False
 
 
-def convert_trueTrue_falseFalse(input):
-	if input.lower() == 'false':
-		return False
-	elif input.lower() == 'true':
-		return True
-	else:
-		raise ValueError("...")
+def makeAdvertisementsOrder(request):
+	if request.is_ajax():
+		try:
+			response = {}
+			advertisement_name = request.GET.get('advertisement_name', None)
+			advertisement_text = request.GET.get('advertisement_text', None)
+			selectedSections = models.Advertisement_Area.objects.filter(section_name__in=request.GET.getlist('selectedSections[]'))
+			total_price = selectedSections.aggregate(Sum('base_price'))
+			advertisement_order = models.Advertisements_order.objects.create(advertisement_name=advertisement_name, advertisement_text=advertisement_text, totalPrice=total_price['base_price__sum'])
+			advertisement_order.save()
+			advertisement_order.advertisement_areas.add(*(selectedSections))
+			# advertisement_order.advertisement_areas.add(models.Advertisement_Area.objects.all()[2])
+			advertisement_order.save()
+		except:
+			response = {'status': False}
+		return HttpResponse(json.dumps(response), content_type='application.json')
+	return HttpResponseForbidden()

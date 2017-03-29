@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Product_Details)
 admin.site.register(Booth_Owner)
 admin.site.register(Advertisement_Area)
+admin.site.register(Advertisements_order)

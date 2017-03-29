@@ -38,23 +38,23 @@
                     </div>
                     <div class="ibox-content">
                         <form action="" method="post" class="form-horizontal">{% csrf_token %}
-                            <div class="col-md-12">
+                            <div class="col-md-9 b-r">
                                 <div class="form-group col-md-12">
-                                    <label class="col-sm-3 control-label">Advertisement Name:</label>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control">
+                                    <label class="col-sm-4 control-label">Advertisement Name:</label>
+                                    <div class="col-sm-8">
+                                        <input id="advertisement_name" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-9 b-r">
                                 <div class="form-group col-md-12">
-                                    <label class="col-sm-3 control-label">Advertisement Text:</label>
-                                    <div class="col-sm-6">
-                                        <textarea class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+                                    <label class="col-sm-4 control-label">Advertisement Text:</label>
+                                    <div class="col-sm-8">
+                                        <textarea id="advertisement_text" class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-9">
                                 <div id="map" style="height: 300px"></div>
                             </div>
                             <div class="form-group">
@@ -224,6 +224,28 @@
                 style: style,
                 onEachFeature: onEachFeature
             }).addTo(map);
+
+
+            {#            handling data submition#}
+            $('#save_button').click(function () {
+                var advertisement_name = $('#advertisement_name').val();
+                var advertisement_text = $('#advertisement_text').val();
+
+                $.ajax({
+                    url: '../../ajax/makeAdvertisementsOrder',
+                    data: {
+                        'advertisement_name': advertisement_name,
+                        'advertisement_text': advertisement_text,
+                        'selectedSections[]': selectedSections
+                    },
+                    dataType: 'json',
+                    traditional: true,
+                    success: function (data) {
+                    }
+
+                });
+            });
+
 
         });
     </script>

@@ -50,3 +50,26 @@ class Advertisement_Area(models.Model):
 	bottomRight_x = models.DecimalField(max_digits=5, decimal_places=2)
 	bottomRight_y = models.DecimalField(max_digits=5, decimal_places=2)
 	base_price = models.IntegerField()
+
+	def __str__(self):
+		return self.section_name
+
+
+class Advertisements_order(models.Model):
+	advertisement_areas = models.ManyToManyField(Advertisement_Area)
+	totalPrice = models.IntegerField()
+	discount = models.IntegerField(default=0)
+	advertisement_name = models.CharField(max_length=30, default='')
+	advertisement_text = models.CharField(max_length=200, default='')
+
+	def __str__(self):
+		return self.advertisement_name
+
+# def _calc_totalCost(self):
+# 	t_cost = 0
+# 	for advArea in self.advertisement_areas:
+# 		t_cost += advArea.base_price
+# 	t_cost -= self.discount
+# 	return t_cost
+
+# total_price = property(_calc_totalCost)
