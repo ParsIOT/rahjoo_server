@@ -11,7 +11,7 @@
     <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
 
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    {#    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">#}
+    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">
 
     <link href="{% static "css/animate.css" %}" rel="stylesheet">
     <link href="{% static "css/style.css" %}" rel="stylesheet">
@@ -21,8 +21,7 @@
     {% endblock style %}
 </head>
 
-<body>
-{#<body class="rtls">#}
+<body class="rtls">
 
 <div id="wrapper">
 
@@ -118,64 +117,64 @@
 <!-- Custom and plugin javascript -->
 <script src="{% static "js/inspinia.js" %}"></script>
 <script src="{% static "js/plugins/pace/pace.min.js" %}"></script>
-{#<script>#}
-{#    var lang = sessionStorage.getItem('lang1');#}
-{#    $(document).ready(function () {#}
-{#        function make_rtl() {#}
-{#            sessionStorage.setItem('lang1', 'fa');#}
-{#            $('body').addClass('rtls');#}
-{#            var rtl_css = document.createElement("link");#}
-{#            rtl_css.setAttribute("rel", "stylesheet");#}
-{#            rtl_css.setAttribute("id", "rtl_css");#}
-{#            rtl_css.setAttribute("type", "text/css");#}
-{#            rtl_css.setAttribute("href", "{% static 'css/rtl.css' %}");#}
-{#            document.getElementsByTagName("head")[0].appendChild(rtl_css);#}
-{#            var bootstrap_rtl_css = document.createElement("link");#}
-{#            bootstrap_rtl_css.setAttribute("rel", "stylesheet");#}
-{#            rtl_css.setAttribute("id", "bootstrap_rtl_css");#}
-{#            bootstrap_rtl_css.setAttribute("type", "text/css");#}
-{#            bootstrap_rtl_css.setAttribute("href", "{% static 'css/bootstrap-rtl.min.css' %}");#}
-{#            document.getElementsByTagName("head")[0].appendChild(bootstrap_rtl_css);#}
-{#        }#}
-{##}
-{#        function make_ltr() {#}
-{#            sessionStorage.setItem('lang1', 'en');#}
-{#            $('body').removeClass('rtls');#}
-{#            $('#rtl_css').disabled = true;#}
-{#            $('#bootstrap_rtl_css').disabled = true;#}
-{#        }#}
-{##}
-{#        if (lang == 'fa') {#}
-{#            make_rtl();#}
-{#        } else {#}
-{#            make_ltr();#}
-{#        }#}
-{##}
-{##}
-{#        $('.change_lang').click(function () {#}
-{##}
-{#            if ($(this).attr('id') == 'en_lang') lang = 'en'; else lang = 'fa';#}
-{#            $.ajax({#}
-{#                url: '../../ajax/changeLang',#}
-{#                data: {#}
-{#                    'language': lang#}
-{#                },#}
-{#                dataType: 'json',#}
-{#                success: function (data) {#}
-{#                    console.log(data);#}
-{#                    if (data['response']['lang1'] == 'fa') {#}
-{#                        sessionStorage.setItem('lang1', 'fa');#}
-{#                    } else {#}
-{#                        sessionStorage.setItem('lang1', 'en');#}
-{#                    }#}
-{#                }#}
-{#            });#}
-{#        })#}
-{##}
-{#    });#}
-{##}
-{##}
-{#</script>#}
+<script>
+    var lang = sessionStorage.getItem('lang1');
+    $(document).ready(function () {
+        function make_rtl() {
+            sessionStorage.setItem('lang1', 'fa');
+            $('body').addClass('rtls');
+            var rtl_css = document.createElement("link");
+            rtl_css.setAttribute("rel", "stylesheet");
+            rtl_css.setAttribute("id", "rtl_css");
+            rtl_css.setAttribute("type", "text/css");
+            rtl_css.setAttribute("href", "{% static 'css/rtl.css' %}");
+            document.getElementsByTagName("head")[0].appendChild(rtl_css);
+            var bootstrap_rtl_css = document.createElement("link");
+            bootstrap_rtl_css.setAttribute("rel", "stylesheet");
+            rtl_css.setAttribute("id", "bootstrap_rtl_css");
+            bootstrap_rtl_css.setAttribute("type", "text/css");
+            bootstrap_rtl_css.setAttribute("href", "{% static 'css/bootstrap-rtl.min.css' %}");
+            document.getElementsByTagName("head")[0].appendChild(bootstrap_rtl_css);
+        }
+
+        function make_ltr() {
+            sessionStorage.setItem('lang1', 'en');
+            $('body').removeClass('rtls');
+            $('#rtl_css').disabled = true;
+            $('#bootstrap_rtl_css').disabled = true;
+        }
+
+        if (lang == 'fa') {
+            make_rtl();
+        } else {
+            make_ltr();
+        }
+
+
+        $('.change_lang').click(function () {
+
+            if ($(this).attr('id') == 'en_lang') lang = 'en'; else lang = 'fa';
+            $.ajax({
+                url: '../../ajax/changeLang',
+                data: {
+                    'language': lang
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data['response']['lang1'] == 'fa') {
+                        sessionStorage.setItem('lang1', 'fa');
+                    } else {
+                        sessionStorage.setItem('lang1', 'en');
+                    }
+                }
+            });
+        })
+
+    });
+
+
+</script>
 {% block script %}
 {% endblock script %}
 </body>

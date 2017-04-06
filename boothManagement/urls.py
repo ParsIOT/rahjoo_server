@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views, forms
 
 urlpatterns = [
-	url(r'^$', views.BoothOwnerProfile, name='index'),
+	url(r'^$', views.index, name='index'),
 	url(r'^saveBoothDetails/$', views.BoothOwnerProfile, name='saveBoothDetails'),
 	url(r'^viewBoothList/$', views.view_booth_List, name='viewBoothList'),
 	url(r'^viewProductsDetails/$', views.view_products_details, name='viewProductsDetails'),

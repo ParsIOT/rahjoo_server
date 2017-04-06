@@ -24,7 +24,7 @@ SECRET_KEY = '%s6ps8qbs1@zwfsh0+vcaqto5=%x*t&m1ena7+a5g8oh#@69su'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.44', 'localhost', '127.0.0.1', '0.0.0.0', '192.168.1.146']
+ALLOWED_HOSTS = ['192.168.0.44', 'localhost', '127.0.0.1', '0.0.0.0', '192.168.1.119']
 
 # Application definition
 
@@ -46,6 +46,7 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'rahjoo_server.urls'
@@ -62,6 +63,7 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+				'django.template.context_processors.i18n'
 			],
 		},
 	},
@@ -117,3 +119,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, '/rahjoo_server/static/')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'),)
+
+ugettext = lambda s: s
+LANGUAGES = (
+	('en', ugettext('English')),
+	('fa', ugettext('Farsi')),
+)

@@ -1,6 +1,6 @@
 import http
 import simplejson as json
-
+from django.utils.translation import ugettext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -10,8 +10,16 @@ from .forms import Booth_Owner_Profile, Login_Form
 from .models import *
 
 
+def change_language(request, template_name):
+	if request.LANGUAGE_CODE == 'fa':
+		html = template_name.split('.')[0] + '-fa.html'
+	else:
+		html = template_name
+	return html
+
+
 def index(request):
-	template = loader.get_template('Booth_Management.html')
+	template = loader.get_template('set_language.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
 
@@ -33,8 +41,8 @@ def BoothOwnerProfile(request):
 		             'boothName': currentUser.boothName, 'phone': currentUser.phone,
 		             'description': currentUser.description}
 		profile_form.initial = init_data
-
-	return render(request, 'Booth_Management.html', {'form': profile_form})
+	html = change_language(request, 'Booth_Management.html')
+	return render_to_response(html, {'form': profile_form})
 
 
 @login_required
@@ -85,7 +93,7 @@ def view_Products_list(request):
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 
-@login_required(login_url='/booth/login')
+# @login_required(login_url='/booth/login')
 def view_booth_products(request, booth_Id):
 	boothProducts = Product_Details.objects.filter(owner_booth__id=booth_Id)
 	response = {'booth_Products': []}
@@ -116,7 +124,7 @@ def user_login(request):
 				pass
 	else:
 		login_form = Login_Form()
-	return render(request, 'login.html', {'login_form': login_form})
+	return render_to_response('login.html', {'login_form': login_form})
 
 
 def advertisement(request):
@@ -125,4 +133,4 @@ def advertisement(request):
 	for area in allAdvertisementAreas:
 		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
 
-	return render(request, 'Advertisements.html', {'response': json.dumps(response)})
+	return render_to_response('Advertisements.html', {'response': json.dumps(response)})
