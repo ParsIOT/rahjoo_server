@@ -39,7 +39,7 @@
                         </ul>
                     </div>
                     <div class="logo-element">
-                        Rahjoo
+                        ParsIN
                     </div>
                 </li>
                 <li class="active">
@@ -176,6 +176,20 @@
 {##}
 {##}
 {#</script>#}
+<script>
+    $('.change_lang').click(function () {
+        var chosen_lang;
+        if ($(this).attr('id') == 'en_lang') chosen_lang = 'en'; else chosen_lang = 'fa';
+        var h = window.location.href;
+        if (chosen_lang == 'fa') {
+            h = h.replace('/en/', '/fa/');
+        }
+        else if (chosen_lang == 'en') {
+            h = h.replace('/fa/', '/en/');
+        }
+        window.location.href = h;
+    });
+</script>
 {% block script %}
 {% endblock script %}
 </body>

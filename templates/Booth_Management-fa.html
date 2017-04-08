@@ -13,14 +13,14 @@
             <div class="panel-body">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title" style="border-width: 0px">
-                        <h5>{% trans 'Booth Owner Profile' %} </h5>
+                        <h3 class="per">{% trans 'Booth Owner Profile' %} </h3>
                     </div>
                     <div class="ibox-content">
                         <form action="" method="post" class="form-horizontal">{% csrf_token %}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label">
+                                        <label class="col-sm-4 control-label per">
                                             {% trans "First Name:" %}
                                         </label>
                                         <div class="col-sm-8">
@@ -28,7 +28,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label">
+                                        <label class="col-sm-4 control-label per">
                                             {% trans "Last Name:" %}
                                         </label>
                                         <div class="col-sm-8">
@@ -40,13 +40,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label"> {% trans "Email:" %}</label>
+                                        <label class="col-sm-4 control-label per"> {% trans "Email:" %}</label>
                                         <div class="col-sm-8">
                                             {{ form.email }}
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label"> {% trans "Owner Company:" %}</label>
+                                        <label class="col-sm-4 control-label per"> {% trans "Owner Company:" %}</label>
                                         <div class="col-sm-8">
                                             {{ form.company }}
                                         </div>
@@ -56,13 +56,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label">{% trans "Booth Name:" %}</label>
+                                        <label class="col-sm-4 control-label per">{% trans "Booth Name:" %}</label>
                                         <div class="col-sm-8">
                                             {{ form.boothName }}
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label">{% trans "Phone:" %}</label>
+                                        <label class="col-sm-4 control-label per">{% trans "Phone:" %}</label>
                                         <div class="col-sm-8">
                                             {{ form.phone }}
                                         </div>
@@ -72,7 +72,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">{% trans "Description:" %}</label>
+                                        <label class="col-sm-2 control-label per">{% trans "Description:" %}</label>
                                         <div class="col-sm-9">
                                             {{ form.description }}
                                         </div>
@@ -83,7 +83,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-sm-4 pull-right">
-                                            <button type="submit" id="save_button" class="btn btn-primary">{% trans "Save:" %}</button>
+                                            <button type="submit" id="save_button" class="btn btn-primary per">{% trans "Save:" %}</button>
                                         </div>
                                     </div>
                                 </div>

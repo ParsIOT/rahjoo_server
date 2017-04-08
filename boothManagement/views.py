@@ -73,7 +73,8 @@ def view_products_details(request):
 		d['status'] = product.status
 		response[product.id] = d
 		d = {}
-	return render_to_response('Products_Details.html', {'response': response})
+	html = change_language(request, 'Products_Details.html')
+	return render_to_response(html, {'response': response})
 
 
 @login_required
@@ -132,5 +133,5 @@ def advertisement(request):
 	allAdvertisementAreas = Advertisement_Area.objects.all()
 	for area in allAdvertisementAreas:
 		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
-
-	return render_to_response('Advertisements.html', {'response': json.dumps(response)})
+	html = change_language(request, 'Advertisements.html')
+	return render_to_response(html, {'response': json.dumps(response)})

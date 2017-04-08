@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 15:51+0000\n"
+"POT-Creation-Date: 2017-04-08 14:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,44 +25,153 @@ msgstr "انگلیسی"
 msgid "Farsi"
 msgstr "فارسی"
 
-#: templates/Booth_Management-fa.html:24 templates/Booth_Management.html:24
-msgid "First Name:"
-msgstr "نام:"
+#: templates/Advertisements-fa.html:39
+msgid "Booth Advertisments"
+msgstr "تبلیغات غرفه"
 
-#: templates/Booth_Management-fa.html:32 templates/Booth_Management.html:32
-msgid "Last Name:"
-msgstr "نام خانوادگی:"
+#: templates/Advertisements-fa.html:46
+msgid "Advertisement Name"
+msgstr "نام تبلیغ"
 
-#: templates/Booth_Management-fa.html:43 templates/Booth_Management.html:43
-msgid "Email:"
-msgstr "ایمیل:"
+#: templates/Advertisements-fa.html:52
+msgid "Advertisement Text"
+msgstr "متن تبلیغ"
 
-#: templates/Booth_Management-fa.html:49 templates/Booth_Management.html:49
-msgid "Owner Company:"
-msgstr "نام شرکت:"
+#: templates/Advertisements-fa.html:61
+msgid "Advertisement Summary"
+msgstr "خلاصه ی تبلیغ"
 
-#: templates/Booth_Management-fa.html:59 templates/Booth_Management.html:59
-msgid "Booth Name:"
-msgstr "نام غرفه:"
+#: templates/Advertisements-fa.html:64
+msgid "Total Price"
+msgstr "قیمت کل"
 
-#: templates/Booth_Management-fa.html:65 templates/Booth_Management.html:65
-msgid "Phone:"
-msgstr "شماره ی همراه:"
-
-#: templates/Booth_Management-fa.html:75 templates/Booth_Management.html:75
-msgid "Description:"
-msgstr "توضیحات:"
-
-#: templates/Booth_Management-fa.html:86 templates/Booth_Management.html:86
-msgid "Save:"
+#: templates/Advertisements-fa.html:69 templates/Products_Details-fa.html:132
+msgid "Save"
 msgstr "ذخیره"
 
-#: templates/Booth_Management.html:5
-#, fuzzy
-#| msgid "Booth Name:"
+#: templates/Advertisements-fa.html:152 templates/Products_Details-fa.html:99
+msgid "Price:"
+msgstr "قیمت:"
+
+#: templates/Advertisements-fa.html:152
+msgid "Please move your mouse on a colored ad. section."
+msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
+
+#: templates/Base-fa.html:48
+msgid "Booth Details"
+msgstr "مشخصات غرفه"
+
+#: templates/Base-fa.html:54
+msgid "Products Details"
+msgstr "ویرایش مشخصات غرفه"
+
+#: templates/Base-fa.html:60
+msgid "Advertisements"
+msgstr "تبلیغات غرفه"
+
+#: templates/Booth_Management-fa.html:5
 msgid "Booth Management"
 msgstr "مدیریت غرفه"
 
-#: templates/Booth_Management.html:16
+#: templates/Booth_Management-fa.html:16
 msgid "Booth Owner Profile"
 msgstr "پروفایل صاحب غرفه"
+
+#: templates/Booth_Management-fa.html:24
+msgid "First Name:"
+msgstr "نام:"
+
+#: templates/Booth_Management-fa.html:32
+msgid "Last Name:"
+msgstr "نام خانوادگی:"
+
+#: templates/Booth_Management-fa.html:43
+msgid "Email:"
+msgstr "ایمیل:"
+
+#: templates/Booth_Management-fa.html:49
+msgid "Owner Company:"
+msgstr "شرکت:"
+
+#: templates/Booth_Management-fa.html:59
+msgid "Booth Name:"
+msgstr "نام غرفه"
+
+#: templates/Booth_Management-fa.html:65
+msgid "Phone:"
+msgstr "شماره ی همراه"
+
+#: templates/Booth_Management-fa.html:75 templates/Products_Details-fa.html:117
+msgid "Description:"
+msgstr "توضیحات:"
+
+#: templates/Booth_Management-fa.html:86
+msgid "Save:"
+msgstr "ذخیره"
+
+#: templates/Products_Details-fa.html:20
+msgid "Search in table..."
+msgstr "جستجو در جدول..."
+
+#: templates/Products_Details-fa.html:24
+msgid "Product Name"
+msgstr "نام محصول"
+
+#: templates/Products_Details-fa.html:25
+msgid "Model"
+msgstr "مدل"
+
+#: templates/Products_Details-fa.html:26
+msgid "Description"
+msgstr "توضیحات"
+
+#: templates/Products_Details-fa.html:27
+msgid "Price"
+msgstr "قیمت"
+
+#: templates/Products_Details-fa.html:28
+msgid "Phone"
+msgstr "شماره ی همراه"
+
+#: templates/Products_Details-fa.html:29
+msgid "Action"
+msgstr "عمل"
+
+#: templates/Products_Details-fa.html:49
+msgid "Enable"
+msgstr "فعال"
+
+#: templates/Products_Details-fa.html:51
+msgid "Disable"
+msgstr "غیر فعال"
+
+#: templates/Products_Details-fa.html:56
+msgid "View"
+msgstr "نمایش"
+
+#: templates/Products_Details-fa.html:57
+msgid "Edit"
+msgstr "ویرایش"
+
+#: templates/Products_Details-fa.html:85
+msgid "Edit Product Details"
+msgstr "ویرایش مشخصات غرفه"
+
+#: templates/Products_Details-fa.html:89
+msgid "Name:"
+msgstr "نام:"
+
+#: templates/Products_Details-fa.html:94
+msgid "Model:"
+msgstr "مدل:"
+
+#: templates/Products_Details-fa.html:103
+msgid "Status:"
+msgstr "وضعیت:"
+
+#: templates/Products_Details-fa.html:144
+msgid "View Product Details"
+msgstr "نمایش مشخصات محصول"
+
+#~ msgid "price"
+#~ msgstr "قیمت"

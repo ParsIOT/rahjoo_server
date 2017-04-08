@@ -1,0 +1,302 @@
+{% extends 'Base-fa.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}
+    Products Details
+{% endblock title %}
+{% block head %}
+    <link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
+    <link href="{% static "css/plugins/summernote/summernote.css" %}" rel="stylesheet">
+    <link href="{% static "css/plugins/summernote/summernote-bs3.css" %}" rel="stylesheet">
+    <link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
+    <link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
+
+{% endblock head %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <input type="text" class="form-control input-sm m-b-xs per" id="filter" placeholder="{% trans 'Search in table...' %}">
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
+                        <thead>
+                        <tr>
+                            <th data-toggle="true" class="per">{% trans "Product Name" %}</th>
+                            <th data-hide="phone" class="per">{% trans "Model" %}</th>
+                            <th class="per">{% trans "Description" %}</th>
+                            <th data-hide="phone" class="per">{% trans "Price" %}</th>
+                            <th data-hide="phone" class="per">{% trans "Phone" %}</th>
+                            <th class="text-right per" data-sort-ignore="true">{% trans "Action" %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in response.items %}
+                            <tr>
+                                <td>
+                                    {{ product.1.name }}
+                                </td>
+                                <td>
+                                    {{ product.1.model }}
+                                </td>
+                                <td>
+                                    {{ product.1.description }}
+                                </td>
+                                <td>
+                                    {{ product.1.price }}
+                                </td>
+                                <td>
+                                    {% if product.1.status %}
+                                        <span class="label label-primary per">{% trans "Enable" %}</span>
+                                    {% else %}
+                                        <span class="label label-danger per">{% trans "Disable" %}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button class="btn-white btn btn-xs product_view_button per">{% trans "View" %}</button>
+                                        <button class="btn-primary btn btn-xs product_edit_btn product_edit_button per">{% trans "Edit" %}</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {#table#}
+    {#modals#}
+    <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title per">{% trans "Edit Product Details" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group"><label class="col-sm-2 control-label per">{% trans "Name:" %}</label>
+                            <div class="col-sm-10">
+                                <p id="modal_product_name" class="form-control-static"></p>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label per">{% trans "Model:" %}</label>
+                            <div class="col-sm-10"><input id="modal_product_model" type="text" class="form-control" placeholder="Product Model"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label per">{% trans "Price:" %}</label>
+                            <div class="col-sm-10"><input id="modal_product_price" type="text" class="form-control" placeholder="$160.00"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label per">{% trans "Status:" %}</label>
+                            <div class="col-sm-10">
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input id="modal_product_status" type="checkbox" checked class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="modal_product_status">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label per">{% trans "Description:" %}</label>
+                            <div class="col-sm-10">
+                                <div class="summernote">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            {#                            <button type="submit" id="submitProductDetails" class="btn btn-primary pull-right">Save changes</button>#}
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="submit" id="submitProductDetails" class="btn btn-primary  per" data-dismiss="modal">{% trans "Save" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">{% trans "View Product Details" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox product-detail">
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-md-5">
+
+
+                                            <div class="product-images">
+
+                                                <div>
+                                                    <div class="image-imitation">
+                                                        [IMAGE 1]
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="image-imitation">
+                                                        [IMAGE 2]
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="image-imitation">
+                                                        [IMAGE 3]
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-7">
+
+                                            <h2 class="font-bold m-b-xs">
+                                                Desktop publishing software
+                                            </h2>
+                                            <small>Many desktop publishing packages and web page editors now.</small>
+                                            <hr>
+                                            <div>
+                                                <h1 class="product-main-price">$406,602
+                                                    <small class="text-muted">Exclude Tax</small>
+                                                </h1>
+                                            </div>
+                                            <hr>
+                                            <h4>Product description</h4>
+
+                                            <div class="small text-muted">
+                                                It is a long established fact that a reader will be distracted by the readable
+                                                content of a page when looking at its layout. The point of using Lorem Ipsum is
+                                                that it has a more-or-less normal distribution of letters, as opposed to using
+                                                'Content here, content here', making it look like readable English.
+                                                <br/>
+                                                <br/>
+                                                There are many variations of passages of Lorem Ipsum available, but the majority
+                                                have suffered alteration in some form, by injected humour, or randomised words
+                                                which don't look even slightly believable.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="ibox-footer">
+                            <span class="pull-right">
+                                Full stock - <i class="fa fa-clock-o"></i> 14.04.2016 10:04 pm
+                            </span>
+                                    The generated Lorem Ipsum is therefore always free
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+    <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
+    <script src="{% static "js/plugins/summernote/summernote.min.js" %}"></script>
+    <script src="{% static "js/plugins/slick/slick.min.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.footable').footable();
+            $('.summernote').summernote();
+            $('.product-images').slick({
+                dots: true
+            });
+
+            var $row;
+            $('.product_edit_button').click(function () {
+                $row = $(this).closest("tr");
+                var name = $row.find("td:nth-child(1)").text().trim();
+                var model = $row.find("td:nth-child(2)").text().trim();
+                var description = $row.find("td:nth-child(3)").text().trim();
+                var price = $row.find("td:nth-child(4)").text().trim();
+                var $status = $row.find("td:nth-child(5)");
+
+                $('#modal_product_name').html(name);
+                $('#modal_product_model').val(model);
+                $('#modal_product_price').val(price);
+
+
+                if ($status.text().trim() == 'Enable') {
+                    $("#modal_product_status").attr('checked', true)
+                } else {
+                    $("#modal_product_status").attr('checked', false)
+
+                }
+
+                $('.summernote').summernote('code', description);
+
+                $('#myModal').modal('show');
+            });
+
+            $('#submitProductDetails').click(function () {
+                var productName = $('#modal_product_name').html();
+                var productModel = $('#modal_product_model').val();
+                var productPrice = $('#modal_product_price').val();
+                var productStatus = $("#modal_product_status").is(":checked");
+                var productDescription = $('.summernote').summernote('code');
+                $.ajax({
+                    url: '../../ajax/editProductDetails',
+                    data: {
+                        'productName': productName,
+                        'productModel': productModel,
+                        'productPrice': productPrice,
+                        'productStatus': productStatus,
+                        'productDescription': productDescription
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('SUCCESS!!!');
+                        $row.find("td:nth-child(2)").text(data['n_model']);
+                        $row.find("td:nth-child(4)").text(data['n_price']);
+                        $status = $row.find("td:nth-child(5)").find('span:first');
+                        if (data['n_status']) {
+                            $status.removeClass('label-danger').addClass('label-primary');
+                            $status.text('Enable');
+                        } else {
+                            $status.removeClass('label-primary').addClass('label-danger');
+                            $status.text('Disable');
+                        }
+                        $row.find("td:nth-child(3)").text(data['n_description']);
+                    }
+                });
+            });
+
+
+            {#modal 2#}
+            $('.product_view_button').click(function () {
+                $('#myModal2').modal('show');
+            });
+
+        });
+
+    </script>
+{% endblock script %}
