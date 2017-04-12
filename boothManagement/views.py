@@ -110,6 +110,19 @@ def view_booth_products(request, booth_Id):
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 
+def advertisement(request):
+	response = []
+	allAdvertisementAreas = Advertisement_Area.objects.all()
+	for area in allAdvertisementAreas:
+		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
+	html = change_language(request, 'Advertisements.html')
+	return render_to_response(html, {'response': json.dumps(response)})
+
+
+def checkServer(request):
+	return HttpResponse(json.dumps({'status': 'ok'}), content_type="application/json")
+
+
 def user_login(request):
 	if request.method == 'POST':
 		login_form = Login_Form(data=request.POST)
@@ -128,14 +141,15 @@ def user_login(request):
 	return render_to_response('login.html', {'login_form': login_form})
 
 
-def advertisement(request):
-	response = []
-	allAdvertisementAreas = Advertisement_Area.objects.all()
-	for area in allAdvertisementAreas:
-		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
-	html = change_language(request, 'Advertisements.html')
-	return render_to_response(html, {'response': json.dumps(response)})
+def user_logout(request):
+	logout(request)
 
 
-def checkServer(request):
-	return render_to_response('empty.html', {'response': json.dumps({'status': 'OK'})})
+def advertisementJson(request):
+	allAdvertisementOrders = Advertisements_order.objects.all()
+	for order in allAdvertisementOrders:
+		areaRes = []
+		for advArea in order.advertisement_areas.all():
+			areaRes.append({'section_name': advArea.section_name, 't_x': advArea.topLeft_x, 't_y': advArea.topLeft_y, 'b_x': advArea.bottomRight_x, 'b_y': advArea.bottomRight_y})
+		response = {'sections': areaRes, 'name': order.advertisement_name, 'text': order.advertisement_text}
+	return HttpResponse(json.dumps(response), content_type="application/json")

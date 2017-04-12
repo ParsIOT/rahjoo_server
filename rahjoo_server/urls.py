@@ -15,17 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from boothManagement.views import user_login
 from django.conf.urls.i18n import i18n_patterns
-from boothManagement import views
-from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import views as auth_views
+from boothManagement.forms import Login_Form
 
 urlpatterns = [
-	# url(r'^booth/', include('boothManagement.urls')),
 	url(r'^ajax/', include('ajax.urls')),
 	url(r'^admin/', admin.site.urls),
-	url(r'^accounts/login/$', user_login),
 	url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),
+	url(r'^login/', auth_views.login, {'template_name': 'login.html'}, name='login'),
+	url(r'^logout/', auth_views.logout, {'next_page': 'login'}, name='logout'),
 ]
 
 urlpatterns += i18n_patterns(

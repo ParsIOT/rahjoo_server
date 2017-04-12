@@ -24,7 +24,7 @@ SECRET_KEY = '%s6ps8qbs1@zwfsh0+vcaqto5=%x*t&m1ena7+a5g8oh#@69su'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.44', 'localhost', '127.0.0.1', '0.0.0.0', '192.168.1.119']
+ALLOWED_HOSTS = ['192.168.0.44', 'localhost', '127.0.0.1', '0.0.0.0', '192.168.1.137']
 
 # Application definition
 
@@ -114,7 +114,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'saveBoothDetails'
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, '/rahjoo_server/static/')
