@@ -5,8 +5,6 @@
 {% endblock title %}
 {% block head %}
     <link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/summernote/summernote.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/summernote/summernote-bs3.css" %}" rel="stylesheet">
     <link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
     <link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
 
@@ -81,8 +79,7 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">Modal title</h4>
-                    <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                    <h4 class="modal-title" id="modal_title"></h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
@@ -94,7 +91,6 @@
                         <div class="form-group"><label class="col-sm-2 control-label">Model:</label>
                             <div class="col-sm-10"><input id="modal_product_model" type="text" class="form-control" placeholder="Product Model"></div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Price:</label>
                             <div class="col-sm-10"><input id="modal_product_price" type="text" class="form-control" placeholder="$160.00"></div>
@@ -116,24 +112,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Description:</label>
                             <div class="col-sm-10">
-                                <div class="summernote">
-
-                                    five centuries, but also the leap into electronic
-                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-                                    only
-                                    five centuries, but also the leap into electronic
-
-
-                                </div>
+                                <textarea id="product_description" class="form-control" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
                             </div>
                         </div>
-                        <div class="pull-right">
-                            {#                            <button type="submit" id="submitProductDetails" class="btn btn-primary pull-right">Save changes</button>#}
-                        </div>
-
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                     <button type="submit" id="submitProductDetails" class="btn btn-primary" data-dismiss="modal">Save changes</button>
@@ -228,13 +211,11 @@
 {% endblock content %}
 {% block script %}
     <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
-    <script src="{% static "js/plugins/summernote/summernote.min.js" %}"></script>
     <script src="{% static "js/plugins/slick/slick.min.js" %}"></script>
     <script>
         $(document).ready(function () {
 
             $('.footable').footable();
-            $('.summernote').summernote();
             $('.product-images').slick({
                 dots: true
             });
@@ -248,10 +229,11 @@
                 var price = $row.find("td:nth-child(4)").text().trim();
                 var $status = $row.find("td:nth-child(5)");
 
+                $('#modal_title').html(name);
                 $('#modal_product_name').html(name);
                 $('#modal_product_model').val(model);
                 $('#modal_product_price').val(price);
-
+                $('#product_description').val(description);
 
                 if ($status.text().trim() == 'Enable') {
                     $("#modal_product_status").attr('checked', true)
@@ -259,9 +241,6 @@
                     $("#modal_product_status").attr('checked', false)
 
                 }
-
-                $('.summernote').summernote('code', description);
-
                 $('#myModal').modal('show');
             });
 
@@ -270,9 +249,10 @@
                 var productModel = $('#modal_product_model').val();
                 var productPrice = $('#modal_product_price').val();
                 var productStatus = $("#modal_product_status").is(":checked");
-                var productDescription = $('.summernote').summernote('code');
+                var productDescription = $('#product_description').val();
+                console.log('HERE!!!');
                 $.ajax({
-                    url: '../../ajax/editProductDetails',
+                    url: '../../../ajax/editProductDetails',
                     data: {
                         'productName': productName,
                         'productModel': productModel,

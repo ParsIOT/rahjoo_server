@@ -149,7 +149,7 @@
 
             // method that we will use to update the control based on feature properties passed
             info.update = function (props) {
-                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b class="per"> {% trans "Price:" %} : ' + props.price + '</b>' : "<b class='per'>{% trans 'Please move your mouse on a colored ad. section.' %}</b>" );
+                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b class="per"> {% trans "Price" %} : ' + props.price + '</b>' : "<b class='per'>{% trans 'Please move your mouse on a colored ad. section.' %}</b>" );
             };
 
             info.addTo(map);

@@ -135,3 +135,7 @@ def advertisement(request):
 		response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
 	html = change_language(request, 'Advertisements.html')
 	return render_to_response(html, {'response': json.dumps(response)})
+
+
+def checkServer(request):
+	return render_to_response('empty.html', {'response': json.dumps({'status': 'OK'})})

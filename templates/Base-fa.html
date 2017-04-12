@@ -78,7 +78,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <span>
-                        <a class="btn btn-white btn-sm change_lang active" id="en_lang">
+                        <a class="btn btn-white btn-sm change_lang" id="en_lang">
                             <img src="{% static "img/United-States.png" %}"> EN
                         </a>
                         <a class="btn btn-white btn-sm change_lang" id="fa_lang">
@@ -99,11 +99,8 @@
             {% endblock content %}
         </div>
         <div class="footer">
-            <div class="pull-right">
-                10GB of <strong>250GB</strong> Free.
-            </div>
-            <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2017
+            <div class="per">
+                {% trans 'ParsIOT Company &copy; 2016-2017' %}
             </div>
         </div>
 
@@ -119,18 +116,36 @@
 <script src="{% static "js/inspinia.js" %}"></script>
 <script src="{% static "js/plugins/pace/pace.min.js" %}"></script>
 <script>
-    $('.change_lang').click(function () {
-        var chosen_lang;
-        if ($(this).attr('id') == 'en_lang') chosen_lang = 'en'; else chosen_lang = 'fa';
-        var h = window.location.href;
-        if (chosen_lang == 'fa') {
-            h = h.replace('/en/', '/fa/');
+    $(document).ready(function () {
+        var lang = sessionStorage.getItem('lang');
+        if (lang == 'en') {
+            $('#en_lang').addClass('active');
+            $('#fa_lang').removeClass('active');
+        } else if (lang == 'fa') {
+            $('#fa_lang').addClass('active');
+            $('#en_lang').removeClass('active');
         }
-        else if (chosen_lang == 'en') {
-            h = h.replace('/fa/', '/en/');
-        }
-        window.location.href = h;
+
+        $('.change_lang').click(function () {
+            var chosen_lang;
+            if ($(this).attr('id') == 'en_lang') chosen_lang = 'en'; else chosen_lang = 'fa';
+            var h = window.location.href;
+            if (chosen_lang == 'fa') {
+                h = h.replace('/en/', '/fa/');
+                sessionStorage.setItem('lang', 'fa');
+                $('#fa_lang').addClass('active');
+                $('#en_lang').removeClass('active');
+            }
+            else if (chosen_lang == 'en') {
+                h = h.replace('/fa/', '/en/');
+                sessionStorage.setItem('lang', 'en');
+                $('#en_lang').addClass('active');
+                $('#fa_lang').removeClass('active');
+            }
+            window.location.href = h;
+        });
     });
+
 </script>
 {% block script %}
 {% endblock script %}
