@@ -17,7 +17,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib.auth import views as auth_views
-from boothManagement.forms import Login_Form
 
 urlpatterns = [
 	url(r'^ajax/', include('ajax.urls')),

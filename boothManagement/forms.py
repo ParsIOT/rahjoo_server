@@ -37,12 +37,3 @@ class Booth_Owner_Profile(forms.ModelForm):
 		u.user.save()
 		u.save()
 		return u
-
-
-class Login_Form(forms.ModelForm):
-	class Meta:
-		model = User
-		fields = ('first_name', 'last_name')
-
-	username = forms.CharField(label="Username", max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username', 'placeholder': 'username'}))
-	password = forms.CharField(label="Password", max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password', 'placeholder': 'password', 'type': 'password'}))

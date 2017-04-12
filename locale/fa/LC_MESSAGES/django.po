@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-12 09:56+0000\n"
+"POT-Creation-Date: 2017-04-12 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: rahjoo_server/settings.py:126
+#: rahjoo_server/settings.py:127
 msgid "English"
 msgstr "انگلیسی"
 
-#: rahjoo_server/settings.py:127
+#: rahjoo_server/settings.py:128
 msgid "Farsi"
 msgstr "فارسی"
 
@@ -56,6 +56,10 @@ msgstr "قیمت"
 #: templates/Advertisements-fa.html:152
 msgid "Please move your mouse on a colored ad. section."
 msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
+
+#: templates/Base-fa.html:38
+msgid "logout"
+msgstr ""
 
 #: templates/Base-fa.html:48
 msgid "Booth Details"

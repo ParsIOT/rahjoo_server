@@ -100,11 +100,11 @@
             var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
 
             function makeRec(x1, y1, x2, y2) {
-                return [[y1, x1], [y2, x1], [y2, x2], [y1, x2]]
+                return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
             }
 
             map.on('click', function (e) {
-                console.log(e.latlng.lat + "," + e.latlng.lng);
+                console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
             });
 
             var allRecAreas = {{ response | safe}};

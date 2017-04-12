@@ -45,7 +45,7 @@ def BoothOwnerProfile(request):
 	return render_to_response(html, {'form': profile_form})
 
 
-@login_required
+# @login_required
 def view_booth_List(request):
 	booths = Booth_Owner_Profile.objects.all()
 	response = {'booths': []}
@@ -59,7 +59,7 @@ def view_booth_List(request):
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 
-@login_required
+# @login_required
 def view_products_details(request):
 	currentUser = User.objects.get(username=request.user.username)
 	response = {}
@@ -77,7 +77,7 @@ def view_products_details(request):
 	return render_to_response(html, {'response': response})
 
 
-@login_required
+# @login_required
 def view_Products_list(request):
 	response = {'products_list': []}
 	all_products = Product_Details.objects.order_by('name')
