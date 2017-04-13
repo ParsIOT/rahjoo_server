@@ -99,6 +99,8 @@
             var bounds = [[-400, -300], [400, 300]];
             var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
 
+            {#     change default icon on map#}
+            $('.leaflet-container').css('cursor', 'crosshair');
             function makeRec(x1, y1, x2, y2) {
                 return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
             }

@@ -16,7 +16,8 @@
                         <h3 class="per">{% trans 'Booth Owner Profile' %} </h3>
                     </div>
                     <div class="ibox-content">
-                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
+                        <form action="" method="post" class="form-horizontal">
+                            {#                            {% csrf_token %}#}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group col-md-6">
@@ -71,21 +72,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    {#                                    <div class="form-group">#}
-                                    <label class="col-sm-2 control-label per">{% trans "Description:" %}</label>
-                                    <div class="col-sm-9">
-                                        {{ form.description }}
-                                    </div>
-                                    {#                                    </div>#}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <div class="col-sm-4 pull-right">
-                                            <button type="submit" id="save_button" class="btn btn-primary per">{% trans "Save:" %}</button>
+                                        <label class="col-sm-2 control-label per">{% trans "Description:" %}</label>
+                                        <div class="col-sm-9">
+                                            {{ form.description }}
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row ibox-footer">
+                                <div class="pull-right">
+                                    <button type="submit" id="save_button" class="btn btn-primary per">{% trans "Save:" %}</button>
                                 </div>
                             </div>
                         </form>

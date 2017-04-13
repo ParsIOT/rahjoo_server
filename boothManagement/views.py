@@ -1,12 +1,13 @@
 import http
 import simplejson as json
+from django.template import RequestContext
 from django.utils.translation import ugettext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate, login, logout
-from .forms import Booth_Owner_Profile, Login_Form
+from .forms import Booth_Owner_Profile
 from .models import *
 
 
@@ -42,7 +43,7 @@ def BoothOwnerProfile(request):
 		             'description': currentUser.description}
 		profile_form.initial = init_data
 	html = change_language(request, 'Booth_Management.html')
-	return render_to_response(html, {'form': profile_form})
+	return render_to_response(html, RequestContext(request, {'form': profile_form}))
 
 
 # @login_required
@@ -123,33 +124,19 @@ def checkServer(request):
 	return HttpResponse(json.dumps({'status': 'ok'}), content_type="application/json")
 
 
-def user_login(request):
-	if request.method == 'POST':
-		login_form = Login_Form(data=request.POST)
-		if login_form.is_valid():
-			username = request.POST.get('username')
-			password = request.POST.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				if user.is_active:
-					login(request, user)
-					return HttpResponseRedirect('/booth/saveBoothDetails')
-			else:
-				pass
-	else:
-		login_form = Login_Form()
-	return render_to_response('login.html', {'login_form': login_form})
-
-
 def user_logout(request):
 	logout(request)
 
 
 def advertisementJson(request):
-	allAdvertisementOrders = Advertisements_order.objects.all()
-	for order in allAdvertisementOrders:
-		areaRes = []
-		for advArea in order.advertisement_areas.all():
-			areaRes.append({'section_name': advArea.section_name, 't_x': advArea.topLeft_x, 't_y': advArea.topLeft_y, 'b_x': advArea.bottomRight_x, 'b_y': advArea.bottomRight_y})
-		response = {'sections': areaRes, 'name': order.advertisement_name, 'text': order.advertisement_text}
+	response = {}
+	try:
+		allAdvertisementOrders = Advertisements_order.objects.all()
+		for order in allAdvertisementOrders:
+			areaRes = []
+			for advArea in order.advertisement_areas.all():
+				areaRes.append({'section_name': advArea.section_name, 't_x': advArea.topLeft_x, 't_y': advArea.topLeft_y, 'b_x': advArea.bottomRight_x, 'b_y': advArea.bottomRight_y})
+			response = {'status': 'OK', 'sections': areaRes, 'name': order.advertisement_name, 'text': order.advertisement_text}
+	except:
+		response = {'status': 'Error'}
 	return HttpResponse(json.dumps(response), content_type="application/json")

@@ -10,4 +10,5 @@ urlpatterns = [
 	url(r'^viewBoothProducts/(?P<booth_Id>[0-9]+)/$', views.view_booth_products, name='viewBoothProducts'),
 	url(r'^advertisements$', views.advertisement, name='advertisement'),
 	url(r'^checkServer', views.checkServer, name='checkServer'),
+	url(r'^advertisementJson', views.advertisementJson, name='advertisementJson'),
 ]

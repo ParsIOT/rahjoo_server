@@ -1,17 +1,13 @@
 # Created by .ignore support plugin (hsz.mobi)
 **/.idea
-boothManagement/__init__.py
 boothManagement/__init__.pyc
 boothManagement/__pycache__/
 boothManagement/admin.pyc
-boothManagement/apps.py
 boothManagement/apps.pyc
 boothManagement/models.pyc
-boothManagement/tests.py
 boothManagement/urls.pyc
 boothManagement/views.pyc
 rahjoo_server/__init__.pyc
 rahjoo_server/__pycache__/
 rahjoo_server/settings.pyc
 rahjoo_server/urls.pyc
-db.sqlite3
