@@ -100,12 +100,14 @@
             var bounds = [[-400, -300], [400, 300]];
             var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
 
+            {#     change default icon on map#}
+            $('.leaflet-container').css('cursor', 'crosshair');
             function makeRec(x1, y1, x2, y2) {
-                return [[y1, x1], [y2, x1], [y2, x2], [y1, x2]]
+                return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
             }
 
             map.on('click', function (e) {
-                console.log(e.latlng.lat + "," + e.latlng.lng);
+                console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
             });
 
             var allRecAreas = {{ response | safe}};
@@ -125,15 +127,15 @@
 
             for (var i = 0; i < polygons.length; i++) {
                 sections.features.push(
-                        {
-                            "type": "Feature",
-                            "id": i.toString(),
-                            "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
-                            "geometry": {
-                                "type": "Polygon",
-                                "coordinates": [polygons[i]]
-                            }
+                    {
+                        "type": "Feature",
+                        "id": i.toString(),
+                        "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [polygons[i]]
                         }
+                    }
                 )
             }
             var selectedSections = [];
@@ -149,7 +151,7 @@
 
             // method that we will use to update the control based on feature properties passed
             info.update = function (props) {
-                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b class="per"> {% trans "Price" %} : ' + props.price + '</b>' : "<b class='per'>{% trans 'Please move your mouse on a colored ad. section.' %}</b>" );
+                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
             };
 
             info.addTo(map);
@@ -157,16 +159,16 @@
 
             function getColor(d) {
                 return d > 100 ? '#800026' :
-                        d > 90 ? '#BD0026' :
-                                d > 80 ? '#E31A1C' :
-                                        d > 70 ? '#FC4E2A' :
-                                                d > 60 ? '#FD8D3C' :
-                                                        d > 50 ? '#FEB24C' :
-                                                                d > 40 ? '#FED976' :
-                                                                        d > 30 ? '#e2ca26' :
-                                                                                d > 20 ? '#e5d044' :
-                                                                                        d > 10 ? '#efdf77' :
-                                                                                                '#e8e0a4';
+                    d > 90 ? '#BD0026' :
+                        d > 80 ? '#E31A1C' :
+                            d > 70 ? '#FC4E2A' :
+                                d > 60 ? '#FD8D3C' :
+                                    d > 50 ? '#FEB24C' :
+                                        d > 40 ? '#FED976' :
+                                            d > 30 ? '#e2ca26' :
+                                                d > 20 ? '#e5d044' :
+                                                    d > 10 ? '#efdf77' :
+                                                        '#e8e0a4';
             }
 
             function style(feature) {
