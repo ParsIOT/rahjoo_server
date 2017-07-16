@@ -58,6 +58,7 @@ class Advertisement_Area(models.Model):
 class Advertisements_order(models.Model):
 	id = models.AutoField(primary_key=True)
 	advertisement_areas = models.ManyToManyField(Advertisement_Area)
+	owner_booth = models.ForeignKey(Booth_Owner, on_delete=models.CASCADE)
 	totalPrice = models.IntegerField()
 	discount = models.IntegerField(default=0)
 	advertisement_name = models.CharField(max_length=30, default='')

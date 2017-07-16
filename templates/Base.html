@@ -115,52 +115,7 @@
 <!-- Custom and plugin javascript -->
 <script src="{% static "js/inspinia.js" %}"></script>
 <script src="{% static "js/plugins/pace/pace.min.js" %}"></script>
-<script>
-    $(document).ready(function () {
-        var lang = sessionStorage.getItem('lang');
-        var h = window.location.href;
-        var changeLang = false;
-        if (lang == 'en') {
-            $('#en_lang').addClass('active');
-            $('#fa_lang').removeClass('active');
-            if (h.indexOf('fa') != -1) {
-                h = h.replace('/fa/', '/en/');
-                changeLang = true;
-            }
-
-        } else if (lang == 'fa') {
-            $('#fa_lang').addClass('active');
-            $('#en_lang').removeClass('active');
-            if (h.indexOf('en') != -1) {
-                h = h.replace('/en/', '/fa/');
-                changeLang = true;
-            }
-        }
-        if (changeLang) {
-            window.location.href = h;
-        }
-
-
-        $('.change_lang').click(function () {
-            var chosen_lang;
-            if ($(this).attr('id') == 'en_lang') chosen_lang = 'en'; else chosen_lang = 'fa';
-            if (chosen_lang == 'fa') {
-                h = h.replace('/en/', '/fa/');
-                sessionStorage.setItem('lang', 'fa');
-                $('#fa_lang').addClass('active');
-                $('#en_lang').removeClass('active');
-            }
-            else if (chosen_lang == 'en') {
-                h = h.replace('/fa/', '/en/');
-                sessionStorage.setItem('lang', 'en');
-                $('#en_lang').addClass('active');
-                $('#fa_lang').removeClass('active');
-            }
-            window.location.href = h;
-        });
-    });
-
-</script>
+<script src="{% static "js/changeLanguage.js" %}"></script>
 {% block script %}
 {% endblock script %}
 </body>

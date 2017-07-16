@@ -33,69 +33,137 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel-body">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title" style="border-width: 0">
-                        <h3 class="per">{% trans "Booth Advertisments" %} </h3>
-                    </div>
-                    <div class="ibox-content">
-                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-8 b-r">
-                                    <div class="row form-group">
-                                        <label class="col-sm-4 control-label per">{% trans "Advertisement Name" %}:</label>
-                                        <div class="col-sm-8">
-                                            <input id="advertisement_name" type="text" class="form-control">
-                                        </div>
+            <div class="ibox">
+                <div class="ibox-content">
+                    <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
+                        <thead>
+                        <tr>
+                            <th data-toggle="true">Advertisement Name</th>
+                            <th data-hide="phone">Advertisement text</th>
+                            <th data-hide="phone">Advertisement Price</th>
+                            <th class="text-right" data-sort-ignore="true">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for advertisement in response.items %}
+                            <tr>
+                                <td>
+                                    {{ advertisement.1.adv_name }}
+                                </td>
+                                <td>
+                                    {{ advertisement.1.adv_text }}
+                                </td>
+                                <td>
+                                    {{ advertisement.1.adv_total_price }}
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button class="btn-white btn btn-xs adv_view_button">View</button>
+                                        <button class="btn-primary btn btn-xs product_edit_btn adv_edit_button">Edit</button>
                                     </div>
-                                    <div class="row form-group">
-                                        <label class="col-sm-4 control-label  per">{% trans "Advertisement Text" %}:</label>
-                                        <div class="col-sm-8">
-                                            <textarea id="advertisement_text" class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
-                                        </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                    <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel-body">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title" style="border-width: 0">
+                                        <h3 class="per">{% trans "Booth Advertisments" %} </h3>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div>
-                                        <div class="ibox-title" style="border-top-width:0px">
-                                            <h4 class="per">{% trans "Advertisement Summary" %}</h4>
-                                        </div>
-                                        <div class="ibox-content">
-                                            <span class="per">{% trans "Total Price" %}</span>
-                                            <h4 id="total_price" class="font-bold">0</h4>
-                                            <hr>
-                                            <div class="m-t-sm">
-                                                <div class="btn-group">
-                                                    <button type="button" id="save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
+                                    <div class="ibox-content">
+                                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-8 b-r">
+                                                    <div class="row form-group">
+                                                        <label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
+                                                        <div class="col-sm-10">
+                                                            <input id="modal_advertisement_name" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea id="modal_advertisement_text" class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div id="map" style="height: 190px"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <div class="ibox-title" style="border-top-width:0px">
+                                                            <h4 class="per">{% trans "Advertisement Summary" %}</h4>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <span class="per">{% trans "Total Price" %}</span>
+                                                            <h4 id="modal_total_price" class="font-bold">0</h4>
+                                                            <hr>
+                                                            <div class="m-t-sm">
+                                                                <div class="btn-group">
+                                                                    <button type="button" id="save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="map" style="height: 190px"></div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock content %}
 
 {% block script %}
     <script src="{% static "js/plugins/leaflet/leaflet.js" %}"></script>
     <script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
+    <script src="{% static "js/adv.js" %}"></script>
     <script>
         $(document).ready(function () {
             var map = L.map('map', {
                 crs: L.CRS.Simple,
                 minZoom: -2
             });
-            map.setView([10, 200], -2);
+            map.setView([500, -1200], -2);
 
             var bounds = [[-400, -300], [400, 300]];
             var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
@@ -110,7 +178,7 @@
                 console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
             });
 
-            var allRecAreas = {{ response | safe}};
+            var allRecAreas = {{ adv_areas | safe}};
             var polygons = [];
             for (i = 0; i < allRecAreas.length; i++) {
                 var t_x = allRecAreas[i]['t_x'];

@@ -112,12 +112,22 @@ def view_booth_products(request, booth_Id):
 
 
 def advertisement(request):
-    response = []
+    currentUser = User.objects.get(username=request.user.username)
+    user_all_advertisements = Advertisements_order.objects.filter(owner_booth__user=currentUser)
+    adv_areas = []
     allAdvertisementAreas = Advertisement_Area.objects.all()
     for area in allAdvertisementAreas:
-        response.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
+        adv_areas.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
+    d = {}
+    response = {}
+    for adv in user_all_advertisements:
+        d['adv_name'] = adv.advertisement_name
+        d['adv_text'] = adv.advertisement_text
+        d['adv_total_price'] = adv.totalPrice
+        response[adv.id] = d
+        d = {}
     html = change_language(request, 'Advertisements.html')
-    return render_to_response(html, {'response': json.dumps(response)})
+    return render_to_response(html, {'response': response, 'adv_areas': json.dumps(adv_areas)})
 
 
 def checkServer(request):
