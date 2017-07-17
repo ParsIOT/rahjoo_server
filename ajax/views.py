@@ -3,6 +3,7 @@ from django.http import HttpResponseForbidden
 from django.db.models import Sum
 
 from boothManagement import models
+from boothManagement.models import Product_Details
 import json
 
 
@@ -28,6 +29,31 @@ def editProductDetails(request):
                 response['n_price'] = productPrice
                 response['n_status'] = productStatus
                 response['n_description'] = productDescription
+        except:
+            response = {'status': False}
+        return HttpResponse(json.dumps(response), content_type='application.json')
+    return HttpResponseForbidden()
+
+
+def newProductDetails(request):
+    if request.is_ajax():
+        try:
+            response = {}
+            bootOwner = models.Booth_Owner.objects.get(user=request.user)
+            productName = request.GET.get('productName', None)
+            productModel = request.GET.get('productModel', None)
+            productPrice = request.GET.get('productPrice', None)
+            productStatus = json.loads(request.GET.get('productStatus', 'false'))
+            productDescription = request.GET.get('productDescription', None)
+
+            product = models.Product_Details.objects.create(name=productName, model=productModel, description=productDescription, price=productPrice, status=productStatus, owner_booth=bootOwner)
+            product.save()
+            response['status'] = True
+            response['n_name'] = productName
+            response['n_model'] = productModel
+            response['n_price'] = productPrice
+            response['n_status'] = productStatus
+            response['n_description'] = productDescription
         except:
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')

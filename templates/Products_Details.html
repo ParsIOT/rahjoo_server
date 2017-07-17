@@ -1,221 +1,291 @@
 {% extends 'Base.html' %}
 {% load staticfiles %}
 {% block title %}
-    Products Details
+	Products Details
 {% endblock title %}
 {% block head %}
-    <link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
+	<link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
+	<link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
+	<link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
 
 {% endblock head %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-content">
-                    <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
-                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
-                        <thead>
-                        <tr>
-                            <th data-toggle="true">Product Name</th>
-                            <th data-hide="phone">Model</th>
-                            <th>Description</th>
-                            <th data-hide="phone">Price</th>
-                            <th data-hide="phone">Status</th>
-                            <th class="text-right" data-sort-ignore="true">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for product in response.items %}
-                            <tr>
-                                <td>
-                                    {{ product.1.name }}
-                                </td>
-                                <td>
-                                    {{ product.1.model }}
-                                </td>
-                                <td>
-                                    {{ product.1.description }}
-                                </td>
-                                <td>
-                                    {{ product.1.price }}
-                                </td>
-                                <td>
-                                    {% if product.1.status %}
-                                        <span class="label label-primary">Enable</span>
-                                    {% else %}
-                                        <span class="label label-danger">Disable</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-right">
-                                    <div class="btn-group">
-                                        <button class="btn-white btn btn-xs product_view_button">View</button>
-                                        <button class="btn-primary btn btn-xs product_edit_btn product_edit_button">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+						</div>
+						<div class="col-md-2">
+							<button type="button" id="new-product" class="btn btn-block btn-outline btn-info">New Product</button>
+						</div>
+					</div>
+					<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
+						<thead>
+						<tr>
+							<th data-toggle="true">Product Name</th>
+							<th data-hide="phone">Model</th>
+							<th>Description</th>
+							<th data-hide="phone">Price</th>
+							<th data-hide="phone">Status</th>
+							<th class="text-right" data-sort-ignore="true">Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for product in response.items %}
+							<tr>
+								<td>
+									{{ product.1.name }}
+								</td>
+								<td>
+									{{ product.1.model }}
+								</td>
+								<td>
+									{{ product.1.description }}
+								</td>
+								<td>
+									{{ product.1.price }}
+								</td>
+								<td>
+									{% if product.1.status %}
+										<span class="label label-primary">Enable</span>
+									{% else %}
+										<span class="label label-danger">Disable</span>
+									{% endif %}
+								</td>
+								<td class="text-right">
+									<div class="btn-group">
+										<button class="btn-white btn btn-xs product_view_button">View</button>
+										<button class="btn-primary btn btn-xs product_edit_btn product_edit_button">Edit</button>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="6">
+								<ul class="pagination pull-right"></ul>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    {#table#}
-    {#modals#}
-    <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="modal_title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group"><label class="col-sm-2 control-label">Name:</label>
-                            <div class="col-sm-10">
-                                <p id="modal_product_name" class="form-control-static"></p>
-                            </div>
-                        </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Model:</label>
-                            <div class="col-sm-10"><input id="modal_product_model" type="text" class="form-control" placeholder="Product Model"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Price:</label>
-                            <div class="col-sm-10"><input id="modal_product_price" type="text" class="form-control" placeholder="$160.00"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Status:</label>
-                            <div class="col-sm-10">
-                                <div class="switch">
-                                    <div class="onoffswitch">
-                                        <input id="modal_product_status" type="checkbox" checked class="onoffswitch-checkbox">
-                                        <label class="onoffswitch-label" for="modal_product_status">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Description:</label>
-                            <div class="col-sm-10">
-                                <textarea id="product_description" class="form-control" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="submit" id="submitProductDetails" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal inmodal fade" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="width: 800px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">Modal title</h4>
-                    <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="ibox product-detail">
-                                <div class="ibox-content">
-                                    <div class="row">
-                                        <div class="col-md-5">
-
-
-                                            <div class="product-images">
-
-                                                <div>
-                                                    <div class="image-imitation">
-                                                        [IMAGE 1]
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div class="image-imitation">
-                                                        [IMAGE 2]
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div class="image-imitation">
-                                                        [IMAGE 3]
-                                                    </div>
-                                                </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{#table#}
+	{#modals#}
+	<div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">Editing <i id="modal_title"></i></h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group"><label class="col-sm-2 control-label">Name:</label>
+							<div class="col-sm-10">
+								<input id="modal_product_name" type="text" class="form-control" placeholder="Product Model">
+							</div>
+						</div>
+						<div class="form-group"><label class="col-sm-2 control-label">Model:</label>
+							<div class="col-sm-10"><input id="modal_product_model" type="text" class="form-control" placeholder="Product Model"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Price:</label>
+							<div class="col-sm-10"><input id="modal_product_price" type="text" class="form-control" placeholder="$160.00"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Status:</label>
+							<div class="col-sm-10">
+								<div class="switch">
+									<div class="onoffswitch">
+										<input id="modal_product_status" type="checkbox" checked class="onoffswitch-checkbox">
+										<label class="onoffswitch-label" for="modal_product_status">
+											<span class="onoffswitch-inner"></span>
+											<span class="onoffswitch-switch"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Description:</label>
+							<div class="col-sm-10">
+								<textarea id="product_description" class="form-control" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+					<button type="submit" id="submitProductDetails" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal inmodal fade" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" style="width: 800px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">Modal title</h4>
+					<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ibox product-detail">
+								<div class="ibox-content">
+									<div class="row">
+										<div class="col-md-5">
 
 
-                                            </div>
+											<div class="product-images">
 
-                                        </div>
-                                        <div class="col-md-7">
+												<div>
+													<div class="image-imitation">
+														[IMAGE 1]
+													</div>
+												</div>
+												<div>
+													<div class="image-imitation">
+														[IMAGE 2]
+													</div>
+												</div>
+												<div>
+													<div class="image-imitation">
+														[IMAGE 3]
+													</div>
+												</div>
 
-                                            <h2 class="font-bold m-b-xs">
-                                                Desktop publishing software
-                                            </h2>
-                                            <small>Many desktop publishing packages and web page editors now.</small>
-                                            <hr>
-                                            <div>
-                                                <h1 class="product-main-price">$406,602
-                                                    <small class="text-muted">Exclude Tax</small>
-                                                </h1>
-                                            </div>
-                                            <hr>
-                                            <h4>Product description</h4>
 
-                                            <div class="small text-muted">
-                                                It is a long established fact that a reader will be distracted by the readable
-                                                content of a page when looking at its layout. The point of using Lorem Ipsum is
-                                                that it has a more-or-less normal distribution of letters, as opposed to using
-                                                'Content here, content here', making it look like readable English.
-                                                <br/>
-                                                <br/>
-                                                There are many variations of passages of Lorem Ipsum available, but the majority
-                                                have suffered alteration in some form, by injected humour, or randomised words
-                                                which don't look even slightly believable.
-                                            </div>
-                                        </div>
-                                    </div>
+											</div>
 
-                                </div>
-                                <div class="ibox-footer">
+										</div>
+										<div class="col-md-7">
+
+											<h2 class="font-bold m-b-xs">
+												Desktop publishing software
+											</h2>
+											<small>Many desktop publishing packages and web page editors now.</small>
+											<hr>
+											<div>
+												<h1 class="product-main-price">$406,602
+													<small class="text-muted">Exclude Tax</small>
+												</h1>
+											</div>
+											<hr>
+											<h4>Product description</h4>
+
+											<div class="small text-muted">
+												It is a long established fact that a reader will be distracted by the readable
+												content of a page when looking at its layout. The point of using Lorem Ipsum is
+												that it has a more-or-less normal distribution of letters, as opposed to using
+												'Content here, content here', making it look like readable English.
+												<br/>
+												<br/>
+												There are many variations of passages of Lorem Ipsum available, but the majority
+												have suffered alteration in some form, by injected humour, or randomised words
+												which don't look even slightly believable.
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="ibox-footer">
                             <span class="pull-right">
                                 Full stock - <i class="fa fa-clock-o"></i> 14.04.2016 10:04 pm
                             </span>
-                                    The generated Lorem Ipsum is therefore always free
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+									The generated Lorem Ipsum is therefore always free
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal inmodal fade" id="newModel" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="modal_title">Add new Product</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group"><label class="col-sm-2 control-label">Name:</label>
+							<div class="col-sm-10">
+								<input id="modal_product_name_new" type="text" class="form-control" placeholder="Product Model">
+							</div>
+						</div>
+						<div class="form-group"><label class="col-sm-2 control-label">Model:</label>
+							<div class="col-sm-10"><input id="modal_product_model_new" type="text" class="form-control" placeholder="Product Model"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Price:</label>
+							<div class="col-sm-10"><input id="modal_product_price_new" type="text" class="form-control" placeholder="$160.00"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Status:</label>
+							<div class="col-sm-10">
+								<div class="switch">
+									<div class="onoffswitch">
+										<input id="modal_product_status_new" type="checkbox" checked class="onoffswitch-checkbox">
+										<label class="onoffswitch-label" for="modal_product_status_new">
+											<span class="onoffswitch-inner"></span>
+											<span class="onoffswitch-switch"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Description:</label>
+							<div class="col-sm-10">
+								<textarea id="product_description_new" class="form-control" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+					<button type="submit" id="submitNewProductDetails" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock content %}
 {% block script %}
-    <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
-    <script src="{% static "js/plugins/slick/slick.min.js" %}"></script>
-    <script>
+	<script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
+	<script src="{% static "js/plugins/slick/slick.min.js" %}"></script>
+	<script>
         $(document).ready(function () {
 
-            $('.footable').footable();
+            $('.footable').footable({
+                'columns': [
+                    {'name': 'productName', "title": "Product Name"},
+                    {'name': 'productModel', "title": "Model"},
+                    {'name': 'productDescription', "title": "Description"},
+                    {'name': 'productPrice', "title": "Price"},
+                    {'name': 'productStatus', "title": "Status"},
+                    {'name': 'action', "title": "Action"}
+                ]
+            });
             $('.product-images').slick({
                 dots: true
             });
@@ -230,7 +300,7 @@
                 var $status = $row.find("td:nth-child(5)");
 
                 $('#modal_title').html(name);
-                $('#modal_product_name').html(name);
+                $('#modal_product_name').val(name);
                 $('#modal_product_model').val(model);
                 $('#modal_product_price').val(price);
                 $('#product_description').val(description);
@@ -245,14 +315,14 @@
             });
 
             $('#submitProductDetails').click(function () {
-                var productName = $('#modal_product_name').html();
+                var productName = $('#modal_product_name').val();
                 var productModel = $('#modal_product_model').val();
                 var productPrice = $('#modal_product_price').val();
                 var productStatus = $("#modal_product_status").is(":checked");
                 var productDescription = $('#product_description').val();
                 console.log('HERE!!!');
                 $.ajax({
-                    url: '../../../ajax/editProductDetails',
+                    url: "{% url 'ajax:editProductDetails' %}",
                     data: {
                         'productName': productName,
                         'productModel': productModel,
@@ -262,18 +332,58 @@
                     },
                     dataType: 'json',
                     success: function (data) {
-                        console.log('SUCCESS!!!');
-                        $row.find("td:nth-child(2)").text(data['n_model']);
-                        $row.find("td:nth-child(4)").text(data['n_price']);
-                        $status = $row.find("td:nth-child(5)").find('span:first');
                         if (data['n_status']) {
-                            $status.removeClass('label-danger').addClass('label-primary');
-                            $status.text('Enable');
-                        } else {
-                            $status.removeClass('label-primary').addClass('label-danger');
-                            $status.text('Disable');
+                            console.log('SUCCESS!!!');
+                            $row.find("td:nth-child(2)").text(data['n_model']);
+                            $row.find("td:nth-child(4)").text(data['n_price']);
+                            $status = $row.find("td:nth-child(5)").find('span:first');
+                            if (data['n_status']) {
+                                $status.removeClass('label-danger').addClass('label-primary');
+                                $status.text('Enable');
+                            } else {
+                                $status.removeClass('label-primary').addClass('label-danger');
+                                $status.text('Disable');
+                            }
+                            $row.find("td:nth-child(3)").text(data['n_description']);
                         }
-                        $row.find("td:nth-child(3)").text(data['n_description']);
+                    }
+                });
+            });
+
+
+            $('#submitNewProductDetails').click(function () {
+                var productName = $('#modal_product_name_new').val();
+                var productModel = $('#modal_product_model_new').val();
+                var productPrice = $('#modal_product_price_new').val();
+                var productStatus = $("#modal_product_status_new").is(":checked");
+                var productDescription = $('#product_description_new').val();
+                console.log('HERE!!!');
+                $.ajax({
+                    url: "{% url 'ajax:newProductDetails' %}",
+                    data: {
+                        'productName': productName,
+                        'productModel': productModel,
+                        'productPrice': productPrice,
+                        'productStatus': productStatus,
+                        'productDescription': productDescription
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['n_status']) {
+                            console.log('reload!!!');
+					        /*
+					         row = [{
+					         "productName": data['n_name'],
+					         "productModel": data['n_model'],
+					         "productDescription": data['n_description'],
+					         "productPrice": data['n_price'],
+					         "productStatus": data['n_status'] ? '<span class="label label-primary">Enable</span>' : '<span class="label label-danger">Disable</span>',
+					         "action": '<div class="btn-group"> <button class="btn-white btn btn-xs product_view_button">View</button><button class="btn-primary btn btn-xs product_edit_btn product_edit_button">Edit</button></div>'
+					         }];
+					         $ft.loadRows(row, true);
+					         */
+                            //todo: reload table contents
+                        }
                     }
                 });
             });
@@ -284,7 +394,11 @@
                 $('#myModal2').modal('show');
             });
 
+            $('#new-product').click(function () {
+                $('#newModel').modal('show');
+            });
+
         });
 
-    </script>
+	</script>
 {% endblock script %}

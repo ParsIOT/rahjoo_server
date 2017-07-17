@@ -27,23 +27,24 @@ def index(request):
 
 @login_required
 def BoothOwnerProfile(request):
-    currentUser = Booth_Owner.objects.get(user=request.user)
-    profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
-    if request.method == 'POST':
-        if profile_form.is_valid():
-            profile_form.instance = Booth_Owner.objects.get(user=request.user)
-            profile_form.save(commit=False)
-            profile_form.user = request.user
-            profile_form.save()
-            return HttpResponseRedirect('#')
-    else:
-        init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name,
-                     'email': currentUser.user.email, 'company': currentUser.company,
-                     'boothName': currentUser.boothName, 'phone': currentUser.phone,
-                     'description': currentUser.description}
-        profile_form.initial = init_data
-    html = change_language(request, 'Booth_Management.html')
-    return render_to_response(html, RequestContext(request, {'form': profile_form}))
+	currentUser = Booth_Owner.objects.get(user=request.user)
+	profile_form = Booth_Owner_Profile(data=request.POST or None, files=request.FILES or None, user=request.user, request=request)
+	if request.method == 'POST':
+		if profile_form.is_valid():
+			profile_form.instance = Booth_Owner.objects.get(user=request.user)
+			profile_form.save(commit=False)
+			profile_form.user = request.user
+			profile_form.imageFile = request.FILES['imageFile']
+			profile_form.save()
+			return HttpResponseRedirect('#')
+	else:
+		init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name,
+		             'email': currentUser.user.email, 'company': currentUser.company,
+		             'boothName': currentUser.boothName, 'phone': currentUser.phone,
+		             'description': currentUser.description}
+		profile_form.initial = init_data
+	html = change_language(request, 'Booth_Management.html')
+	return render_to_response(html, RequestContext(request, {'form': profile_form}))
 
 
 # @login_required

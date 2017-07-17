@@ -129,3 +129,6 @@ LANGUAGES = (
 	('en', ugettext('English')),
 	('fa', ugettext('Farsi')),
 )
+
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'),)
+MEDIA_URL = "/media/"
