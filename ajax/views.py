@@ -66,13 +66,16 @@ def makeAdvertisementsOrder(request):
 def getAdvertisementsAreas(request):
     if request.is_ajax():
         try:
-            response = {'status': True, 'init_selected_sections': []}
+            response = {'status': True, 'init_selected_sections': [], 'init_price': 0}
             advertisement_name = request.GET.get('adv_name', None)
             advertisement_text = request.GET.get('adv_text', None)
             adv_order = models.Advertisements_order.objects.get(advertisement_name=advertisement_name, advertisement_text=advertisement_text)
             selected_sections = adv_order.advertisement_areas.all()
+            init_price = 0
             for area in selected_sections:
                 response['init_selected_sections'].append(area.section_name)
+                init_price += area.base_price
+            response['init_price'] = init_price
         except:
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')

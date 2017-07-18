@@ -156,7 +156,7 @@
 {% block script %}
     <script src="{% static "js/plugins/leaflet/leaflet.js" %}"></script>
     <script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
-    <script src="{% static "js/adv.js" %}"></script>
+    {#    <script src="{% static "js/adv.js" %}"></script>#}
     <script>
         {#        $(document).ready(function () {#}
         var map = L.map('map', {
@@ -200,7 +200,7 @@
                 }
             )
         }
-        var selectedSections = [];
+        var selected_sections = [];
         var $row;
         var init_selected_sections = null;
 
@@ -241,7 +241,7 @@
         function checkFields() {
             var advertisement_name = $('#advertisement_name').val();
             var advertisement_text = $('#advertisement_text').val();
-            return !(advertisement_name === "" || advertisement_text === "" || selectedSections.length == 0);
+            return !(advertisement_name === "" || advertisement_text === "" || selected_sections.length == 0);
 
         }
 
@@ -250,27 +250,41 @@
         }
 
         // the default style for sections
-        function defaultAreasStyle(feature) {
-            return {
+        function defaultAreasStyleFunc(feature) {
+            return ({
                 fillColor: getColor(feature.properties.price),
                 weight: 2,
-                opacity: 1,
                 color: 'white',
-                dashArray: '3',
+                dashArray: '1',
                 fillOpacity: 0.7
-            };
+            });
         }
 
-        function selectedAreaStyle(feature) {
+        function selectedAreaStyleFunc(feature) {
             return {
                 fillColor: getColor(feature.properties.price),
                 weight: 3,
                 opacity: 1,
                 color: 'green',
-                dashArray: '3',
+                dashArray: '1',
                 fillOpacity: 0.6
             };
         }
+
+        var selectedAreaStyle = {
+            weight: 3,
+            opacity: 1,
+            color: 'green',
+            dashArray: '1',
+            fillOpacity: 0.6
+        };
+
+        var defaultAreasStyle = {
+            weight: 2,
+            color: 'white',
+            dashArray: '1',
+            fillOpacity: 0.7
+        };
 
 
         // function to call on section hover
@@ -304,16 +318,21 @@
         // function to call on section click
         function sectionClick(e) {
             var layer = e.target;
-            if (selectedSections.indexOf(layer.feature.properties.name) != -1) {
-                selectedSections.push(layer.feature.properties.name);
+            //if the section is already selected
+            if (selected_sections[0].indexOf(layer.feature.properties.name) != -1) {
+                //jquery pop
+                selected_sections[0].splice($.inArray(layer.feature.properties.name, selected_sections[0]), 1);
+                console.log('selected_sections pop: ', selected_sections[0], ",", layer.feature.properties.name);
+                t_price -= layer.feature.properties.price;
+                updatePrice();
+                //reset to default style
+                layer.setStyle(defaultAreasStyle);
+            } else {
+                selected_sections[0].push(layer.feature.properties.name);
+                console.log('selected_sections push: ', selected_sections[0], ",", layer.feature.properties.name);
                 t_price += layer.feature.properties.price;
                 updatePrice();
                 layer.setStyle(selectedAreaStyle);
-            } else {
-                selectedSections.pop(layer.feature.properties.name);
-                t_price -= layer.feature.properties.price;
-                updatePrice();
-                layer.setStyle(defaultAreasStyle);
             }
         }
 
@@ -326,8 +345,14 @@
         }
 
         function ajaxCallBack(response) {
+
+            //remove selected sections witch may be added before
+            init_selected_sections = null;
+            selected_sections = [];
             init_selected_sections = response['init_selected_sections'];
-            console.log('init_selected_sections callback: ', init_selected_sections);
+            t_price = response['init_price'];
+            selected_sections.push(init_selected_sections);
+            {#            console.log('init_selected_sections callback: ', init_selected_sections);#}
         }
 
         //send adv data to server and get its adv areas to view and edit
@@ -350,13 +375,14 @@
                 dataType: 'json',
                 success: function (response) {
                     ajaxCallBack(response);
-                    console.log('init_selected_sections ajax: ', init_selected_sections);
+                    {#                    console.log('init_selected_sections ajax: ', init_selected_sections);#}
+                    console.log('selected_sections: ', selected_sections[0]);
                     geojson = L.geoJson(sections, {
                         style: function (feature) {
                             if (init_selected_sections.indexOf(feature.properties.name) != -1) {
-                                return (selectedAreaStyle(feature));
+                                return (selectedAreaStyleFunc(feature));
                             } else {
-                                return (defaultAreasStyle(feature));
+                                return (defaultAreasStyleFunc(feature));
                             }
 
                         },
@@ -371,7 +397,7 @@
         });
 
 
-        console.log('selected sections: ', selected_sections);
+        {#        console.log('selected sections: ', selected_sections);#}
 
         //resize map on show because of modal problem error https://stackoverflow.com/questions/20400713/leaflet-map-not-showing-properly-in-bootstrap-3-0-modal
         $('#myModal').on('shown.bs.modal', function () {
@@ -401,7 +427,7 @@
                         data: {
                             'advertisement_name': advertisement_name,
                             'advertisement_text': advertisement_text,
-                            'selectedSections[]': selectedSections
+                            'selectedSections[]': selected_sections
                         },
                         dataType: 'json',
                         traditional: true,
