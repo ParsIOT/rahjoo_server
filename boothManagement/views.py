@@ -163,11 +163,14 @@ def advertisementJson(request):
     response = {}
     try:
         allAdvertisementOrders = Advertisements_order.objects.all()
+        advertisments = []
         for order in allAdvertisementOrders:
             areaRes = []
             for advArea in order.advertisement_areas.all():
                 areaRes.append({'section_name': advArea.section_name, 't_x': advArea.topLeft_x, 't_y': advArea.topLeft_y, 'b_x': advArea.bottomRight_x, 'b_y': advArea.bottomRight_y})
-            response = {'status': 'OK', 'id': order.id, 'sections': areaRes, 'name': order.advertisement_name, 'text': order.advertisement_text}
+            orderJson={'sections':areaRes,'id':order.id,'name':order.advertisement_name,'text':order.advertisement_text}
+            advertisments.append(orderJson)
+            response = {"advertisements":advertisments}
     except:
         response = {'status': 'Error'}
     return HttpResponse(json.dumps(response), content_type="application/json")
