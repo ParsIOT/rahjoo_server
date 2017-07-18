@@ -12,19 +12,22 @@ def editProductDetails(request):
         try:
             response = {}
             username = request.user.username
+            productID = request.GET.get('productID', None)
             productName = request.GET.get('productName', None)
             productModel = request.GET.get('productModel', None)
             productPrice = request.GET.get('productPrice', None)
             productStatus = json.loads(request.GET.get('productStatus', 'false'))
             productDescription = request.GET.get('productDescription', None)
-            if checkProductOwner(username, productName):
-                product = models.Product_Details.objects.get(name=productName)
+            if checkProductOwner(username, productID):
+                product = models.Product_Details.objects.get(id=productID)
+                product.name = productName
                 product.model = productModel
                 product.price = productPrice
                 product.status = productStatus
                 product.description = productDescription
                 product.save()
                 response['status'] = True
+                response['n_name'] = productName
                 response['n_model'] = productModel
                 response['n_price'] = productPrice
                 response['n_status'] = productStatus
@@ -60,10 +63,10 @@ def newProductDetails(request):
     return HttpResponseForbidden()
 
 
-def checkProductOwner(username, productName):
+def checkProductOwner(username, productID):
     currentBoothOwner = models.Booth_Owner.objects.get(user__username=username)
-    ownerAllProducts = models.Product_Details.objects.filter(owner_booth=currentBoothOwner).values_list('name', flat=True)
-    if productName in ownerAllProducts:
+    ownerAllProducts = models.Product_Details.objects.filter(owner_booth=currentBoothOwner).values_list('id', flat=True)
+    if int(productID) in ownerAllProducts:
         return True
     else:
         return False

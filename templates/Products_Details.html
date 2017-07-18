@@ -25,6 +25,7 @@
 					<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
 						<thead>
 						<tr>
+							<th data-hide="all" data-ignore="true">ID</th>
 							<th data-toggle="true">Product Name</th>
 							<th data-hide="phone">Model</th>
 							<th>Description</th>
@@ -36,6 +37,9 @@
 						<tbody>
 						{% for product in response.items %}
 							<tr>
+								<td>
+									{{ product.0 }}
+								</td>
 								<td>
 									{{ product.1.name }}
 								</td>
@@ -90,6 +94,8 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
+						<input id="modal_product_id" type="hidden">
+
 						<div class="form-group"><label class="col-sm-2 control-label">Name:</label>
 							<div class="col-sm-10">
 								<input id="modal_product_name" type="text" class="form-control" placeholder="Product Model">
@@ -131,6 +137,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="modal inmodal fade" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" style="width: 800px;">
 			<div class="modal-content">
@@ -216,7 +223,6 @@
 		</div>
 	</div>
 
-
 	<div class="modal inmodal fade" id="newModel" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -293,12 +299,14 @@
             var $row;
             $('.product_edit_button').click(function () {
                 $row = $(this).closest("tr");
-                var name = $row.find("td:nth-child(1)").text().trim();
-                var model = $row.find("td:nth-child(2)").text().trim();
-                var description = $row.find("td:nth-child(3)").text().trim();
-                var price = $row.find("td:nth-child(4)").text().trim();
-                var $status = $row.find("td:nth-child(5)");
+                var id = $row.find("td:nth-child(1)").text().trim();
+                var name = $row.find("td:nth-child(2)").text().trim();
+                var model = $row.find("td:nth-child(3)").text().trim();
+                var description = $row.find("td:nth-child(4)").text().trim();
+                var price = $row.find("td:nth-child(5)").text().trim();
+                var $status = $row.find("td:nth-child(6)");
 
+                $('#modal_product_id').val(id);
                 $('#modal_title').html(name);
                 $('#modal_product_name').val(name);
                 $('#modal_product_model').val(model);
@@ -315,6 +323,7 @@
             });
 
             $('#submitProductDetails').click(function () {
+                var productID = $('#modal_product_id').val();
                 var productName = $('#modal_product_name').val();
                 var productModel = $('#modal_product_model').val();
                 var productPrice = $('#modal_product_price').val();
@@ -324,6 +333,7 @@
                 $.ajax({
                     url: "{% url 'ajax:editProductDetails' %}",
                     data: {
+                        'productID': productID,
                         'productName': productName,
                         'productModel': productModel,
                         'productPrice': productPrice,
@@ -332,11 +342,12 @@
                     },
                     dataType: 'json',
                     success: function (data) {
-                        if (data['n_status']) {
-                            console.log('SUCCESS!!!');
-                            $row.find("td:nth-child(2)").text(data['n_model']);
-                            $row.find("td:nth-child(4)").text(data['n_price']);
-                            $status = $row.find("td:nth-child(5)").find('span:first');
+                        if (data['status']) {
+                            $row.find("td:nth-child(2)").text(data['n_name']);
+                            $row.find("td:nth-child(3)").text(data['n_model']);
+                            $row.find("td:nth-child(4)").text(data['n_description']);
+                            $row.find("td:nth-child(5)").text(data['n_price']);
+                            $status = $row.find("td:nth-child(6)").find('span:first');
                             if (data['n_status']) {
                                 $status.removeClass('label-danger').addClass('label-primary');
                                 $status.text('Enable');
@@ -344,7 +355,6 @@
                                 $status.removeClass('label-primary').addClass('label-danger');
                                 $status.text('Disable');
                             }
-                            $row.find("td:nth-child(3)").text(data['n_description']);
                         }
                     }
                 });
@@ -368,7 +378,7 @@
                     },
                     dataType: 'json',
                     success: function (data) {
-                        if (data['n_status']) {
+                        if (data['status']) {
                             var row = "<tr><td>" + data['n_name'] + "</td><td>" + data['n_model'] + "</td><td>" + data['n_description'] + "</td><td>" +
                                 data['n_price'] + "</td><td>" + (data['n_status'] ? '<span class="label label-primary">Enable</span>' : '<span class="label label-danger">Disable</span>') +
                                 '</td><td class="text-right"><div class="btn-group"> <button class="btn-white btn btn-xs product_view_button">View</button>' +
