@@ -4,7 +4,8 @@
 	Booth Management
 {% endblock title %}
 {% block head %}
-	<link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/basic.css' %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
 {% endblock head %}
 {% block content %}
 	<div class="row">
@@ -40,7 +41,7 @@
 										</div>
 										<div class="panel-body">
 											<div class="row">
-												<div class="col-md-9">
+												<div class="col-md-9 col-xs-12">
 													<div class="form-group">
 														<label class="col-sm-2 control-label">Description:</label>
 														<div class="col-sm-9">
@@ -48,9 +49,9 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-3 col-xs-6 col-xs-offset-3 col-md-offset-0">
 													<div class="form-group">
-														<img src="{{ image.url }}">
+														<img id="boothImage" src="{{ image.url }}" style="max-width: 100%;cursor: pointer;">
 													</div>
 												</div>
 											</div>
@@ -106,23 +107,53 @@
 		</div>
 	</div>
 
+	<div class="modal inmodal fade" id="imageUploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">Upload New Image</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="dropzone" id="dropzoneForm">
+						<div class="fallback">
+							<input name="file" type="file" multiple/>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 {% endblock content %}
 
 {% block script %}
-	<script src="{% static 'js/plugins/jasny/jasny-bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
 
 	<script>
-        {#        Dropzone.options.imageFile = {#}
-        {#            url: "#",#}
-        {#            paramName: "file", // The name that will be used to transfer the file#}
-        {#            maxFilesize: 5, // MB#}
-        {#            dictDefaultMessage: "<strong>Drop files here or click.</strong>",#}
-        {#            addRemoveLinks: true,#}
-        {#            maxFiles: 1,#}
-        {#            acceptedFiles: "image/*"#}
-        {#        };#}
+        Dropzone.options.dropzoneForm = {
+            url: "{% url 'booth:uploadBoothImage' %}",
+            method: 'POST',
+            paramName: "image", // The name that will be used to transfer the file
+            maxFilesize: 5, // MB
+            dictDefaultMessage: "<strong>Drop files here or click.</strong>",
+            addRemoveLinks: true,
+            maxFiles: 1,
+            acceptedFiles: "image/*"
+        };
 
         $(document).ready(function () {
+            $('#boothImage').css('height', $('#id_description').outerHeight() + 'px');
+
+            $('#boothImage').click(function () {
+                $('#imageUploadModal').modal('show');
+            });
+
         });
 	</script>
 {% endblock script %}

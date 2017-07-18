@@ -51,6 +51,6 @@ class UploadBoothImageForm(forms.ModelForm):
 		fileSize = this_file['image'].size
 		if fileType not in ['image/jpg', 'image/jpeg', 'image/png']:
 			raise forms.ValidationError("This format is not supported!")
-		if fileSize > 500000:
+		if fileSize > 5242881:  # 5 MB
 			raise forms.ValidationError("The image size is too big!")
 		return self.cleaned_data
