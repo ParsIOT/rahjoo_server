@@ -158,212 +158,262 @@
     <script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
     <script src="{% static "js/adv.js" %}"></script>
     <script>
-        $(document).ready(function () {
-            var map = L.map('map', {
-                crs: L.CRS.Simple,
-                minZoom: -2
-            });
-            map.setView([500, -1200], -2);
-
-            var bounds = [[-400, -300], [400, 300]];
-            var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
-
-            {#     change default icon on map#}
-            $('.leaflet-container').css('cursor', 'crosshair');
-            function makeRec(x1, y1, x2, y2) {
-                return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
-            }
-
-            map.on('click', function (e) {
-                console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
-            });
-
-            var allRecAreas = {{ adv_areas | safe}};
-            var polygons = [];
-            for (i = 0; i < allRecAreas.length; i++) {
-                var t_x = allRecAreas[i]['t_x'];
-                var t_y = allRecAreas[i]['t_y'];
-                var b_x = allRecAreas[i]['b_x'];
-                var b_y = allRecAreas[i]['b_y'];
-                polygons.push(makeRec(t_x, t_y, b_x, b_y));
-            }
-            var t_price = 0;
-            ///////////////
-            var sections = {
-                "type": "FeatureCollection", "features": []
-            };
-
-            for (var i = 0; i < polygons.length; i++) {
-                sections.features.push(
-                    {
-                        "type": "Feature",
-                        "id": i.toString(),
-                        "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
-                        "geometry": {
-                            "type": "Polygon",
-                            "coordinates": [polygons[i]]
-                        }
-                    }
-                )
-            }
-            var selectedSections = [];
-
-            // control that shows state info on hover
-            var info = L.control();
-
-            info.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-                this.update();
-                return this._div;
-            };
-
-            // method that we will use to update the control based on feature properties passed
-            info.update = function (props) {
-                this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
-            };
-
-            info.addTo(map);
-
-
-            function getColor(d) {
-                return d > 100 ? '#800026' :
-                    d > 90 ? '#BD0026' :
-                        d > 80 ? '#E31A1C' :
-                            d > 70 ? '#FC4E2A' :
-                                d > 60 ? '#FD8D3C' :
-                                    d > 50 ? '#FEB24C' :
-                                        d > 40 ? '#FED976' :
-                                            d > 30 ? '#e2ca26' :
-                                                d > 20 ? '#e5d044' :
-                                                    d > 10 ? '#efdf77' :
-                                                        '#e8e0a4';
-            }
-
-            function style(feature) {
-                return {
-                    fillColor: getColor(feature.properties.price),
-                    weight: 2,
-                    opacity: 1,
-                    color: 'white',
-                    dashArray: '3',
-                    fillOpacity: 0.7
-                };
-            }
-
-            function sectionHover(e) {
-                var layer = e.target;
-                if (layer.options.color != "green") {
-                    layer.setStyle({
-                        weight: 3,
-                        color: '#666',
-                        dashArray: '',
-                        fillOpacity: 0.6
-                    });
-
-                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                        layer.bringToFront();
-                    }
-                }
-                info.update(layer.feature.properties);
-            }
-
-            function sectionMouseOut(e) {
-                var layer = e.target;
-                if (layer.options.color == "#666") {
-                    geojson.resetStyle(e.target);
-                    info.update();
-                }
-
-            }
-
-            function sectionClick(e) {
-                var layer = e.target;
-                if (layer.options.color != "green") {
-                    selectedSections.push(layer.feature.properties.name);
-                    t_price += layer.feature.properties.price;
-                    updatePrice();
-                    layer.setStyle({
-                        weight: 3,
-                        color: 'green',
-                        dashArray: '',
-                        fillOpacity: 0.6
-                    });
-                } else {
-                    selectedSections.pop(layer.feature.properties.name);
-                    t_price -= layer.feature.properties.price;
-                    updatePrice();
-                    layer.setStyle({
-                        weight: 2,
-                        color: 'white',
-                        dashArray: '3',
-                        fillOpacity: 0.7
-                    });
-                }
-            }
-
-
-            function onEachFeature(feature, layer) {
-                layer.on({
-                    mouseover: sectionHover,
-                    mouseout: sectionMouseOut,
-                    click: sectionClick
-                });
-            }
-
-            geojson = L.geoJson(sections, {
-                style: style,
-                onEachFeature: onEachFeature
-            }).addTo(map);
-            function checkFields() {
-                var advertisement_name = $('#advertisement_name').val();
-                var advertisement_text = $('#advertisement_text').val();
-                if (advertisement_name === "" || advertisement_text === "" || selectedSections.length == 0) {
-                    return false
-                } else {
-                    return true
-                }
-
-            }
-
-            function updatePrice() {
-                $('#total_price').html(t_price);
-            }
-
-            {#            handling data submition#}
-            $('#save_button').click(function () {
-                if (checkFields()) {
-                    swal({
-                        title: "Advertisement Submission",
-                        text: "You are going to add the following advertisement:",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, Add it!",
-                        closeOnConfirm: false
-                    }, function () {
-                        var advertisement_name = $('#advertisement_name').val();
-                        var advertisement_text = $('#advertisement_text').val();
-
-                        $.ajax({
-                            url: '../../ajax/makeAdvertisementsOrder',
-                            data: {
-                                'advertisement_name': advertisement_name,
-                                'advertisement_text': advertisement_text,
-                                'selectedSections[]': selectedSections
-                            },
-                            dataType: 'json',
-                            traditional: true,
-                            success: function (data) {
-                                swal("Success!", "Your advertisement has been submitted.", "success");
-                            }
-                        });
-                    });
-                } else {
-                    swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
-                }
-            });
-
-
+        {#        $(document).ready(function () {#}
+        var map = L.map('map', {
+            crs: L.CRS.Simple,
+            minZoom: -2
         });
+        var bounds = [[-400, -300], [400, 300]];
+        var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
+        map.on('click', function (e) {
+            console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
+        });
+        map.setView([100, -100], -2);
+        {#     change default icon on map#}
+        $('.leaflet-container').css('cursor', 'crosshair');
+
+        var allRecAreas = {{ adv_areas | safe}};
+        var polygons = [];
+        for (i = 0; i < allRecAreas.length; i++) {
+            var t_x = allRecAreas[i]['t_x'];
+            var t_y = allRecAreas[i]['t_y'];
+            var b_x = allRecAreas[i]['b_x'];
+            var b_y = allRecAreas[i]['b_y'];
+            polygons.push(makeRec(t_x, t_y, b_x, b_y));
+        }
+        var t_price = 0;
+        ///////////////
+        var sections = {
+            "type": "FeatureCollection", "features": []
+        };
+
+        for (var i = 0; i < polygons.length; i++) {
+            sections.features.push(
+                {
+                    "type": "Feature",
+                    "id": i.toString(),
+                    "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [polygons[i]]
+                    }
+                }
+            )
+        }
+        var selectedSections = [];
+        var $row;
+        var init_selected_sections = null;
+
+        // control that shows state info on hover
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+            this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
+        };
+
+        info.addTo(map);
+
+        function makeRec(x1, y1, x2, y2) {
+            return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
+        }
+
+        function getColor(d) {
+            return d > 100 ? '#800026' :
+                d > 90 ? '#BD0026' :
+                    d > 80 ? '#E31A1C' :
+                        d > 70 ? '#FC4E2A' :
+                            d > 60 ? '#FD8D3C' :
+                                d > 50 ? '#FEB24C' :
+                                    d > 40 ? '#FED976' :
+                                        d > 30 ? '#e2ca26' :
+                                            d > 20 ? '#e5d044' :
+                                                d > 10 ? '#efdf77' :
+                                                    '#e8e0a4';
+        }
+
+        function checkFields() {
+            var advertisement_name = $('#advertisement_name').val();
+            var advertisement_text = $('#advertisement_text').val();
+            return !(advertisement_name === "" || advertisement_text === "" || selectedSections.length == 0);
+
+        }
+
+        function updatePrice() {
+            $('#modal_total_price').html(t_price);
+        }
+
+        // the default style for sections
+        function defaultAreasStyle(feature) {
+            return {
+                fillColor: getColor(feature.properties.price),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+
+        function selectedAreaStyle(feature) {
+            return {
+                fillColor: getColor(feature.properties.price),
+                weight: 3,
+                opacity: 1,
+                color: 'green',
+                dashArray: '3',
+                fillOpacity: 0.6
+            };
+        }
+
+
+        // function to call on section hover
+        function sectionHover(e) {
+            var layer = e.target;
+            if (layer.options.color != "green") {
+                layer.setStyle({
+                    weight: 3,
+                    color: '#666',
+                    dashArray: '',
+                    fillOpacity: 0.6
+                });
+
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+            }
+            info.update(layer.feature.properties);
+        }
+
+        // function to call on section mouse out
+        function sectionMouseOut(e) {
+            var layer = e.target;
+            if (layer.options.color == "#666") {
+                geojson.resetStyle(e.target);
+                info.update();
+            }
+
+        }
+
+        // function to call on section click
+        function sectionClick(e) {
+            var layer = e.target;
+            if (selectedSections.indexOf(layer.feature.properties.name) != -1) {
+                selectedSections.push(layer.feature.properties.name);
+                t_price += layer.feature.properties.price;
+                updatePrice();
+                layer.setStyle(selectedAreaStyle);
+            } else {
+                selectedSections.pop(layer.feature.properties.name);
+                t_price -= layer.feature.properties.price;
+                updatePrice();
+                layer.setStyle(defaultAreasStyle);
+            }
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: sectionHover,
+                mouseout: sectionMouseOut,
+                click: sectionClick
+            });
+        }
+
+        function ajaxCallBack(response) {
+            init_selected_sections = response['init_selected_sections'];
+            console.log('init_selected_sections callback: ', init_selected_sections);
+        }
+
+        //send adv data to server and get its adv areas to view and edit
+        $('.adv_edit_button').click(function () {
+            $row = $(this).closest("tr");
+            var adv_name = $row.find("td:nth-child(1)").text().trim();
+            var adv_text = $row.find("td:nth-child(2)").text().trim();
+            var price = $row.find("td:nth-child(3)").text().trim();
+            $('#modal_advertisement_name').val(adv_name);
+            $('#modal_advertisement_text').val(adv_text);
+            $('#modal_total_price').html(price);
+
+            //get advertisements areas from db
+            $.ajax({
+                url: '../../../ajax/getAdvertisementsAreas',
+                data: {
+                    'adv_name': adv_name,
+                    'adv_text': adv_text
+                },
+                dataType: 'json',
+                success: function (response) {
+                    ajaxCallBack(response);
+                    console.log('init_selected_sections ajax: ', init_selected_sections);
+                    geojson = L.geoJson(sections, {
+                        style: function (feature) {
+                            if (init_selected_sections.indexOf(feature.properties.name) != -1) {
+                                return (selectedAreaStyle(feature));
+                            } else {
+                                return (defaultAreasStyle(feature));
+                            }
+
+                        },
+                        onEachFeature: onEachFeature
+                    }).addTo(map);
+
+
+                }
+
+            });
+            $('#myModal').modal('show');
+        });
+
+
+        console.log('selected sections: ', selected_sections);
+
+        //resize map on show because of modal problem error https://stackoverflow.com/questions/20400713/leaflet-map-not-showing-properly-in-bootstrap-3-0-modal
+        $('#myModal').on('shown.bs.modal', function () {
+            setTimeout(function () {
+                map.invalidateSize();
+            }, 1);
+        });
+
+
+        {#            handling data submition#}
+        $('#save_button').click(function () {
+            if (checkFields()) {
+                swal({
+                    title: "Advertisement Submission",
+                    text: "You are going to add the following advertisement:",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, Add it!",
+                    closeOnConfirm: false
+                }, function () {
+                    var advertisement_name = $('#advertisement_name').val();
+                    var advertisement_text = $('#advertisement_text').val();
+
+                    $.ajax({
+                        url: '../../ajax/makeAdvertisementsOrder',
+                        data: {
+                            'advertisement_name': advertisement_name,
+                            'advertisement_text': advertisement_text,
+                            'selectedSections[]': selectedSections
+                        },
+                        dataType: 'json',
+                        traditional: true,
+                        success: function (data) {
+                            swal("Success!", "Your advertisement has been submitted.", "success");
+                        }
+                    });
+                });
+            } else {
+                swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
+            }
+        });
+        {#        });#}
     </script>
 {% endblock script %}
