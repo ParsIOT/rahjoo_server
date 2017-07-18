@@ -1,5 +1,6 @@
 import http
 import simplejson as json
+from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.utils.translation import ugettext
 from django.contrib.auth.decorators import login_required
@@ -7,8 +8,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate, login, logout
-from .forms import Booth_Owner_Profile
+from .forms import *
 from .models import *
+
+from django.core.files.base import ContentFile
+
 
 
 def change_language(request, template_name):
@@ -25,25 +29,41 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+@csrf_exempt
+def uploadBoothImage(request):
+	if request.method == 'POST':
+		form = UploadBoothImageForm(request.POST, request.FILES)
+		if form.is_valid():
+			user, created = Booth_Owner.objects.get_or_create(user=request.user)
+			user.image.delete(save=True)
+			user.image.save(request.FILES['image'].name, ContentFile(request.FILES['image'].read()))
+			user.save()
+			result = {'status': 'success'}
+			return HttpResponse(json.dumps(result), content_type='application.json')
+		else:
+			result = {"status": "error", "errors": form.errors}
+			return HttpResponse(json.dumps(result), content_type='application.json')
+
+
 @login_required
 def BoothOwnerProfile(request):
-    currentUser = Booth_Owner.objects.get(user=request.user)
-    profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
-    if request.method == 'POST':
-        if profile_form.is_valid():
-            profile_form.instance = Booth_Owner.objects.get(user=request.user)
-            profile_form.save(commit=False)
-            profile_form.user = request.user
-            profile_form.save()
-            return HttpResponseRedirect('#')
-    else:
-        init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name,
-                     'email': currentUser.user.email, 'company': currentUser.company,
-                     'boothName': currentUser.boothName, 'phone': currentUser.phone,
-                     'description': currentUser.description}
-        profile_form.initial = init_data
-    html = change_language(request, 'Booth_Management.html')
-    return render_to_response(html, RequestContext(request, {'form': profile_form}))
+	currentUser, created = Booth_Owner.objects.get_or_create(user=request.user)
+	profile_form = Booth_Owner_Profile(data=request.POST or None, user=request.user, request=request)
+	if request.method == 'POST':
+		if profile_form.is_valid():
+			profile_form.instance = Booth_Owner.objects.get(user=request.user)
+			profile_form.save(commit=False)
+			profile_form.user = request.user
+			profile_form.save()
+			return HttpResponseRedirect('#')
+	else:
+		init_data = {'firstName': currentUser.user.first_name, 'lastName': currentUser.user.last_name,
+		             'email': currentUser.user.email, 'company': currentUser.company,
+		             'boothName': currentUser.boothName, 'phone': currentUser.phone,
+		             'description': currentUser.description}
+		profile_form.initial = init_data
+	html = change_language(request, 'Booth_Management.html')
+	return render_to_response(html, RequestContext(request, {'form': profile_form, 'image': currentUser.image}))
 
 
 # @login_required

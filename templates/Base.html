@@ -4,21 +4,23 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="{% static 'img/Logo2.png' %}"/>
 
-    <title>{% block title %}{% endblock title %}</title>
-    <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
+	<title>{% block title %}{% endblock title %}</title>
+	<link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
 
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    {#    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">#}
+	<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+	{#    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">#}
 
-    <link href="{% static "css/animate.css" %}" rel="stylesheet">
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
-    {% block head %}
-    {% endblock head %}
-    {% block style %}
-    {% endblock style %}
+	{% block head %}
+	{% endblock head %}
+
+	<link href="{% static "css/animate.css" %}" rel="stylesheet">
+	<link href="{% static "css/style.css" %}" rel="stylesheet">
+	{% block style %}
+	{% endblock style %}
 </head>
 
 <body>
@@ -26,57 +28,57 @@
 
 <div id="wrapper">
 
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	<nav class="navbar-default navbar-static-side" role="navigation">
+		<div class="sidebar-collapse">
+			<ul class="nav metismenu" id="side-menu">
+				<li class="nav-header">
+					<div class="dropdown profile-element">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
                              </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="{% url 'logout' %}">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div class="logo-element">
-                        ParsIN
-                    </div>
-                </li>
-                <li class="active">
-                    <a href="{% url "saveBoothDetails" %}">
-                        <i class="fa fa-th-large"></i>
-                        <span class="nav-label">Booth Details</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="{% url "viewProductsDetails" %}">
-                        <i class="fa fa-th-large"></i>
-                        <span class="nav-label">Products Details</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="{% url "advertisement" %}">
-                        <i class="fa fa-th-large"></i>
-                        <span class="nav-label">Advertisements</span>
-                    </a>
-                </li>
-            </ul>
+						<ul class="dropdown-menu animated fadeInRight m-t-xs">
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+						</ul>
+					</div>
+					<div class="logo-element">
+						ParsIN
+					</div>
+				</li>
+				<li class="active">
+					<a href="{% url "booth:saveBoothDetails" %}">
+						<i class="fa fa-th-large"></i>
+						<span class="nav-label">Booth Details</span>
+					</a>
+				</li>
+				<li class="active">
+					<a href="{% url "booth:viewProductsDetails" %}">
+						<i class="fa fa-th-large"></i>
+						<span class="nav-label">Products Details</span>
+					</a>
+				</li>
+				<li class="active">
+					<a href="{% url "booth:advertisement" %}">
+						<i class="fa fa-th-large"></i>
+						<span class="nav-label">Advertisements</span>
+					</a>
+				</li>
+			</ul>
 
-        </div>
-    </nav>
+		</div>
+	</nav>
 
-    <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="#">
-                        <div class="form-group">
-                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                        </div>
-                    </form>
-                </div>
-                <ul class="nav navbar-top-links navbar-right">
+	<div id="page-wrapper" class="gray-bg">
+		<div class="row border-bottom">
+			<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+				<div class="navbar-header">
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+					<form role="search" class="navbar-form-custom" method="post" action="#">
+						<div class="form-group">
+							<input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+						</div>
+					</form>
+				</div>
+				<ul class="nav navbar-top-links navbar-right">
                     <span>
                         <a class="btn btn-white btn-sm change_lang" id="en_lang">
                             <img src="{% static "img/United-States.png" %}"> EN
@@ -85,26 +87,26 @@
                             <img src="{% static "img/Iran.png" %}"> IR
                         </a>
                     </span>
-                    <li>
-                        <a href="{% url "logout" %}">
-                            <i class="fa fa-sign-out"></i> Log out
-                        </a>
-                    </li>
-                </ul>
+					<li>
+						<a href="{% url "logout" %}">
+							<i class="fa fa-sign-out"></i> Log out
+						</a>
+					</li>
+				</ul>
 
-            </nav>
-        </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-            {% block content %}
-            {% endblock content %}
-        </div>
-        <div class="footer">
-            <div>
-                ParsIOT Company &copy; 2016-2017
-            </div>
-        </div>
+			</nav>
+		</div>
+		<div class="wrapper wrapper-content animated fadeInRight">
+			{% block content %}
+			{% endblock content %}
+		</div>
+		<div class="footer">
+			<div>
+				ParsIOT Company &copy; 2016-2017
+			</div>
+		</div>
 
-    </div>
+	</div>
 </div>
 
 <!-- Mainly scripts -->
