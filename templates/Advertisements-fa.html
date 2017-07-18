@@ -367,7 +367,7 @@
 
             //get advertisements areas from db
             $.ajax({
-                url: '../../../ajax/getAdvertisementsAreas',
+                url: '{% url "ajax:getAdvertisementsAreas" %}',
                 data: {
                     'adv_name': adv_name,
                     'adv_text': adv_text
@@ -423,11 +423,11 @@
                     var advertisement_text = $('#advertisement_text').val();
 
                     $.ajax({
-                        url: '../../ajax/makeAdvertisementsOrder',
+                        url: '{% url "ajax:makeAdvertisementsOrder" %}',
                         data: {
                             'advertisement_name': advertisement_name,
                             'advertisement_text': advertisement_text,
-                            'selectedSections[]': selected_sections
+                            'selected_sections[]': selected_sections
                         },
                         dataType: 'json',
                         traditional: true,

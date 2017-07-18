@@ -78,10 +78,15 @@ def makeAdvertisementsOrder(request):
             response = {}
             advertisement_name = request.GET.get('advertisement_name', None)
             advertisement_text = request.GET.get('advertisement_text', None)
+            add_or_edit = request.GET.get('add_or_edit')
             currentBoothOwner = models.Booth_Owner.objects.get(user=request.user)
-            selectedSections = models.Advertisement_Area.objects.filter(section_name__in=request.GET.getlist('selectedSections[]'))
+            selectedSections = models.Advertisement_Area.objects.filter(section_name__in=request.GET.getlist('selected_sections[]'))
             total_price = selectedSections.aggregate(Sum('base_price'))
-            advertisement_order = models.Advertisements_order.objects.create(advertisement_name=advertisement_name, advertisement_text=advertisement_text, totalPrice=total_price['base_price__sum'], owner_booth=currentBoothOwner)
+            # if the request is adding a new order
+            if(add_or_edit):
+                advertisement_order = models.Advertisements_order.objects.create(advertisement_name=advertisement_name, advertisement_text=advertisement_text, totalPrice=total_price['base_price__sum'], owner_booth=currentBoothOwner)
+            else:
+                pass
             advertisement_order.save()
             advertisement_order.advertisement_areas.add(*(selectedSections))
             # advertisement_order.advertisement_areas.add(models.Advertisement_Area.objects.all()[2])

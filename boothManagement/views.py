@@ -131,7 +131,7 @@ def view_booth_products(request, booth_Id):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 
-def advertisement(request):
+def advertisements(request):
     currentUser = User.objects.get(username=request.user.username)
     user_all_advertisements = Advertisements_order.objects.filter(owner_booth__user=currentUser)
     adv_areas = []
@@ -141,6 +141,7 @@ def advertisement(request):
     d = {}
     response = {}
     for adv in user_all_advertisements:
+        d['adv_id'] = adv.id
         d['adv_name'] = adv.advertisement_name
         d['adv_text'] = adv.advertisement_text
         d['adv_total_price'] = adv.totalPrice
