@@ -72,7 +72,7 @@
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                     <form role="search" class="navbar-form-custom" method="post" action="#">
                         <div class="form-group">
-                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                            <input type="text" placeholder='{% trans "Search for something..." %}' class="form-control per" name="top-search" style="font-size: large;" id="top-search">
                         </div>
                     </form>
                 </div>
@@ -87,7 +87,10 @@
                     </span>
                     <li>
                         <a href="{% url "logout" %}">
-                            <i class="fa fa-sign-out"></i> Log out
+                            <i class="fa fa-sign-out"></i>
+                            <span class="per">
+                                {% trans "Log out" %}
+                            </span>
                         </a>
                     </li>
                 </ul>

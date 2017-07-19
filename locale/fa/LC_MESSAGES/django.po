@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-19 14:59+0000\n"
+"POT-Creation-Date: 2017-07-19 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,6 +64,14 @@ msgstr "ویرایش مشخصات غرفه"
 #: templates/Base-fa.html:60
 msgid "Advertisements"
 msgstr "تبلیغات غرفه"
+
+#: templates/Base-fa.html:75
+msgid "Search for something..."
+msgstr "جستجو ..."
+
+#: templates/Base-fa.html:90
+msgid "Log out"
+msgstr "خروج"
 
 #: templates/Base-fa.html:103
 msgid "ParsIOT Company &copy; 2016-2017"
