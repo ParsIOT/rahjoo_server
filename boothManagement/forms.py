@@ -37,20 +37,3 @@ class Booth_Owner_Profile(forms.ModelForm):
 		u.user.save()
 		u.save()
 		return u
-
-
-class UploadBoothImageForm(forms.ModelForm):
-	class Meta:
-		model = Booth_Owner
-		fields = ('image',)
-
-	def clean(self):
-		super(UploadBoothImageForm, self).clean()
-		this_file = self.files
-		fileType = this_file['image'].content_type
-		fileSize = this_file['image'].size
-		if fileType not in ['image/jpg', 'image/jpeg', 'image/png']:
-			raise forms.ValidationError("This format is not supported!")
-		if fileSize > 5242881:  # 5 MB
-			raise forms.ValidationError("The image size is too big!")
-		return self.cleaned_data

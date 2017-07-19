@@ -13,7 +13,7 @@ class Booth_Owner(models.Model):
 	company = models.CharField(max_length=50)
 	phone = models.CharField(max_length=12)
 	description = models.CharField(max_length=300)
-	image = models.FileField(upload_to='images/%Y/%m/%d', max_length=255, blank=True, null=True)
+	image = models.FileField(upload_to='images/%Y/%m/%d', max_length=255, blank=True, null=True, default='default/profile-big.png')
 
 	def __str__(self):
 		# return  str("Booth '" + str(self.boothName) + "' owned by '" + str(self.user.username) + "'")
@@ -39,6 +39,7 @@ class Product_Details(models.Model):
 	price = models.IntegerField()
 	status = models.BooleanField(default=True)
 	owner_booth = models.ForeignKey(Booth_Owner, on_delete=models.CASCADE)
+	image = models.FileField(upload_to='images/%Y/%m/%d', max_length=255, blank=True, null=True, default='default/mptr2-01.jpg')
 
 	def __str__(self):
 		return "Product '" + self.name + "' owned by booth '" + self.owner_booth.boothName + "'"

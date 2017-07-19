@@ -4,7 +4,6 @@ from . import views, forms
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
 	url(r'^saveBoothDetails/$', views.BoothOwnerProfile, name='saveBoothDetails'),
-	url(r'^uploadBoothImage/$', views.uploadBoothImage, name='uploadBoothImage'),
 	url(r'^viewBoothList/$', views.view_booth_List, name='viewBoothList'),
 	url(r'^viewProductsDetails/$', views.view_products_details, name='viewProductsDetails'),
 	url(r'^viewProductsList/$', views.view_Products_list, name='viewProductsList'),

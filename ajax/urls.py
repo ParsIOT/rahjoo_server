@@ -6,5 +6,7 @@ urlpatterns = [
 	url(r'^newProductDetails/$', views.newProductDetails, name='newProductDetails'),
 	url(r'^makeAdvertisementsOrder/$', views.makeAdvertisementsOrder, name='makeAdvertisementsOrder'),
     url(r'^getAdvertisementAreas/$', views.getAdvertisementAreas, name='getAdvertisementAreas'),
+	url(r'^uploadImage/product$', views.uploadProductImage, name='uploadProductImage'),
+	url(r'^uploadImage/booth$', views.uploadBoothImage, name='uploadBoothImage'),
 
 ]

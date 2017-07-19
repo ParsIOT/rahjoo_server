@@ -1,75 +1,78 @@
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.db.models import Sum
-
+from .forms import *
 from boothManagement import models
 from boothManagement.models import Product_Details
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 
 def editProductDetails(request):
-    if request.is_ajax():
-        try:
-            response = {}
-            username = request.user.username
-            productID = request.GET.get('productID', None)
-            productName = request.GET.get('productName', None)
-            productModel = request.GET.get('productModel', None)
-            productPrice = request.GET.get('productPrice', None)
-            productStatus = json.loads(request.GET.get('productStatus', 'false'))
-            productDescription = request.GET.get('productDescription', None)
-            if checkProductOwner(username, productID):
-                product = models.Product_Details.objects.get(id=productID)
-                product.name = productName
-                product.model = productModel
-                product.price = productPrice
-                product.status = productStatus
-                product.description = productDescription
-                product.save()
-                response['status'] = True
-                response['n_name'] = productName
-                response['n_model'] = productModel
-                response['n_price'] = productPrice
-                response['n_status'] = productStatus
-                response['n_description'] = productDescription
-        except:
-            response = {'status': False}
-        return HttpResponse(json.dumps(response), content_type='application.json')
-    return HttpResponseForbidden()
+	if request.is_ajax():
+		try:
+			response = {}
+			username = request.user.username
+			productID = request.GET.get('productID', None)
+			productName = request.GET.get('productName', None)
+			productModel = request.GET.get('productModel', None)
+			productPrice = request.GET.get('productPrice', None)
+			productStatus = json.loads(request.GET.get('productStatus', 'false'))
+			productDescription = request.GET.get('productDescription', None)
+			if checkProductOwner(username, productID):
+				product = models.Product_Details.objects.get(id=productID)
+				product.name = productName
+				product.model = productModel
+				product.price = productPrice
+				product.status = productStatus
+				product.description = productDescription
+				product.save()
+				response['status'] = True
+				response['n_name'] = productName
+				response['n_model'] = productModel
+				response['n_price'] = productPrice
+				response['n_status'] = productStatus
+				response['n_description'] = productDescription
+		except:
+			response = {'status': False}
+		return HttpResponse(json.dumps(response), content_type='application.json')
+	return HttpResponseForbidden()
 
 
 def newProductDetails(request):
-    if request.is_ajax():
-        try:
-            response = {}
-            bootOwner = models.Booth_Owner.objects.get(user=request.user)
-            productName = request.GET.get('productName', None)
-            productModel = request.GET.get('productModel', None)
-            productPrice = request.GET.get('productPrice', None)
-            productStatus = json.loads(request.GET.get('productStatus', 'false'))
-            productDescription = request.GET.get('productDescription', None)
+	if request.is_ajax():
+		try:
+			response = {}
+			bootOwner = models.Booth_Owner.objects.get(user=request.user)
+			productName = request.GET.get('productName', None)
+			productModel = request.GET.get('productModel', None)
+			productPrice = request.GET.get('productPrice', None)
+			productStatus = json.loads(request.GET.get('productStatus', 'false'))
+			productDescription = request.GET.get('productDescription', None)
 
-            product = models.Product_Details.objects.create(name=productName, model=productModel, description=productDescription, price=productPrice, status=productStatus, owner_booth=bootOwner)
-            product.save()
-            response['status'] = True
-            response['n_name'] = productName
-            response['n_model'] = productModel
-            response['n_price'] = productPrice
-            response['n_status'] = productStatus
-            response['n_description'] = productDescription
-        except:
-            response = {'status': False}
-        return HttpResponse(json.dumps(response), content_type='application.json')
-    return HttpResponseForbidden()
+			product = models.Product_Details.objects.create(name=productName, model=productModel, description=productDescription, price=productPrice, status=productStatus, owner_booth=bootOwner)
+			product.save()
+			response['status'] = True
+			response['n_id'] = product.id
+			response['n_image'] = product.image.url
+			response['n_name'] = productName
+			response['n_model'] = productModel
+			response['n_price'] = productPrice
+			response['n_status'] = productStatus
+			response['n_description'] = productDescription
+		except:
+			response = {'status': False}
+		return HttpResponse(json.dumps(response), content_type='application.json')
+	return HttpResponseForbidden()
 
 
 def checkProductOwner(username, productID):
-    currentBoothOwner = models.Booth_Owner.objects.get(user__username=username)
-    ownerAllProducts = models.Product_Details.objects.filter(owner_booth=currentBoothOwner).values_list('id', flat=True)
-    if int(productID) in ownerAllProducts:
-        return True
-    else:
-        return False
+	currentBoothOwner = models.Booth_Owner.objects.get(user__username=username)
+	ownerAllProducts = models.Product_Details.objects.filter(owner_booth=currentBoothOwner).values_list('id', flat=True)
+	if int(productID) in ownerAllProducts:
+		return True
+	else:
+		return False
 
 
 def makeAdvertisementsOrder(request):
@@ -129,3 +132,50 @@ def getAdvertisementAreas(request):
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')
     return HttpResponseForbidden()
+
+
+def getProductByID(id, username):
+	if (id == 'NEW'):
+		product = Product_Details.objects.create()
+	else:
+		currentBoothOwner = models.Booth_Owner.objects.get(user__username=username)
+		ownerAllProducts = models.Product_Details.objects.filter(owner_booth=currentBoothOwner).values_list('id', flat=True)
+		if int(id) in ownerAllProducts:
+			product = Product_Details.objects.get(id=id)
+		else:
+			return False
+	return product
+
+
+@csrf_exempt
+def uploadProductImage(request):
+	if request.method == 'POST':
+		product = getProductByID(request.POST.get('Pid', None), request.user.username)
+		form = UploadProductImageForm(request.POST, request.FILES)
+		if product:
+			if form.is_valid():
+				form.instance = product
+				form.save()
+				result = {'status': 'success', "url": product.image.url}
+				return HttpResponse(json.dumps(result), content_type='application.json')
+			else:
+				result = {"status": "error", "errors": form.errors}
+				return HttpResponse(json.dumps(result), content_type='application.json')
+		else:
+			result = {"status": "error", "errors": "No Product Find!"}
+			return HttpResponse(json.dumps(result), content_type='application.json')
+
+
+@csrf_exempt
+def uploadBoothImage(request):
+	if request.method == 'POST':
+		form = UploadBoothImageForm(request.POST, request.FILES)
+		if form.is_valid():
+			user, created = Booth_Owner.objects.get_or_create(user=request.user)
+			form.instance = user
+			form.save()
+			result = {'status': 'success', "url": user.image.url}
+			return HttpResponse(json.dumps(result), content_type='application.json')
+		else:
+			result = {"status": "error", "errors": form.errors}
+			return HttpResponse(json.dumps(result), content_type='application.json')

@@ -11,8 +11,6 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from .models import *
 
-from django.core.files.base import ContentFile
-
 
 
 def change_language(request, template_name):
@@ -27,22 +25,6 @@ def index(request):
     template = loader.get_template('set_language.html')
     context = {}
     return HttpResponse(template.render(context, request))
-
-
-@csrf_exempt
-def uploadBoothImage(request):
-	if request.method == 'POST':
-		form = UploadBoothImageForm(request.POST, request.FILES)
-		if form.is_valid():
-			user, created = Booth_Owner.objects.get_or_create(user=request.user)
-			user.image.delete(save=True)
-			user.image.save(request.FILES['image'].name, ContentFile(request.FILES['image'].read()))
-			user.save()
-			result = {'status': 'success'}
-			return HttpResponse(json.dumps(result), content_type='application.json')
-		else:
-			result = {"status": "error", "errors": form.errors}
-			return HttpResponse(json.dumps(result), content_type='application.json')
 
 
 @login_required
@@ -80,13 +62,14 @@ def view_booth_List(request):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 
-# @login_required
+@login_required
 def view_products_details(request):
     currentUser = User.objects.get(username=request.user.username)
     response = {}
     user_all_products = Product_Details.objects.filter(owner_booth__user=currentUser)
     d = {}
     for product in user_all_products:
+        d['image'] = product.image.url
         d['name'] = product.name
         d['model'] = product.model
         d['description'] = product.description

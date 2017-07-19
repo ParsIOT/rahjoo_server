@@ -68,6 +68,7 @@ TEMPLATES = [
 				'django.template.context_processors.i18n',
 				'django.template.context_processors.media',
 				'django.template.context_processors.static',
+				# 'rahjoo_server.context_processors.setUserProfileImageAndName',
 
 			],
 		},
