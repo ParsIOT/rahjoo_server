@@ -10336,17 +10336,3 @@ body.md-skin {
         margin: 0;
     }
 }
-
-@font-face {
-    font-family: BMitra;
-    font-weight: normal;
-    src: url('../fonts/bmitra.woff') format('woff');
-}
-
-.per {
-    font-family: "BMitra", 'Open Sans', helvetica, arial, sans-serif;
-    direction: rtl;
-    text-align: right;
-    font-size: 17px;
-    line-height: 1.5;
-}

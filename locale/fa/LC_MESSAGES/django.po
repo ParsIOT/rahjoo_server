@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-19 15:06+0000\n"
+"POT-Creation-Date: 2017-07-19 17:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,55 +25,134 @@ msgstr "انگلیسی"
 msgid "Farsi"
 msgstr "فارسی"
 
-#: templates/Advertisements-fa.html:108 templates/Advertisements-fa.html:177
-msgid "Booth Advertisments"
-msgstr "تبلیغات غرفه"
+#: templates/Advertisements-fa.html:50
+msgid "Search in table"
+msgstr "جستجو در جدول..."
 
-#: templates/Advertisements-fa.html:115 templates/Advertisements-fa.html:184
+#: templates/Advertisements-fa.html:53
+msgid "New Advertisement"
+msgstr "افزودن تبلیغات"
+
+#: templates/Advertisements-fa.html:59 templates/Products_Details-fa.html:33
+msgid "Image"
+msgstr "تصویر"
+
+#: templates/Advertisements-fa.html:60 templates/Advertisements-fa.html:123
+#: templates/Advertisements-fa.html:194
 msgid "Advertisement Name"
 msgstr "نام تبلیغ"
 
-#: templates/Advertisements-fa.html:121 templates/Advertisements-fa.html:190
+#: templates/Advertisements-fa.html:61
+msgid "Advertisement text"
+msgstr "متن تبلیغ"
+
+#: templates/Advertisements-fa.html:62
+msgid "Advertisement Price"
+msgstr "نام تبلیغ"
+
+#: templates/Advertisements-fa.html:63 templates/Products_Details-fa.html:39
+msgid "Action"
+msgstr "عمل"
+
+#: templates/Advertisements-fa.html:84 templates/Products_Details-fa.html:73
+msgid "Edit"
+msgstr "ویرایش"
+
+#: templates/Advertisements-fa.html:112
+msgid "Edit Advertisement"
+msgstr "ویرایش تبلیغات"
+
+#: templates/Advertisements-fa.html:129 templates/Advertisements-fa.html:200
 msgid "Advertisement Text"
 msgstr "متن تبلیغ"
 
-#: templates/Advertisements-fa.html:137 templates/Advertisements-fa.html:206
+#: templates/Advertisements-fa.html:151 templates/Advertisements-fa.html:215
 msgid "Advertisement Summary"
 msgstr "خلاصه ی تبلیغ"
 
-#: templates/Advertisements-fa.html:140 templates/Advertisements-fa.html:209
+#: templates/Advertisements-fa.html:154 templates/Advertisements-fa.html:218
 msgid "Total Price"
 msgstr "قیمت کل"
 
-#: templates/Advertisements-fa.html:145 templates/Advertisements-fa.html:214
+#: templates/Advertisements-fa.html:159 templates/Advertisements-fa.html:223
 msgid "Save"
 msgstr "ذخیره"
 
-#: templates/Base-fa.html:38
+#: templates/Advertisements-fa.html:182
+msgid "Add New Advertisement"
+msgstr "افزودن تبلیغات"
+
+#: templates/Advertisements-fa.html:317 templates/Products_Details-fa.html:124
+#: templates/Products_Details-fa.html:333
+msgid "Price"
+msgstr "قیمت"
+
+#: templates/Advertisements-fa.html:317
+msgid "Please move your mouse on a colored ad. section."
+msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
+
+#: templates/Advertisements-fa.html:528
+msgid "Advertisement Submission"
+msgstr "خلاصه ی تبلیغ"
+
+#: templates/Advertisements-fa.html:529 templates/Advertisements-fa.html:646
+msgid "You are going to add the following advertisement:"
+msgstr "آیا میخواهید این تبلیغ را اضافه کنید"
+
+#: templates/Advertisements-fa.html:532 templates/Advertisements-fa.html:649
+msgid "Cancel"
+msgstr "لغو"
+
+#: templates/Advertisements-fa.html:534 templates/Advertisements-fa.html:651
+msgid "Yes, Add it!"
+msgstr "بله، اضافه شود"
+
+#: templates/Advertisements-fa.html:557 templates/Advertisements-fa.html:670
+msgid "Success!"
+msgstr "انجام شد"
+
+#: templates/Advertisements-fa.html:558 templates/Advertisements-fa.html:671
+msgid "Your advertisement has been submitted."
+msgstr "تبلیغات شما افزوده شد"
+
+#: templates/Advertisements-fa.html:576 templates/Advertisements-fa.html:690
+msgid "Please enter the required fields!"
+msgstr "لطفا تمامی فیلد های لازم را وارد کنید"
+
+#: templates/Advertisements-fa.html:577 templates/Advertisements-fa.html:691
+msgid ""
+"Please enter advertisement name and text and select at least one section."
+msgstr "حداقل یک ناحیه را انتخاب کنید"
+
+#: templates/Advertisements-fa.html:645
+msgid "New Advertisement Submission"
+msgstr "افزودن تبلیغات"
+
+#: templates/Base-fa.html:39
 msgid "logout"
 msgstr "خروج"
 
-#: templates/Base-fa.html:48
+#: templates/Base-fa.html:49
 msgid "Booth Details"
 msgstr "مشخصات غرفه"
 
-#: templates/Base-fa.html:54
+#: templates/Base-fa.html:55
 msgid "Products Details"
 msgstr "ویرایش مشخصات غرفه"
 
-#: templates/Base-fa.html:60
+#: templates/Base-fa.html:61
 msgid "Advertisements"
 msgstr "تبلیغات غرفه"
 
-#: templates/Base-fa.html:75
+#: templates/Base-fa.html:76
 msgid "Search for something..."
 msgstr "جستجو ..."
 
-#: templates/Base-fa.html:90
+#: templates/Base-fa.html:93
 msgid "Log out"
 msgstr "خروج"
 
-#: templates/Base-fa.html:103
+#: templates/Base-fa.html:107
 msgid "ParsIOT Company &copy; 2016-2017"
 msgstr "شرکت پارسیوت &copy; ۹۶-۱۳۹۵"
 
@@ -125,10 +204,6 @@ msgstr "جستجو در جدول..."
 msgid "New Product"
 msgstr "محصول جدید"
 
-#: templates/Products_Details-fa.html:33
-msgid "Image"
-msgstr "تصویر"
-
 #: templates/Products_Details-fa.html:34 templates/Products_Details-fa.html:324
 msgid "Product Name"
 msgstr "نام محصول"
@@ -147,10 +222,6 @@ msgstr "قیمت"
 msgid "status"
 msgstr "وضعیت"
 
-#: templates/Products_Details-fa.html:39
-msgid "Action"
-msgstr "عمل"
-
 #: templates/Products_Details-fa.html:65
 msgid "Enable"
 msgstr "فعال"
@@ -162,10 +233,6 @@ msgstr "غیر فعال"
 #: templates/Products_Details-fa.html:72
 msgid "View"
 msgstr "نمایش"
-
-#: templates/Products_Details-fa.html:73
-msgid "Edit"
-msgstr "ویرایش"
 
 #: templates/Products_Details-fa.html:98 templates/Products_Details-fa.html:210
 #: templates/Products_Details-fa.html:307
@@ -192,11 +259,6 @@ msgstr "ویرایش مشخصات غرفه"
 msgid "Name"
 msgstr "نام"
 
-#: templates/Products_Details-fa.html:124
-#: templates/Products_Details-fa.html:333
-msgid "Price"
-msgstr "قیمت"
-
 #: templates/Products_Details-fa.html:128
 #: templates/Products_Details-fa.html:337
 msgid "Status"
@@ -220,8 +282,17 @@ msgstr "محصول جدید"
 msgid "Product Model"
 msgstr "مدل محصول"
 
-#~ msgid "Please move your mouse on a colored ad. section."
-#~ msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
+#~ msgid "warning"
+#~ msgstr "اخطار"
+
+#~ msgid "success"
+#~ msgstr "انجام شد"
+
+#~ msgid "error"
+#~ msgstr "خطا"
+
+#~ msgid "Booth Advertisments"
+#~ msgstr "تبلیغات غرفه"
 
 #~ msgid "Phone"
 #~ msgstr "شماره ی همراه"

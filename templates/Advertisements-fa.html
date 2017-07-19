@@ -47,20 +47,20 @@
 				<div class="ibox-content">
 					<div class="row">
 						<div class="col-md-10">
-							<input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+							<input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder='{% trans "Search in table" %}'>
 						</div>
 						<div class="col-md-2">
-							<button type="button" id="new_advertisement" class="btn btn-outline btn-primary">New Advertisement</button>
+							<button type="button" id="new_advertisement" class="btn btn-outline btn-primary per">{% trans "New Advertisement" %}</button>
 						</div>
 					</div>
 					<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
 						<thead>
 						<tr>
-							<th data-hide="phone" data-sort-ignore="true">Image</th>
-							<th data-toggle="true">Advertisement Name</th>
-							<th data-hide="phone">Advertisement text</th>
-							<th data-hide="phone">Advertisement Price</th>
-							<th class="text-right" data-sort-ignore="true">Action</th>
+							<th data-hide="phone" class="per" data-sort-ignore="true">{% trans "Image" %}</th>
+							<th data-toggle="true" class="per">{% trans "Advertisement Name" %}</th>
+							<th data-hide="phone" class="per">{% trans "Advertisement text" %}</th>
+							<th data-hide="phone" class="per">{% trans "Advertisement Price" %}</th>
+							<th class="text-right per" data-sort-ignore="true">{% trans "Action" %}</th>
 							<th data-hide="all" data-ignore="true">id</th>
 						</tr>
 						</thead>
@@ -81,7 +81,7 @@
 								</td>
 								<td class="text-right">
 									<div class="btn-group">
-										<button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button>
+										<button class="btn-primary btn btn-xs adv_table_edit_button per">{% trans "Edit" %}</button>
 									</div>
 								</td>
 								<td>
@@ -109,16 +109,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title">Edit Advertisement</h4>
+					<h4 class="modal-title per" style="text-align: center">{% trans "Edit Advertisement" %}</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="panel-body">
 								<div class="ibox float-e-margins">
-									<div class="ibox-title" style="border-width: 0">
-										<h3 class="per">{% trans "Booth Advertisments" %} </h3>
-									</div>
 									<div class="ibox-content">
 										<div class="row">
 											<div class="col-md-8 b-r">
@@ -182,16 +179,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title">Add New Advertisement</h4>
+					<h4 class="modal-title per" style="text-align: center">{% trans "Add New Advertisement" %}</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="panel-body">
 								<div class="ibox float-e-margins">
-									<div class="ibox-title" style="border-width: 0">
-										<h3 class="per">{% trans "Booth Advertisments" %} </h3>
-									</div>
 									<div class="ibox-content">
 										<form action="" method="post" class="form-horizontal">{% csrf_token %}
 											<div class="row">
@@ -226,7 +220,7 @@
 															<hr>
 															<div class="m-t-sm">
 																<div class="btn-group">
-																	<button type="button" id="new_advertisement_save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
+																	<button type="button" id="new_advertisement_save_button" class="btn btn-primary btn-sm per">{% trans "Save" %}</button>
 																</div>
 															</div>
 														</div>
@@ -320,7 +314,7 @@
 
 		// method that we will use to update the control based on feature properties passed
 		info.update = function (props) {
-			this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
+			this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b>  {% trans "Price" %} : ' + props.price + '</b>' : ' {% trans "Please move your mouse on a colored ad. section." %}');
 		};
 
 		info.addTo(map);
@@ -531,13 +525,15 @@
 		$('#edit_advertisement_save_button').click(function () {
 			if (EditAdvertisementCheckFields()) {
 				swal({
-					title: "Advertisement Submission",
-					text: "You are going to add the following advertisement:",
+					title: '<span class="per">{% trans "Advertisement Submission" %}</span>',
+					text: '<span class="per">{% trans "You are going to add the following advertisement:" %}</span>',
 					type: "warning",
 					showCancelButton: true,
+					cancelButtonText: '{% trans "Cancel" %}',
 					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Yes, Add it!",
-					closeOnConfirm: false
+					confirmButtonText: '{% trans "Yes, Add it!" %}',
+					closeOnConfirm: false,
+					html: true
 				}, function () {
 					var advertisement_name = $('#modal_edit_advertisement_name').val();
 					var advertisement_text = $('#modal_edit_advertisement_text').val();
@@ -557,7 +553,12 @@
 						traditional: true,
 						success: function (data) {
 							if (data['status']) {
-								swal("Success!", "Your advertisement has been submitted.", "success");
+								swal({
+									title: '<span class="per">{% trans "Success!" %}</span>',
+									text: '<span class="per">{% trans "Your advertisement has been submitted." %}</span>',
+									type: "success",
+									html: true
+								});
 								$row.find("td:nth-child(2)").text(data['n_advertisement_name']);
 								$row.find("td:nth-child(3)").text(data['n_advertisement_text']);
 								$row.find("td:nth-child(4)").text(data['n_total_price']);
@@ -571,7 +572,12 @@
 					});
 				});
 			} else {
-				swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
+				swal({
+					title: '<span class="per">{% trans "Please enter the required fields!" %}</span>',
+					text: '<span class="per">{% trans "Please enter advertisement name and text and select at least one section." %}</span>',
+					type: "error",
+					html: true
+				});
 			}
 		});
 
@@ -636,13 +642,15 @@
 		$('#new_advertisement_save_button').click(function () {
 			if (newAdvertisementCheckFields()) {
 				swal({
-					title: "New Advertisement Submission",
-					text: "You are going to add the following advertisement:",
+					title: '<span class="per">{% trans "New Advertisement Submission" %}</span>',
+					text: '<span class="per">{% trans "You are going to add the following advertisement:" %}</span>',
 					type: "warning",
 					showCancelButton: true,
+					cancelButtonText: '{% trans "Cancel" %}',
 					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Yes, Add it!",
-					closeOnConfirm: false
+					confirmButtonText: '{% trans "Yes, Add it!" %}',
+					closeOnConfirm: false,
+					html: true
 				}, function () {
 					var new_advertisement_name = $('#modal_new_advertisement_name').val();
 					var new_advertisement_text = $('#modal_new_advertisement_text').val();
@@ -658,7 +666,12 @@
 						traditional: true,
 						success: function (data) {
 							if (data['status']) {
-								swal("Success!", "Your advertisement has been submitted.", "success");
+								swal({
+									title: '<span class="per">{% trans "Success!" %}</span>',
+									text: '<span class="per">{% trans "Your advertisement has been submitted." %}</span>',
+									type: "success",
+									html: true
+								});
 								var row = add_new_advertisment_row(data);
 								$('table tbody').append(row);
 								$('table').trigger('footable_initialize');
@@ -673,7 +686,12 @@
 					});
 				});
 			} else {
-				swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
+				swal({
+					title: '<span class="per">{% trans "Please enter the required fields!" %}</span>',
+					text: '<span class="per">{% trans "Please enter advertisement name and text and select at least one section." %}</span>',
+					type: "error",
+					html: true
+				});
 			}
 		});
 
