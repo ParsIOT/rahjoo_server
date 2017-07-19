@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-12 12:25+0000\n"
+"POT-Creation-Date: 2017-07-19 14:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,49 +17,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: rahjoo_server/settings.py:127
+#: rahjoo_server/settings.py:133
 msgid "English"
 msgstr "انگلیسی"
 
-#: rahjoo_server/settings.py:128
+#: rahjoo_server/settings.py:134
 msgid "Farsi"
 msgstr "فارسی"
 
-#: templates/Advertisements-fa.html:39
+#: templates/Advertisements-fa.html:108 templates/Advertisements-fa.html:177
 msgid "Booth Advertisments"
 msgstr "تبلیغات غرفه"
 
-#: templates/Advertisements-fa.html:46
+#: templates/Advertisements-fa.html:115 templates/Advertisements-fa.html:184
 msgid "Advertisement Name"
 msgstr "نام تبلیغ"
 
-#: templates/Advertisements-fa.html:52
+#: templates/Advertisements-fa.html:121 templates/Advertisements-fa.html:190
 msgid "Advertisement Text"
 msgstr "متن تبلیغ"
 
-#: templates/Advertisements-fa.html:61
+#: templates/Advertisements-fa.html:137 templates/Advertisements-fa.html:206
 msgid "Advertisement Summary"
 msgstr "خلاصه ی تبلیغ"
 
-#: templates/Advertisements-fa.html:64
+#: templates/Advertisements-fa.html:140 templates/Advertisements-fa.html:209
 msgid "Total Price"
 msgstr "قیمت کل"
 
-#: templates/Advertisements-fa.html:69 templates/Products_Details-fa.html:123
+#: templates/Advertisements-fa.html:145 templates/Advertisements-fa.html:214
 msgid "Save"
 msgstr "ذخیره"
 
-#: templates/Advertisements-fa.html:152 templates/Products_Details-fa.html:25
-msgid "Price"
-msgstr "قیمت"
-
-#: templates/Advertisements-fa.html:152
-msgid "Please move your mouse on a colored ad. section."
-msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
-
 #: templates/Base-fa.html:38
 msgid "logout"
-msgstr ""
+msgstr "خروج"
 
 #: templates/Base-fa.html:48
 msgid "Booth Details"
@@ -85,104 +77,152 @@ msgstr "مدیریت غرفه"
 msgid "Booth Owner Profile"
 msgstr "پروفایل صاحب غرفه"
 
-#: templates/Booth_Management-fa.html:24
+#: templates/Booth_Management-fa.html:25
 msgid "First Name:"
 msgstr "نام:"
 
-#: templates/Booth_Management-fa.html:32
+#: templates/Booth_Management-fa.html:33
 msgid "Last Name:"
 msgstr "نام خانوادگی:"
 
-#: templates/Booth_Management-fa.html:43
+#: templates/Booth_Management-fa.html:44
 msgid "Email:"
 msgstr "ایمیل:"
 
-#: templates/Booth_Management-fa.html:49
+#: templates/Booth_Management-fa.html:50
 msgid "Owner Company:"
 msgstr "شرکت:"
 
-#: templates/Booth_Management-fa.html:59
+#: templates/Booth_Management-fa.html:60
 msgid "Booth Name:"
 msgstr "نام غرفه"
 
-#: templates/Booth_Management-fa.html:65
+#: templates/Booth_Management-fa.html:66
 msgid "Phone:"
 msgstr "شماره ی همراه"
 
-#: templates/Booth_Management-fa.html:75 templates/Products_Details-fa.html:114
+#: templates/Booth_Management-fa.html:76
 msgid "Description:"
 msgstr "توضیحات:"
 
-#: templates/Booth_Management-fa.html:86
+#: templates/Booth_Management-fa.html:85
 msgid "Save:"
 msgstr "ذخیره"
 
-#: templates/Products_Details-fa.html:18
-msgid "Search in table..."
+#: templates/Products_Details-fa.html:23
+msgid "Search in table ..."
 msgstr "جستجو در جدول..."
 
-#: templates/Products_Details-fa.html:22
+#: templates/Products_Details-fa.html:26
+msgid "New Product"
+msgstr "محصول جدید"
+
+#: templates/Products_Details-fa.html:33
+msgid "Image"
+msgstr "تصویر"
+
+#: templates/Products_Details-fa.html:34 templates/Products_Details-fa.html:324
 msgid "Product Name"
 msgstr "نام محصول"
 
-#: templates/Products_Details-fa.html:23
+#: templates/Products_Details-fa.html:35 templates/Products_Details-fa.html:36
+#: templates/Products_Details-fa.html:120
+#: templates/Products_Details-fa.html:327
 msgid "Model"
 msgstr "مدل"
 
-#: templates/Products_Details-fa.html:24
-msgid "Description"
-msgstr "توضیحات"
+#: templates/Products_Details-fa.html:37
+msgid "price"
+msgstr "قیمت"
 
-#: templates/Products_Details-fa.html:26
-msgid "Phone"
-msgstr "شماره ی همراه"
+#: templates/Products_Details-fa.html:38
+msgid "status"
+msgstr "وضعیت"
 
-#: templates/Products_Details-fa.html:27
+#: templates/Products_Details-fa.html:39
 msgid "Action"
 msgstr "عمل"
 
-#: templates/Products_Details-fa.html:47 templates/Products_Details-fa.html:271
+#: templates/Products_Details-fa.html:65
 msgid "Enable"
 msgstr "فعال"
 
-#: templates/Products_Details-fa.html:49 templates/Products_Details-fa.html:274
+#: templates/Products_Details-fa.html:67
 msgid "Disable"
 msgstr "غیر فعال"
 
-#: templates/Products_Details-fa.html:54
+#: templates/Products_Details-fa.html:72
 msgid "View"
 msgstr "نمایش"
 
-#: templates/Products_Details-fa.html:55
+#: templates/Products_Details-fa.html:73
 msgid "Edit"
 msgstr "ویرایش"
 
-#: templates/Products_Details-fa.html:87
-msgid "Name:"
-msgstr "نام:"
-
-#: templates/Products_Details-fa.html:92
-msgid "Model:"
-msgstr "مدل:"
-
-#: templates/Products_Details-fa.html:96
-msgid "Price:"
-msgstr "قیمت:"
+#: templates/Products_Details-fa.html:98 templates/Products_Details-fa.html:210
+#: templates/Products_Details-fa.html:307
+#: templates/Products_Details-fa.html:409
+msgid "Close"
+msgstr "بستن"
 
 #: templates/Products_Details-fa.html:100
-msgid "Status:"
-msgstr "وضعیت:"
+msgid "Editing"
+msgstr "ویرایش"
 
-#: templates/Products_Details-fa.html:122
-msgid "Close"
-msgstr ""
+#: templates/Products_Details-fa.html:106
+#: templates/Products_Details-fa.html:315
+msgid "Product info"
+msgstr "نام محصول"
 
-#: templates/Products_Details-fa.html:135
-msgid "View Product Details"
-msgstr "نمایش مشخصات محصول"
+#: templates/Products_Details-fa.html:107
+#: templates/Products_Details-fa.html:316
+msgid "Product Details"
+msgstr "ویرایش مشخصات غرفه"
+
+#: templates/Products_Details-fa.html:115
+#: templates/Products_Details-fa.html:322
+msgid "Name"
+msgstr "نام"
+
+#: templates/Products_Details-fa.html:124
+#: templates/Products_Details-fa.html:333
+msgid "Price"
+msgstr "قیمت"
+
+#: templates/Products_Details-fa.html:128
+#: templates/Products_Details-fa.html:337
+msgid "Status"
+msgstr "وضعیت"
+
+#: templates/Products_Details-fa.html:142
+#: templates/Products_Details-fa.html:351
+msgid "Description"
+msgstr "توضیحات"
+
+#: templates/Products_Details-fa.html:211
+#: templates/Products_Details-fa.html:410
+msgid "Save Changes"
+msgstr "ذخیره ی تغییرات"
+
+#: templates/Products_Details-fa.html:309
+msgid "Add new Product"
+msgstr "محصول جدید"
+
+#: templates/Products_Details-fa.html:329
+msgid "Product Model"
+msgstr "مدل محصول"
+
+#~ msgid "Please move your mouse on a colored ad. section."
+#~ msgstr "لطفا موس را بر روی یکی از نواحی رنگی تبلیغات نقشه قرار دهید"
+
+#~ msgid "Phone"
+#~ msgstr "شماره ی همراه"
+
+#~ msgid "Model:"
+#~ msgstr "مدل:"
+
+#~ msgid "Price:"
+#~ msgstr "قیمت:"
 
 #~ msgid "Edit Product Details"
 #~ msgstr "ویرایش مشخصات غرفه"
-
-#~ msgid "price"
-#~ msgstr "قیمت"
