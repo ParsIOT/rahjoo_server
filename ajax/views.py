@@ -78,42 +78,41 @@ def makeAdvertisementsOrder(request):
             response = {}
             advertisement_name = request.GET.get('advertisement_name', None)
             advertisement_text = request.GET.get('advertisement_text', None)
-            advertisement_id = request.GET.get('advertisement_id', None)
             add_or_edit = request.GET.get('add_or_edit')
+            advertisement_id = request.GET.get('advertisement_id', None)
             currentBoothOwner = models.Booth_Owner.objects.get(user=request.user)
             advertisement_selectedSections = models.Advertisement_Area.objects.filter(section_name__in=request.GET.getlist('selected_sections[]')[0].split(','))
             total_price = list(advertisement_selectedSections.aggregate(Sum('base_price')).values())[0]
-
-
             # if the request is adding a new order
-            if(add_or_edit=='add'):
-                advertisement_order = models.Advertisements_order.objects.create(advertisement_name=advertisement_name, advertisement_text=advertisement_text, totalPrice=total_price['base_price__sum'], owner_booth=currentBoothOwner)
-            elif(add_or_edit=='edit'):
+            if (add_or_edit == 'add'):
+                advertisement_order = models.Advertisements_order(advertisement_name=advertisement_name, advertisement_text=advertisement_text,totalPrice=total_price, owner_booth=currentBoothOwner)
+                advertisement_order.save()
+                advertisement_order.advertisement_areas = advertisement_selectedSections
+                advertisement_order.save()
+                new_advertisement_id = advertisement_order.id
+                response['n_advertisement_id'] = new_advertisement_id
+            elif (add_or_edit == 'edit'):
                 modifiedAdvertisement = models.Advertisements_order.objects.get(id=advertisement_id)
                 # check if the owner and the modified adv user are same or not
-                if(modifiedAdvertisement.owner_booth.user == currentBoothOwner.user):
+                if (modifiedAdvertisement.owner_booth.user == currentBoothOwner.user):
                     modifiedAdvertisement.advertisement_name = advertisement_name
                     modifiedAdvertisement.advertisement_text = advertisement_text
                     modifiedAdvertisement.advertisement_areas = advertisement_selectedSections
                     modifiedAdvertisement.totalPrice = total_price
                     modifiedAdvertisement.save()
-                    response['status'] = True
-                    response['n_advertisement_name'] = advertisement_name
-                    response['n_advertisement_text'] = advertisement_text
-                    response['n_total_price'] = total_price
             else:
                 HttpResponseForbidden()
-            # advertisement_order.save()
-            # advertisement_order.advertisement_areas.add(*(advertisement_selectedSections))
-            # advertisement_order.advertisement_areas.add(models.Advertisement_Area.objects.all()[2])
-            # advertisement_order.save()
+            response['status'] = True
+            response['n_advertisement_name'] = advertisement_name
+            response['n_advertisement_text'] = advertisement_text
+            response['n_total_price'] = total_price
         except:
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')
     return HttpResponseForbidden()
 
 
-def getAdvertisementsAreas(request):
+def getAdvertisementAreas(request):
     if request.is_ajax():
         try:
             response = {'status': True, 'init_selected_sections': [], 'init_price': 0}
@@ -126,20 +125,6 @@ def getAdvertisementsAreas(request):
                 response['init_selected_sections'].append(area.section_name)
                 init_price += area.base_price
             response['init_price'] = init_price
-        except:
-            response = {'status': False}
-        return HttpResponse(json.dumps(response), content_type='application.json')
-    return HttpResponseForbidden()
-
-def getAllAdvertisementsAreas(request):
-    if request.is_ajax():
-        try:
-            response = {'status': True, 'all_areas':[]}
-            adv_areas = []
-            allAdvertisementAreas = models.Advertisement_Area.objects.all()
-            for area in allAdvertisementAreas:
-                adv_areas.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
-            response['all_areas'] = adv_areas
         except:
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')

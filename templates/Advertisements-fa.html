@@ -52,7 +52,7 @@
                             <th data-hide="phone">Advertisement text</th>
                             <th data-hide="phone">Advertisement Price</th>
                             <th class="text-right" data-sort-ignore="true">Action</th>
-                            <th data-hide="all" data-ignore="true">id1</th>
+                            <th data-hide="all" data-ignore="true">id</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,6 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <button class="btn-white btn btn-xs adv_view_button">View</button>
                                         <button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button>
                                     </div>
                                 </td>
@@ -115,13 +114,13 @@
                                                     <div class="row form-group">
                                                         <label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
                                                         <div class="col-sm-10">
-                                                            <input id="modal_edit_advertisement_name" type="text" class="form-control">
+                                                            <input id="modal_edit_advertisement_name" type="text" class="form-control adv_name">
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
                                                         <div class="col-sm-10">
-                                                            <textarea id="modal_edit_advertisement_text" class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+                                                            <textarea id="modal_edit_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,7 +138,7 @@
                                                         </div>
                                                         <div class="ibox-content">
                                                             <span class="per">{% trans "Total Price" %}</span>
-                                                            <h4 id="modal_edit_total_price" class="font-bold">0</h4>
+                                                            <h4 id="modal_edit_total_price" class="font-bold modal_price">0</h4>
                                                             <hr>
                                                             <div class="m-t-sm">
                                                                 <div class="btn-group">
@@ -184,13 +183,13 @@
                                                     <div class="row form-group">
                                                         <label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
                                                         <div class="col-sm-10">
-                                                            <input id="modal_new_advertisement_name" type="text" class="form-control">
+                                                            <input id="modal_new_advertisement_name" type="text" class="form-control adv_name">
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
                                                         <div class="col-sm-10">
-                                                            <textarea id="modal_new_advertisement_text" class="form-control editable_element" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+                                                            <textarea id="modal_new_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,7 +207,7 @@
                                                         </div>
                                                         <div class="ibox-content">
                                                             <span class="per">{% trans "Total Price" %}</span>
-                                                            <h4 id="modal_new_total_price" class="font-bold">0</h4>
+                                                            <h4 id="modal_new_total_price" class="font-bold modal_price">0</h4>
                                                             <hr>
                                                             <div class="m-t-sm">
                                                                 <div class="btn-group">
@@ -238,6 +237,15 @@
     <script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
     <script>
         {#        $(document).ready(function () {#}
+
+        /******************************************************************
+         *                                                                *
+         *                                                                *
+         *                       Edit Advertisement Map                   *
+         *                                                                *
+         *                                                                *
+         * ****************************************************************/
+
         var map = L.map('edit_adv_map', {
             crs: L.CRS.Simple,
             minZoom: -2
@@ -317,15 +325,22 @@
                                                     '#e8e0a4';
         }
 
-        function checkFields() {
+        function EditAdvertisementCheckFields() {
             var advertisement_name = $('#modal_edit_advertisement_name').val();
             var advertisement_text = $('#modal_edit_advertisement_text').val();
             return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
 
         }
 
+        function newAdvertisementCheckFields() {
+            var advertisement_name = $('#modal_new_advertisement_name').val();
+            var advertisement_text = $('#modal_new_advertisement_text').val();
+            return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
+
+        }
+
         function updatePrice() {
-            $('#modal_edit_total_price').html(t_price);
+            $('.modal_price').html(t_price);
         }
 
         // the default style for sections
@@ -399,7 +414,7 @@
             var layer = e.target;
             //if the section is already selected
             if (selected_sections[0].indexOf(layer.feature.properties.name) != -1) {
-                //jquery pop
+                //jQuery pop
                 selected_sections[0].splice($.inArray(layer.feature.properties.name, selected_sections[0]), 1);
                 console.log('selected_sections pop: ', selected_sections[0], ",", layer.feature.properties.name);
                 t_price -= layer.feature.properties.price;
@@ -456,7 +471,7 @@
 
             //get advertisements areas from db
             $.ajax({
-                url: '{% url "ajax:getAdvertisementsAreas" %}',
+                url: '{% url "ajax:getAdvertisementAreas" %}',
                 data: {
                     'adv_name': adv_name,
                     'adv_text': adv_text
@@ -494,7 +509,7 @@
 
         //edit advertisements
         $('#edit_advertisement_save_button').click(function () {
-            if (checkFields()) {
+            if (EditAdvertisementCheckFields()) {
                 swal({
                     title: "Advertisement Submission",
                     text: "You are going to add the following advertisement:",
@@ -527,6 +542,8 @@
                                 $row.find("td:nth-child(2)").text(data['n_advertisement_text']);
                                 $row.find("td:nth-child(3)").text(data['n_total_price']);
                                 $('#edit_advertisement_modal').modal('hide');
+                                selected_sections[0] = [];
+                                init_selected_sections = null;
                             }
 
 
@@ -539,6 +556,30 @@
         });
 
 
+        /******************************************************************
+         *                                                                *
+         *                                                                *
+         *                       New Advertisement Map                    *
+         *                                                                *
+         *                                                                *
+         * ****************************************************************/
+
+        var newMap = L.map('new_adv_map', {
+            crs: L.CRS.Simple,
+            minZoom: -2
+        });
+        var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(newMap);
+        newMap.setView([100, -100], -2);
+
+
+        // control that shows state info on hover
+        info.addTo(newMap);
+        $('#new_advertisement_modal').on('shown.bs.modal', function () {
+            setTimeout(function () {
+                newMap.invalidateSize();
+            }, 1);
+        });
+
         /*****************************************************************
          *                                                               *
          *                                                               *
@@ -546,24 +587,34 @@
          *                                                               *
          *                                                               *
          * ***************************************************************/
+
+
         $('#new_advertisement').click(function () {
+            selected_sections[0] = [];
+            t_price = 0;
+            updatePrice();
             $('#new_advertisement_modal').modal('show');
-            $.ajax({
-                url: '{% url "ajax:getAllAdvertisementsAreas" %}',
-                dataType: 'json',
-                success: function (response) {
-                    geojson = L.geoJson(sections, {
-                        style: function (feature) {
-                            return (defaultAreasStyleFunc(feature));
-                        },
-                        onEachFeature: onEachFeature
-                    }).addTo(map);
-                }
-            });
+            geojson = L.geoJson(sections, {
+                style: function (feature) {
+                    return (defaultAreasStyleFunc(feature));
+                },
+                onEachFeature: onEachFeature
+            }).addTo(newMap);
         });
 
+        //a function to add new advertisement to table after submission
+        function add_new_advertisment_row(data) {
+            var row = $('<tr>' +
+                '<td>' + data.n_advertisement_name + '</td>' +
+                '<td>' + data.n_advertisement_text + '</td>' +
+                '<td>' + data.n_total_price +        '</td>' +
+                '<td class="text-right"><button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button></div></td>' +
+                '<td>' + data.n_advertisement_id + '</td>' +
+                '<tr>');
+            return row;
+        }
         $('#new_advertisement_save_button').click(function () {
-            if (checkFields()) {
+            if (newAdvertisementCheckFields()) {
                 swal({
                     title: "New Advertisement Submission",
                     text: "You are going to add the following advertisement:",
@@ -573,28 +624,28 @@
                     confirmButtonText: "Yes, Add it!",
                     closeOnConfirm: false
                 }, function () {
-                    var advertisement_name = $('#modal_new_advertisement_name').val();
-                    var advertisement_text = $('#modal_new_advertisement_text').val();
-
-
+                    var new_advertisement_name = $('#modal_new_advertisement_name').val();
+                    var new_advertisement_text = $('#modal_new_advertisement_text').val();
                     $.ajax({
                         url: '{% url "ajax:makeAdvertisementsOrder" %}',
                         data: {
-                            'advertisement_id': advertisement_id,
-                            'advertisement_name': advertisement_name,
-                            'advertisement_text': advertisement_text,
+                            'advertisement_name': new_advertisement_name,
+                            'advertisement_text': new_advertisement_text,
                             'selected_sections[]': selected_sections,
-                            'add_or_edit': 'edit'
+                            'add_or_edit': 'add'
                         },
                         dataType: 'json',
                         traditional: true,
                         success: function (data) {
                             if (data['status']) {
                                 swal("Success!", "Your advertisement has been submitted.", "success");
-                                $row.find("td:nth-child(1)").text(data['n_advertisement_name']);
-                                $row.find("td:nth-child(2)").text(data['n_advertisement_text']);
-                                $row.find("td:nth-child(3)").text(data['n_total_price']);
-                                $('#edit_advertisement_modal').modal('hide');
+                                var row = add_new_advertisment_row(data);
+                                $('table tbody').append(row);
+                                $('table').trigger('footable_initialize');
+                                //hide modal and clear the fields
+                                $('#new_advertisement_modal').modal('hide');
+                                $('#modal_new_advertisement_name').val('');
+                                $('#modal_new_advertisement_text').val('');
                             }
 
 
