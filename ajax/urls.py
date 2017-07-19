@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^getAdvertisementAreas/$', views.getAdvertisementAreas, name='getAdvertisementAreas'),
 	url(r'^uploadImage/product$', views.uploadProductImage, name='uploadProductImage'),
 	url(r'^uploadImage/booth$', views.uploadBoothImage, name='uploadBoothImage'),
+	url(r'^uploadImage/advertisement', views.uploadAdvertisementImage, name='uploadAdvertisementImage'),
+	url(r'^advertisementJson', views.advertisementJson, name='advertisementJson'),
 
 ]

@@ -3,659 +3,705 @@
 {% load i18n %}
 
 {% block title %}
-    Advertisements
+	Advertisements
 {% endblock title %}
 {% block style %}
-    <style>
+	<style>
 
-        .info {
-            padding: 6px 8px;
-            font: 14px/16px Arial, Helvetica, sans-serif;
-            background: white;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255, 255, 255, 0.8);
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+		}
 
-        .info h4 {
-            margin: 0 0 5px;
-            color: #777;
-        }
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
 
-    </style>
+		.dropzoneBgImage {
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+	</style>
 
 
 {% endblock style %}
 {% block head %}
-    <link href="{% static "css/plugins/leaflet/leaflet.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/sweetalert/sweetalert.css" %}" rel="stylesheet">
-    <link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/basic.css' %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+
+	<link href="{% static "css/plugins/leaflet/leaflet.css" %}" rel="stylesheet">
+	<link href="{% static "css/plugins/sweetalert/sweetalert.css" %}" rel="stylesheet">
+	<link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
+
 {% endblock head %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" id="new_advertisement" class="btn btn-outline btn-primary">New Advertisement</button>
-                        </div>
-                    </div>
-                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
-                        <thead>
-                        <tr>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+						</div>
+						<div class="col-md-2">
+							<button type="button" id="new_advertisement" class="btn btn-outline btn-primary">New Advertisement</button>
+						</div>
+					</div>
+					<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" data-filter=#filter>
+						<thead>
+						<tr>
+							<th data-hide="phone" data-sort-ignore="true">Image</th>
+							<th data-toggle="true">Advertisement Name</th>
+							<th data-hide="phone">Advertisement text</th>
+							<th data-hide="phone">Advertisement Price</th>
+							<th class="text-right" data-sort-ignore="true">Action</th>
+							<th data-hide="all" data-ignore="true">id</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for advertisement in response.items %}
+							<tr>
+								<td class="center-version">
+									<img src="{{ advertisement.1.adv_img }}" class="img-circle img-sm">
+								</td>
+								<td>
+									{{ advertisement.1.adv_name }}
+								</td>
+								<td>
+									{{ advertisement.1.adv_text }}
+								</td>
+								<td>
+									{{ advertisement.1.adv_total_price }}
+								</td>
+								<td class="text-right">
+									<div class="btn-group">
+										<button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button>
+									</div>
+								</td>
+								<td>
+									{{ advertisement.1.adv_id }}
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="6">
+								<ul class="pagination pull-right"></ul>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                            <th data-toggle="true">Advertisement Name</th>
-                            <th data-hide="phone">Advertisement text</th>
-                            <th data-hide="phone">Advertisement Price</th>
-                            <th class="text-right" data-sort-ignore="true">Action</th>
-                            <th data-hide="all" data-ignore="true">id</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for advertisement in response.items %}
-                            <tr>
-                                <td>
-                                    {{ advertisement.1.adv_name }}
-                                </td>
-                                <td>
-                                    {{ advertisement.1.adv_text }}
-                                </td>
-                                <td>
-                                    {{ advertisement.1.adv_total_price }}
-                                </td>
-                                <td class="text-right">
-                                    <div class="btn-group">
-                                        <button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button>
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ advertisement.1.adv_id }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <ul class="pagination pull-right"></ul>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+	{#    edit modal #}
+	<div class="modal inmodal fade" id="edit_advertisement_modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Edit Advertisement</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel-body">
+								<div class="ibox float-e-margins">
+									<div class="ibox-title" style="border-width: 0">
+										<h3 class="per">{% trans "Booth Advertisments" %} </h3>
+									</div>
+									<div class="ibox-content">
+										<div class="row">
+											<div class="col-md-8 b-r">
+												<div class="row form-group">
+													<label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
+													<div class="col-sm-10">
+														<input id="modal_edit_advertisement_name" type="text" class="form-control adv_name">
+													</div>
+												</div>
+												<div class="row form-group">
+													<label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
+													<div class="col-sm-10">
+														<textarea id="modal_edit_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<form action="#" class="dropzone dropzoneBgImage" id="dropzoneFormEdit">
+													<div class="fallback">
+														<input name="file" type="file" multiple/>
+													</div>
+												</form>
+											</div>
+										</div>
+										<hr/>
+										<div class="row">
+											<div class="col-md-8">
+												<div id="edit_adv_map" style="height: 190px"></div>
+											</div>
+											<div class="col-md-4">
+												<div>
+													<div class="ibox-title" style="border-top-width:0px">
+														<h4 class="per">{% trans "Advertisement Summary" %}</h4>
+													</div>
+													<div class="ibox-content">
+														<span class="per">{% trans "Total Price" %}</span>
+														<h4 id="modal_edit_total_price" class="font-bold modal_price">0</h4>
+														<hr>
+														<div class="m-t-sm">
+															<div class="btn-group">
+																<button type="button" id="edit_advertisement_save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    {#    edit modal #}
-    <div class="modal inmodal fade" id="edit_advertisement_modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Edit Advertisement</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel-body">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-title" style="border-width: 0">
-                                        <h3 class="per">{% trans "Booth Advertisments" %} </h3>
-                                    </div>
-                                    <div class="ibox-content">
-                                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
-                                            <div class="row">
-                                                <div class="col-md-8 b-r">
-                                                    <div class="row form-group">
-                                                        <label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
-                                                        <div class="col-sm-10">
-                                                            <input id="modal_edit_advertisement_name" type="text" class="form-control adv_name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
-                                                        <div class="col-sm-10">
-                                                            <textarea id="modal_edit_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <hr/>
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div id="edit_adv_map" style="height: 190px"></div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div>
-                                                        <div class="ibox-title" style="border-top-width:0px">
-                                                            <h4 class="per">{% trans "Advertisement Summary" %}</h4>
-                                                        </div>
-                                                        <div class="ibox-content">
-                                                            <span class="per">{% trans "Total Price" %}</span>
-                                                            <h4 id="modal_edit_total_price" class="font-bold modal_price">0</h4>
-                                                            <hr>
-                                                            <div class="m-t-sm">
-                                                                <div class="btn-group">
-                                                                    <button type="button" id="edit_advertisement_save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {#    new modal#}
-    <div class="modal inmodal fade" id="new_advertisement_modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Add New Advertisement</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel-body">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-title" style="border-width: 0">
-                                        <h3 class="per">{% trans "Booth Advertisments" %} </h3>
-                                    </div>
-                                    <div class="ibox-content">
-                                        <form action="" method="post" class="form-horizontal">{% csrf_token %}
-                                            <div class="row">
-                                                <div class="col-md-8 b-r">
-                                                    <div class="row form-group">
-                                                        <label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
-                                                        <div class="col-sm-10">
-                                                            <input id="modal_new_advertisement_name" type="text" class="form-control adv_name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
-                                                        <div class="col-sm-10">
-                                                            <textarea id="modal_new_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <hr/>
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div id="new_adv_map" style="height: 190px"></div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div>
-                                                        <div class="ibox-title" style="border-top-width:0px">
-                                                            <h4 class="per">{% trans "Advertisement Summary" %}</h4>
-                                                        </div>
-                                                        <div class="ibox-content">
-                                                            <span class="per">{% trans "Total Price" %}</span>
-                                                            <h4 id="modal_new_total_price" class="font-bold modal_price">0</h4>
-                                                            <hr>
-                                                            <div class="m-t-sm">
-                                                                <div class="btn-group">
-                                                                    <button type="button" id="new_advertisement_save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	{#    new modal#}
+	<div class="modal inmodal fade" id="new_advertisement_modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Add New Advertisement</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel-body">
+								<div class="ibox float-e-margins">
+									<div class="ibox-title" style="border-width: 0">
+										<h3 class="per">{% trans "Booth Advertisments" %} </h3>
+									</div>
+									<div class="ibox-content">
+										<form action="" method="post" class="form-horizontal">{% csrf_token %}
+											<div class="row">
+												<div class="col-md-8 b-r">
+													<div class="row form-group">
+														<label class="col-sm-2 control-label per">{% trans "Advertisement Name" %}:</label>
+														<div class="col-sm-10">
+															<input id="modal_new_advertisement_name" type="text" class="form-control adv_name">
+														</div>
+													</div>
+													<div class="row form-group">
+														<label class="col-sm-2 control-label  per">{% trans "Advertisement Text" %}:</label>
+														<div class="col-sm-10">
+															<textarea id="modal_new_advertisement_text" class="form-control editable_element adv_text" cols="40" maxlength="300" name="description" rows="5" required=""></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+											<hr/>
+											<div class="row">
+												<div class="col-md-8">
+													<div id="new_adv_map" style="height: 190px"></div>
+												</div>
+												<div class="col-md-4">
+													<div>
+														<div class="ibox-title" style="border-top-width:0px">
+															<h4 class="per">{% trans "Advertisement Summary" %}</h4>
+														</div>
+														<div class="ibox-content">
+															<span class="per">{% trans "Total Price" %}</span>
+															<h4 id="modal_new_total_price" class="font-bold modal_price">0</h4>
+															<hr>
+															<div class="m-t-sm">
+																<div class="btn-group">
+																	<button type="button" id="new_advertisement_save_button" class="btn btn-primary btn-sm  per">{% trans "Save" %}</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock content %}
 
 {% block script %}
-    <script src="{% static "js/plugins/leaflet/leaflet.js" %}"></script>
-    <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
-    <script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
-    <script>
-        {#        $(document).ready(function () {#}
+	<script src="{% static "js/plugins/leaflet/leaflet.js" %}"></script>
+	<script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
+	<script src="{% static "js/plugins/sweetalert/sweetalert.min.js" %}"></script>
 
-        /******************************************************************
-         *                                                                *
-         *                                                                *
-         *                       Edit Advertisement Map                   *
-         *                                                                *
-         *                                                                *
-         * ****************************************************************/
+	<script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
 
-        var map = L.map('edit_adv_map', {
-            crs: L.CRS.Simple,
-            minZoom: -2
-        });
-        var bounds = [[-400, -300], [400, 300]];
-        var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
-        map.on('click', function (e) {
-            console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
-        });
-        map.setView([100, -100], -2);
-        {#     change default icon on map#}
-        $('.leaflet-container').css('cursor', 'crosshair');
+	<script>
+		{#        $(document).ready(function () {#}
 
-        var allRecAreas = {{ adv_areas | safe}};
-        var polygons = [];
-        for (i = 0; i < allRecAreas.length; i++) {
-            var t_x = allRecAreas[i]['t_x'];
-            var t_y = allRecAreas[i]['t_y'];
-            var b_x = allRecAreas[i]['b_x'];
-            var b_y = allRecAreas[i]['b_y'];
-            polygons.push(makeRec(t_x, t_y, b_x, b_y));
-        }
-        var t_price = 0;
-        ///////////////
-        var sections = {
-            "type": "FeatureCollection", "features": []
-        };
+		/******************************************************************
+		 *                                                                *
+		 *                                                                *
+		 *                       Edit Advertisement Map                   *
+		 *                                                                *
+		 *                                                                *
+		 * ****************************************************************/
 
-        for (var i = 0; i < polygons.length; i++) {
-            sections.features.push(
-                {
-                    "type": "Feature",
-                    "id": i.toString(),
-                    "properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [polygons[i]]
-                    }
-                }
-            )
-        }
-        var selected_sections = [];
-        var $row;
-        var init_selected_sections = null;
+		var map = L.map('edit_adv_map', {
+			crs: L.CRS.Simple,
+			minZoom: -2
+		});
+		var bounds = [[-400, -300], [400, 300]];
+		var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(map);
+		map.on('click', function (e) {
+			console.log('x = ' + e.latlng.lng + ", y = " + e.latlng.lat);
+		});
+		map.setView([100, -100], -2);
+		{#     change default icon on map#}
+		$('.leaflet-container').css('cursor', 'crosshair');
 
-        // control that shows state info on hover
-        var info = L.control();
+		var allRecAreas = {{ adv_areas | safe}};
+		var polygons = [];
+		for (i = 0; i < allRecAreas.length; i++) {
+			var t_x = allRecAreas[i]['t_x'];
+			var t_y = allRecAreas[i]['t_y'];
+			var b_x = allRecAreas[i]['b_x'];
+			var b_y = allRecAreas[i]['b_y'];
+			polygons.push(makeRec(t_x, t_y, b_x, b_y));
+		}
+		var t_price = 0;
+		///////////////
+		var sections = {
+			"type": "FeatureCollection", "features": []
+		};
 
-        info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
+		for (var i = 0; i < polygons.length; i++) {
+			sections.features.push(
+				{
+					"type": "Feature",
+					"id": i.toString(),
+					"properties": {"name": allRecAreas[i]['section_name'], "price": allRecAreas[i]['base_price']},
+					"geometry": {
+						"type": "Polygon",
+						"coordinates": [polygons[i]]
+					}
+				}
+			)
+		}
+		var selected_sections = [];
+		var $row;
+		var init_selected_sections = null;
 
-        // method that we will use to update the control based on feature properties passed
-        info.update = function (props) {
-            this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
-        };
+		// control that shows state info on hover
+		var info = L.control();
 
-        info.addTo(map);
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+			this.update();
+			return this._div;
+		};
 
-        function makeRec(x1, y1, x2, y2) {
-            return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
-        }
+		// method that we will use to update the control based on feature properties passed
+		info.update = function (props) {
+			this._div.innerHTML = (props ? '<b>' + props.name + '</b><br/><b> Price : ' + props.price + '</b>' : 'Please move your mouse on a colored ad. section.');
+		};
 
-        function getColor(d) {
-            return d > 100 ? '#800026' :
-                d > 90 ? '#BD0026' :
-                    d > 80 ? '#E31A1C' :
-                        d > 70 ? '#FC4E2A' :
-                            d > 60 ? '#FD8D3C' :
-                                d > 50 ? '#FEB24C' :
-                                    d > 40 ? '#FED976' :
-                                        d > 30 ? '#e2ca26' :
-                                            d > 20 ? '#e5d044' :
-                                                d > 10 ? '#efdf77' :
-                                                    '#e8e0a4';
-        }
+		info.addTo(map);
 
-        function EditAdvertisementCheckFields() {
-            var advertisement_name = $('#modal_edit_advertisement_name').val();
-            var advertisement_text = $('#modal_edit_advertisement_text').val();
-            return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
+		function makeRec(x1, y1, x2, y2) {
+			return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
+		}
 
-        }
+		function getColor(d) {
+			return d > 100 ? '#800026' :
+				d > 90 ? '#BD0026' :
+					d > 80 ? '#E31A1C' :
+						d > 70 ? '#FC4E2A' :
+							d > 60 ? '#FD8D3C' :
+								d > 50 ? '#FEB24C' :
+									d > 40 ? '#FED976' :
+										d > 30 ? '#e2ca26' :
+											d > 20 ? '#e5d044' :
+												d > 10 ? '#efdf77' :
+													'#e8e0a4';
+		}
 
-        function newAdvertisementCheckFields() {
-            var advertisement_name = $('#modal_new_advertisement_name').val();
-            var advertisement_text = $('#modal_new_advertisement_text').val();
-            return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
+		function EditAdvertisementCheckFields() {
+			var advertisement_name = $('#modal_edit_advertisement_name').val();
+			var advertisement_text = $('#modal_edit_advertisement_text').val();
+			return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
 
-        }
+		}
 
-        function updatePrice() {
-            $('.modal_price').html(t_price);
-        }
+		function newAdvertisementCheckFields() {
+			var advertisement_name = $('#modal_new_advertisement_name').val();
+			var advertisement_text = $('#modal_new_advertisement_text').val();
+			return !(advertisement_name === "" || advertisement_text === "" || selected_sections[0].length == 0);
 
-        // the default style for sections
-        function defaultAreasStyleFunc(feature) {
-            return ({
-                fillColor: getColor(feature.properties.price),
-                weight: 2,
-                color: 'white',
-                dashArray: '1',
-                fillOpacity: 0.7
-            });
-        }
+		}
 
-        function selectedAreaStyleFunc(feature) {
-            return {
-                fillColor: getColor(feature.properties.price),
-                weight: 3,
-                opacity: 1,
-                color: 'green',
-                dashArray: '1',
-                fillOpacity: 0.6
-            };
-        }
+		function updatePrice() {
+			$('.modal_price').html(t_price);
+		}
 
-        var selectedAreaStyle = {
-            weight: 3,
-            opacity: 1,
-            color: 'green',
-            dashArray: '1',
-            fillOpacity: 0.6
-        };
+		// the default style for sections
+		function defaultAreasStyleFunc(feature) {
+			return ({
+				fillColor: getColor(feature.properties.price),
+				weight: 2,
+				color: 'white',
+				dashArray: '1',
+				fillOpacity: 0.7
+			});
+		}
 
-        var defaultAreasStyle = {
-            weight: 2,
-            color: 'white',
-            dashArray: '1',
-            fillOpacity: 0.7
-        };
+		function selectedAreaStyleFunc(feature) {
+			return {
+				fillColor: getColor(feature.properties.price),
+				weight: 3,
+				opacity: 1,
+				color: 'green',
+				dashArray: '1',
+				fillOpacity: 0.6
+			};
+		}
 
+		var selectedAreaStyle = {
+			weight: 3,
+			opacity: 1,
+			color: 'green',
+			dashArray: '1',
+			fillOpacity: 0.6
+		};
 
-        // function to call on section hover
-        function sectionHover(e) {
-            var layer = e.target;
-            if (layer.options.color != "green") {
-                layer.setStyle({
-                    weight: 3,
-                    color: '#666',
-                    dashArray: '',
-                    fillOpacity: 0.6
-                });
-
-                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                    layer.bringToFront();
-                }
-            }
-            info.update(layer.feature.properties);
-        }
-
-        // function to call on section mouse out
-        function sectionMouseOut(e) {
-            var layer = e.target;
-            if (layer.options.color == "#666") {
-                geojson.resetStyle(e.target);
-                info.update();
-            }
-
-        }
-
-        // function to call on section click
-        function sectionClick(e) {
-            var layer = e.target;
-            //if the section is already selected
-            if (selected_sections[0].indexOf(layer.feature.properties.name) != -1) {
-                //jQuery pop
-                selected_sections[0].splice($.inArray(layer.feature.properties.name, selected_sections[0]), 1);
-                console.log('selected_sections pop: ', selected_sections[0], ",", layer.feature.properties.name);
-                t_price -= layer.feature.properties.price;
-                updatePrice();
-                //reset to default style
-                layer.setStyle(defaultAreasStyle);
-            } else {
-                selected_sections[0].push(layer.feature.properties.name);
-                console.log('selected_sections push: ', selected_sections[0], ",", layer.feature.properties.name);
-                t_price += layer.feature.properties.price;
-                updatePrice();
-                layer.setStyle(selectedAreaStyle);
-            }
-        }
-
-        function onEachFeature(feature, layer) {
-            layer.on({
-                mouseover: sectionHover,
-                mouseout: sectionMouseOut,
-                click: sectionClick
-            });
-        }
-
-        function ajaxCallBack(response) {
-
-            //remove selected sections witch may be added before
-            init_selected_sections = null;
-            selected_sections = [];
-            init_selected_sections = response['init_selected_sections'];
-            t_price = response['init_price'];
-            selected_sections.push(init_selected_sections);
-            {#            console.log('init_selected_sections callback: ', init_selected_sections);#}
-        }
-
-        $('.footable').footable();
+		var defaultAreasStyle = {
+			weight: 2,
+			color: 'white',
+			dashArray: '1',
+			fillOpacity: 0.7
+		};
 
 
-        /******************************************************************
-         *                                                                *
-         *                                                                *
-         *                       Edit Advertisement                       *
-         *                                                                *
-         *                                                                *
-         * ****************************************************************/
-        //send adv data to server and get its adv areas to edit
-        $('.adv_table_edit_button').click(function () {
-            $row = $(this).closest("tr");
-            var adv_name = $row.find("td:nth-child(1)").text().trim();
-            var adv_text = $row.find("td:nth-child(2)").text().trim();
-            var price = $row.find("td:nth-child(3)").text().trim();
-            $('#modal_edit_advertisement_name').val(adv_name);
-            $('#modal_edit_advertisement_text').val(adv_text);
-            $('#modal_edit_total_price').html(price);
+		// function to call on section hover
+		function sectionHover(e) {
+			var layer = e.target;
+			if (layer.options.color != "green") {
+				layer.setStyle({
+					weight: 3,
+					color: '#666',
+					dashArray: '',
+					fillOpacity: 0.6
+				});
 
-            //get advertisements areas from db
-            $.ajax({
-                url: '{% url "ajax:getAdvertisementAreas" %}',
-                data: {
-                    'adv_name': adv_name,
-                    'adv_text': adv_text
-                },
-                dataType: 'json',
-                success: function (response) {
-                    ajaxCallBack(response);
-                    console.log('selected_sections: ', selected_sections[0]);
-                    geojson = L.geoJson(sections, {
-                        style: function (feature) {
-                            if (init_selected_sections.indexOf(feature.properties.name) != -1) {
-                                return (selectedAreaStyleFunc(feature));
-                            } else {
-                                return (defaultAreasStyleFunc(feature));
-                            }
+				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+					layer.bringToFront();
+				}
+			}
+			info.update(layer.feature.properties);
+		}
 
-                        },
-                        onEachFeature: onEachFeature
-                    }).addTo(map);
+		// function to call on section mouse out
+		function sectionMouseOut(e) {
+			var layer = e.target;
+			if (layer.options.color == "#666") {
+				geojson.resetStyle(e.target);
+				info.update();
+			}
 
+		}
 
-                }
+		// function to call on section click
+		function sectionClick(e) {
+			var layer = e.target;
+			//if the section is already selected
+			if (selected_sections[0].indexOf(layer.feature.properties.name) != -1) {
+				//jQuery pop
+				selected_sections[0].splice($.inArray(layer.feature.properties.name, selected_sections[0]), 1);
+				console.log('selected_sections pop: ', selected_sections[0], ",", layer.feature.properties.name);
+				t_price -= layer.feature.properties.price;
+				updatePrice();
+				//reset to default style
+				layer.setStyle(defaultAreasStyle);
+			} else {
+				selected_sections[0].push(layer.feature.properties.name);
+				console.log('selected_sections push: ', selected_sections[0], ",", layer.feature.properties.name);
+				t_price += layer.feature.properties.price;
+				updatePrice();
+				layer.setStyle(selectedAreaStyle);
+			}
+		}
 
-            });
-            $('#edit_advertisement_modal').modal('show');
-        });
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: sectionHover,
+				mouseout: sectionMouseOut,
+				click: sectionClick
+			});
+		}
 
-        //resize map on show because of modal problem error https://stackoverflow.com/questions/20400713/leaflet-map-not-showing-properly-in-bootstrap-3-0-modal
-        $('#edit_advertisement_modal').on('shown.bs.modal', function () {
-            setTimeout(function () {
-                map.invalidateSize();
-            }, 1);
-        });
+		function ajaxCallBack(response) {
 
+			//remove selected sections witch may be added before
+			init_selected_sections = null;
+			selected_sections = [];
+			init_selected_sections = response['init_selected_sections'];
+			t_price = response['init_price'];
+			selected_sections.push(init_selected_sections);
+			{#            console.log('init_selected_sections callback: ', init_selected_sections);#}
+		}
 
-        //edit advertisements
-        $('#edit_advertisement_save_button').click(function () {
-            if (EditAdvertisementCheckFields()) {
-                swal({
-                    title: "Advertisement Submission",
-                    text: "You are going to add the following advertisement:",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, Add it!",
-                    closeOnConfirm: false
-                }, function () {
-                    var advertisement_name = $('#modal_edit_advertisement_name').val();
-                    var advertisement_text = $('#modal_edit_advertisement_text').val();
-                    var advertisement_id = $row.find("td:nth-child(5)").text().trim();
-
-
-                    $.ajax({
-                        url: '{% url "ajax:makeAdvertisementsOrder" %}',
-                        data: {
-                            'advertisement_id': advertisement_id,
-                            'advertisement_name': advertisement_name,
-                            'advertisement_text': advertisement_text,
-                            'selected_sections[]': selected_sections,
-                            'add_or_edit': 'edit'
-                        },
-                        dataType: 'json',
-                        traditional: true,
-                        success: function (data) {
-                            if (data['status']) {
-                                swal("Success!", "Your advertisement has been submitted.", "success");
-                                $row.find("td:nth-child(1)").text(data['n_advertisement_name']);
-                                $row.find("td:nth-child(2)").text(data['n_advertisement_text']);
-                                $row.find("td:nth-child(3)").text(data['n_total_price']);
-                                $('#edit_advertisement_modal').modal('hide');
-                                selected_sections[0] = [];
-                                init_selected_sections = null;
-                            }
+		$('.footable').footable();
 
 
-                        }
-                    });
-                });
-            } else {
-                swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
-            }
-        });
+		/******************************************************************
+		 *                                                                *
+		 *                                                                *
+		 *                       Edit Advertisement                       *
+		 *                                                                *
+		 *                                                                *
+		 * ****************************************************************/
+		//send adv data to server and get its adv areas to edit
+		$('.adv_table_edit_button').click(function () {
+			$row = $(this).closest("tr");
+			var adv_name = $row.find("td:nth-child(2)").text().trim();
+			var adv_text = $row.find("td:nth-child(3)").text().trim();
+			var price = $row.find("td:nth-child(4)").text().trim();
+			var picture = $row.find("td:nth-child(1) img").attr('src');
+			$('#modal_edit_advertisement_name').val(adv_name);
+			$('#modal_edit_advertisement_text').val(adv_text);
+			$('#modal_edit_total_price').html(price);
+			$('#dropzoneFormEdit').css('background-image', 'url(' + picture + ')');
+
+			//get advertisements areas from db
+			$.ajax({
+				url: '{% url "ajax:getAdvertisementAreas" %}',
+				data: {
+					'adv_name': adv_name,
+					'adv_text': adv_text
+				},
+				dataType: 'json',
+				success: function (response) {
+					ajaxCallBack(response);
+					console.log('selected_sections: ', selected_sections[0]);
+					geojson = L.geoJson(sections, {
+						style: function (feature) {
+							if (init_selected_sections.indexOf(feature.properties.name) != -1) {
+								return (selectedAreaStyleFunc(feature));
+							} else {
+								return (defaultAreasStyleFunc(feature));
+							}
+
+						},
+						onEachFeature: onEachFeature
+					}).addTo(map);
 
 
-        /******************************************************************
-         *                                                                *
-         *                                                                *
-         *                       New Advertisement Map                    *
-         *                                                                *
-         *                                                                *
-         * ****************************************************************/
+				}
 
-        var newMap = L.map('new_adv_map', {
-            crs: L.CRS.Simple,
-            minZoom: -2
-        });
-        var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(newMap);
-        newMap.setView([100, -100], -2);
+			});
+			$('#edit_advertisement_modal').modal('show');
+		});
+
+		//resize map on show because of modal problem error https://stackoverflow.com/questions/20400713/leaflet-map-not-showing-properly-in-bootstrap-3-0-modal
+		$('#edit_advertisement_modal').on('shown.bs.modal', function () {
+			setTimeout(function () {
+				map.invalidateSize();
+			}, 1);
+		});
 
 
-        // control that shows state info on hover
-        info.addTo(newMap);
-        $('#new_advertisement_modal').on('shown.bs.modal', function () {
-            setTimeout(function () {
-                newMap.invalidateSize();
-            }, 1);
-        });
-
-        /*****************************************************************
-         *                                                               *
-         *                                                               *
-         *                       New Advertisement                       *
-         *                                                               *
-         *                                                               *
-         * ***************************************************************/
-
-
-        $('#new_advertisement').click(function () {
-            selected_sections[0] = [];
-            t_price = 0;
-            updatePrice();
-            $('#new_advertisement_modal').modal('show');
-            geojson = L.geoJson(sections, {
-                style: function (feature) {
-                    return (defaultAreasStyleFunc(feature));
-                },
-                onEachFeature: onEachFeature
-            }).addTo(newMap);
-        });
-
-        //a function to add new advertisement to table after submission
-        function add_new_advertisment_row(data) {
-            var row = $('<tr>' +
-                '<td>' + data.n_advertisement_name + '</td>' +
-                '<td>' + data.n_advertisement_text + '</td>' +
-                '<td>' + data.n_total_price +        '</td>' +
-                '<td class="text-right"><button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button></div></td>' +
-                '<td>' + data.n_advertisement_id + '</td>' +
-                '<tr>');
-            return row;
-        }
-        $('#new_advertisement_save_button').click(function () {
-            if (newAdvertisementCheckFields()) {
-                swal({
-                    title: "New Advertisement Submission",
-                    text: "You are going to add the following advertisement:",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, Add it!",
-                    closeOnConfirm: false
-                }, function () {
-                    var new_advertisement_name = $('#modal_new_advertisement_name').val();
-                    var new_advertisement_text = $('#modal_new_advertisement_text').val();
-                    $.ajax({
-                        url: '{% url "ajax:makeAdvertisementsOrder" %}',
-                        data: {
-                            'advertisement_name': new_advertisement_name,
-                            'advertisement_text': new_advertisement_text,
-                            'selected_sections[]': selected_sections,
-                            'add_or_edit': 'add'
-                        },
-                        dataType: 'json',
-                        traditional: true,
-                        success: function (data) {
-                            if (data['status']) {
-                                swal("Success!", "Your advertisement has been submitted.", "success");
-                                var row = add_new_advertisment_row(data);
-                                $('table tbody').append(row);
-                                $('table').trigger('footable_initialize');
-                                //hide modal and clear the fields
-                                $('#new_advertisement_modal').modal('hide');
-                                $('#modal_new_advertisement_name').val('');
-                                $('#modal_new_advertisement_text').val('');
-                            }
+		//edit advertisements
+		$('#edit_advertisement_save_button').click(function () {
+			if (EditAdvertisementCheckFields()) {
+				swal({
+					title: "Advertisement Submission",
+					text: "You are going to add the following advertisement:",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Yes, Add it!",
+					closeOnConfirm: false
+				}, function () {
+					var advertisement_name = $('#modal_edit_advertisement_name').val();
+					var advertisement_text = $('#modal_edit_advertisement_text').val();
+					var advertisement_id = $row.find("td:nth-child(6)").text().trim();
 
 
-                        }
-                    });
-                });
-            } else {
-                swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
-            }
-        });
+					$.ajax({
+						url: '{% url "ajax:makeAdvertisementsOrder" %}',
+						data: {
+							'advertisement_id': advertisement_id,
+							'advertisement_name': advertisement_name,
+							'advertisement_text': advertisement_text,
+							'selected_sections[]': selected_sections,
+							'add_or_edit': 'edit'
+						},
+						dataType: 'json',
+						traditional: true,
+						success: function (data) {
+							if (data['status']) {
+								swal("Success!", "Your advertisement has been submitted.", "success");
+								$row.find("td:nth-child(2)").text(data['n_advertisement_name']);
+								$row.find("td:nth-child(3)").text(data['n_advertisement_text']);
+								$row.find("td:nth-child(4)").text(data['n_total_price']);
+								$('#edit_advertisement_modal').modal('hide');
+								selected_sections[0] = [];
+								init_selected_sections = null;
+							}
 
-    </script>
+
+						}
+					});
+				});
+			} else {
+				swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
+			}
+		});
+
+
+		/******************************************************************
+		 *                                                                *
+		 *                                                                *
+		 *                       New Advertisement Map                    *
+		 *                                                                *
+		 *                                                                *
+		 * ****************************************************************/
+
+		var newMap = L.map('new_adv_map', {
+			crs: L.CRS.Simple,
+			minZoom: -2
+		});
+		var image = L.imageOverlay('{% static 'css/plugins/leaflet/images/test-map.png' %}', bounds).addTo(newMap);
+		newMap.setView([100, -100], -2);
+
+
+		// control that shows state info on hover
+		info.addTo(newMap);
+		$('#new_advertisement_modal').on('shown.bs.modal', function () {
+			setTimeout(function () {
+				newMap.invalidateSize();
+			}, 1);
+		});
+
+		/*****************************************************************
+		 *                                                               *
+		 *                                                               *
+		 *                       New Advertisement                       *
+		 *                                                               *
+		 *                                                               *
+		 * ***************************************************************/
+
+
+		$('#new_advertisement').click(function () {
+			selected_sections[0] = [];
+			t_price = 0;
+			updatePrice();
+			$('#new_advertisement_modal').modal('show');
+			geojson = L.geoJson(sections, {
+				style: function (feature) {
+					return (defaultAreasStyleFunc(feature));
+				},
+				onEachFeature: onEachFeature
+			}).addTo(newMap);
+		});
+
+		//a function to add new advertisement to table after submission
+		function add_new_advertisment_row(data) {
+			var row = $('<tr>' +
+				'<td>' + data.n_advertisement_name + '</td>' +
+				'<td>' + data.n_advertisement_text + '</td>' +
+				'<td>' + data.n_total_price + '</td>' +
+				'<td class="text-right"><button class="btn-primary btn btn-xs adv_table_edit_button">Edit</button></div></td>' +
+				'<td>' + data.n_advertisement_id + '</td>' +
+				'<tr>');
+			return row;
+		}
+		$('#new_advertisement_save_button').click(function () {
+			if (newAdvertisementCheckFields()) {
+				swal({
+					title: "New Advertisement Submission",
+					text: "You are going to add the following advertisement:",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Yes, Add it!",
+					closeOnConfirm: false
+				}, function () {
+					var new_advertisement_name = $('#modal_new_advertisement_name').val();
+					var new_advertisement_text = $('#modal_new_advertisement_text').val();
+					$.ajax({
+						url: '{% url "ajax:makeAdvertisementsOrder" %}',
+						data: {
+							'advertisement_name': new_advertisement_name,
+							'advertisement_text': new_advertisement_text,
+							'selected_sections[]': selected_sections,
+							'add_or_edit': 'add'
+						},
+						dataType: 'json',
+						traditional: true,
+						success: function (data) {
+							if (data['status']) {
+								swal("Success!", "Your advertisement has been submitted.", "success");
+								var row = add_new_advertisment_row(data);
+								$('table tbody').append(row);
+								$('table').trigger('footable_initialize');
+								//hide modal and clear the fields
+								$('#new_advertisement_modal').modal('hide');
+								$('#modal_new_advertisement_name').val('');
+								$('#modal_new_advertisement_text').val('');
+							}
+
+
+						}
+					});
+				});
+			} else {
+				swal("Please enter the required fields!", "Please enter advertisement name and text and select at least one section.", "error");
+			}
+		});
+
+
+		Dropzone.options.dropzoneFormEdit = {
+			url: "{% url 'ajax:uploadAdvertisementImage' %}",
+			method: 'POST',
+			paramName: "image", // The name that will be used to transfer the file
+			maxFilesize: 5, // MB
+			dictDefaultMessage: "",
+			addRemoveLinks: true,
+			maxFiles: 1,
+			acceptedFiles: "image/*",
+			init: function () {
+				this.on("sending", function (file, xhr, formData) {
+					formData.append("Aid", $row.find("td:nth-child(6)").text().trim())
+				}),
+					this.on("success", function (file, xhr) {
+						var url = JSON.parse(xhr).url;
+						$row.find("td:nth-child(1) img").attr('src', url);
+						$('#dropzoneFormEdit').css('background-image', 'url(' + url + ')');
+						$('#dropzoneFormEdit')[0].dropzone.removeAllFiles(true);
+
+
+					});
+			}
+		};
+
+
+	</script>
 {% endblock script %}

@@ -1,5 +1,5 @@
 from django import forms
-from boothManagement.models import Booth_Owner, Product_Details
+from boothManagement.models import Booth_Owner, Product_Details, Advertisements_order
 
 
 class UploadImageForm(forms.ModelForm):
@@ -33,4 +33,10 @@ class UploadBoothImageForm(UploadImageForm):
 class UploadProductImageForm(UploadImageForm):
 	class Meta:
 		model = Product_Details
+		fields = ('image',)
+
+
+class UploadAdvertisementsImageForm(UploadImageForm):
+	class Meta:
+		model = Advertisements_order
 		fields = ('image',)

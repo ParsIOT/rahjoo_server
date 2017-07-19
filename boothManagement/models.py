@@ -65,6 +65,7 @@ class Advertisements_order(models.Model):
 	discount = models.IntegerField(default=0)
 	advertisement_name = models.CharField(max_length=30, default='')
 	advertisement_text = models.CharField(max_length=200, default='')
+	image = models.FileField(upload_to='images/%Y/%m/%d', max_length=255, blank=True, null=True, default='default/advertise.jpg')
 
 	def __str__(self):
 		return self.advertisement_name
