@@ -130,3 +130,17 @@ def getAdvertisementsAreas(request):
             response = {'status': False}
         return HttpResponse(json.dumps(response), content_type='application.json')
     return HttpResponseForbidden()
+
+def getAllAdvertisementsAreas(request):
+    if request.is_ajax():
+        try:
+            response = {'status': True, 'all_areas':[]}
+            adv_areas = []
+            allAdvertisementAreas = models.Advertisement_Area.objects.all()
+            for area in allAdvertisementAreas:
+                adv_areas.append({'section_name': area.section_name, 't_x': area.topLeft_x, 't_y': area.topLeft_y, 'b_x': area.bottomRight_x, 'b_y': area.bottomRight_y, 'base_price': area.base_price})
+            response['all_areas'] = adv_areas
+        except:
+            response = {'status': False}
+        return HttpResponse(json.dumps(response), content_type='application.json')
+    return HttpResponseForbidden()
