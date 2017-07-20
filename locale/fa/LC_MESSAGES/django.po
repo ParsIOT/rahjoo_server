@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-19 17:10+0000\n"
+"POT-Creation-Date: 2017-07-20 14:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,7 +83,7 @@ msgid "Add New Advertisement"
 msgstr "افزودن تبلیغات"
 
 #: templates/Advertisements-fa.html:317 templates/Products_Details-fa.html:124
-#: templates/Products_Details-fa.html:333
+#: templates/Products_Details-fa.html:318
 msgid "Price"
 msgstr "قیمت"
 
@@ -204,15 +204,19 @@ msgstr "جستجو در جدول..."
 msgid "New Product"
 msgstr "محصول جدید"
 
-#: templates/Products_Details-fa.html:34 templates/Products_Details-fa.html:324
+#: templates/Products_Details-fa.html:34 templates/Products_Details-fa.html:309
 msgid "Product Name"
 msgstr "نام محصول"
 
-#: templates/Products_Details-fa.html:35 templates/Products_Details-fa.html:36
-#: templates/Products_Details-fa.html:120
-#: templates/Products_Details-fa.html:327
+#: templates/Products_Details-fa.html:35 templates/Products_Details-fa.html:120
+#: templates/Products_Details-fa.html:312
 msgid "Model"
 msgstr "مدل"
+
+#: templates/Products_Details-fa.html:36 templates/Products_Details-fa.html:142
+#: templates/Products_Details-fa.html:336
+msgid "Description"
+msgstr "توضیحات"
 
 #: templates/Products_Details-fa.html:37
 msgid "price"
@@ -234,9 +238,10 @@ msgstr "غیر فعال"
 msgid "View"
 msgstr "نمایش"
 
-#: templates/Products_Details-fa.html:98 templates/Products_Details-fa.html:210
-#: templates/Products_Details-fa.html:307
-#: templates/Products_Details-fa.html:409
+#: templates/Products_Details-fa.html:98 templates/Products_Details-fa.html:205
+#: templates/Products_Details-fa.html:217
+#: templates/Products_Details-fa.html:292
+#: templates/Products_Details-fa.html:389
 msgid "Close"
 msgstr "بستن"
 
@@ -245,42 +250,92 @@ msgid "Editing"
 msgstr "ویرایش"
 
 #: templates/Products_Details-fa.html:106
-#: templates/Products_Details-fa.html:315
+#: templates/Products_Details-fa.html:300
 msgid "Product info"
 msgstr "نام محصول"
 
 #: templates/Products_Details-fa.html:107
-#: templates/Products_Details-fa.html:316
+#: templates/Products_Details-fa.html:301
 msgid "Product Details"
 msgstr "ویرایش مشخصات غرفه"
 
 #: templates/Products_Details-fa.html:115
-#: templates/Products_Details-fa.html:322
+#: templates/Products_Details-fa.html:307
 msgid "Name"
 msgstr "نام"
 
 #: templates/Products_Details-fa.html:128
-#: templates/Products_Details-fa.html:337
+#: templates/Products_Details-fa.html:322
 msgid "Status"
 msgstr "وضعیت"
 
-#: templates/Products_Details-fa.html:142
-#: templates/Products_Details-fa.html:351
-msgid "Description"
-msgstr "توضیحات"
+#: templates/Products_Details-fa.html:166
+#: templates/Products_Details-fa.html:258
+#: templates/Products_Details-fa.html:349
+msgid "Color"
+msgstr "رنگ"
 
-#: templates/Products_Details-fa.html:211
-#: templates/Products_Details-fa.html:410
+#: templates/Products_Details-fa.html:170
+#: templates/Products_Details-fa.html:262
+#: templates/Products_Details-fa.html:353
+msgid "Size"
+msgstr "ابعاد"
+
+#: templates/Products_Details-fa.html:171
+#: templates/Products_Details-fa.html:354
+msgid "Height"
+msgstr "طول"
+
+#: templates/Products_Details-fa.html:174
+#: templates/Products_Details-fa.html:357
+msgid "Width"
+msgstr "عرض"
+
+#: templates/Products_Details-fa.html:177
+#: templates/Products_Details-fa.html:360
+msgid "Depth"
+msgstr "ارتفاع"
+
+#: templates/Products_Details-fa.html:181
+#: templates/Products_Details-fa.html:266
+#: templates/Products_Details-fa.html:364
+msgid "Weight"
+msgstr "وزن"
+
+#: templates/Products_Details-fa.html:184
+#: templates/Products_Details-fa.html:270
+#: templates/Products_Details-fa.html:367
+msgid "Manufacturer"
+msgstr "سازنده"
+
+#: templates/Products_Details-fa.html:206
+#: templates/Products_Details-fa.html:390
 msgid "Save Changes"
 msgstr "ذخیره ی تغییرات"
 
-#: templates/Products_Details-fa.html:309
+#: templates/Products_Details-fa.html:219
+msgid "View Product Details"
+msgstr "مشخصات محصول"
+
+#: templates/Products_Details-fa.html:249
+msgid "Product Description"
+msgstr "توضیحات"
+
+#: templates/Products_Details-fa.html:254
+msgid "Specification"
+msgstr "مشخصات"
+
+#: templates/Products_Details-fa.html:294
 msgid "Add new Product"
 msgstr "محصول جدید"
 
-#: templates/Products_Details-fa.html:329
+#: templates/Products_Details-fa.html:314
 msgid "Product Model"
 msgstr "مدل محصول"
+
+#: templates/Products_Details-fa.html:412
+msgid "Drop files here or click."
+msgstr "برای افزودن تصویر آن را در این ناحیه بیندازید یا روی اینجا کلیک کنید"
 
 #~ msgid "warning"
 #~ msgstr "اخطار"

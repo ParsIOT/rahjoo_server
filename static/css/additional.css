@@ -12,6 +12,17 @@
 	line-height: 1.5;
 }
 
+.persian-font {
+	font-family: "BMitra", 'Open Sans', helvetica, arial, sans-serif;
+	direction: rtl;
+	text-align: right;
+}
+
+.persian-font.medium {
+	font-size: 22px;
+
+}
+
 .sweet-alert h2 .per {
 	font-family: "BMitra", 'Open Sans', helvetica, arial, sans-serif;
 	direction: rtl;

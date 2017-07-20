@@ -162,37 +162,32 @@
 								<div class="panel-body">
 
 									<fieldset class="form-horizontal">
-										<div class="form-group"><label class="col-sm-2 control-label">ID:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="543"></div>
+										<div class="form-group"><label class="col-sm-2 control-label">Color:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="Green" value="Gray"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Model:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="..."></div>
+										<hr>
+										<h3>Size</h3>
+										<div class="form-group"><label class="col-sm-2 control-label">Height:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="34.93"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Location:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="location"></div>
+										<div class="form-group"><label class="col-sm-2 control-label">Width:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="24.07"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Tax Class:</label>
+										<div class="form-group"><label class="col-sm-2 control-label">Depth:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="1.55"></div>
+										</div>
+										<hr>
+										<div class="form-group"><label class="col-sm-2 control-label">Weight:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="1" value="1.83"></div>
+										</div>
+										<div class="form-group"><label class="col-sm-2 control-label">Manufacturer:</label>
 											<div class="col-sm-10">
 												<select class="form-control">
-													<option>option 1</option>
-													<option>option 2</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Quantity:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="Quantity"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Minimum quantity:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="2"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Sort order:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="0"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Status:</label>
-											<div class="col-sm-10">
-												<select class="form-control">
-													<option>option 1</option>
-													<option>option 2</option>
+													<option selected>Apple Inc</option>
+													<option>Microsoft</option>
+													<option>Dell</option>
+													<option>Lenovo</option>
+													<option>MSI</option>
 												</select>
 											</div>
 										</div>
@@ -220,8 +215,7 @@
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
 							class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title">Modal title</h4>
-					<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+					<h4 class="modal-title" id="modal_view_title">View Product Details</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -231,64 +225,55 @@
 									<div class="row">
 										<div class="col-md-5">
 
-
-											<div class="product-images">
-
-												<div>
-													<div class="image-imitation">
-														[IMAGE 1]
-													</div>
-												</div>
-												<div>
-													<div class="image-imitation">
-														[IMAGE 2]
-													</div>
-												</div>
-												<div>
-													<div class="image-imitation">
-														[IMAGE 3]
-													</div>
-												</div>
-
-
-											</div>
+											<img class="img-preview img-rounded" src="" id="modal_view_product_image">
 
 										</div>
 										<div class="col-md-7">
 
-											<h2 class="font-bold m-b-xs">
-												Desktop publishing software
-											</h2>
-											<small>Many desktop publishing packages and web page editors now.</small>
+											<h2 class="font-bold m-b-xs" id="modal_view_product_name"></h2>
+											<small id="modal_view_product_model"></small>
 											<hr>
 											<div>
-												<h1 class="product-main-price">$406,602
-													<small class="text-muted">Exclude Tax</small>
-												</h1>
+												<div class="row">
+													<div class="col-md-8 b-r">
+														<h1 class="product-main-price" id="modal_view_product_price"></h1>
+
+													</div>
+													<div class="col-md-4 text-center" style="padding-top: 1em;">
+														<i id="modal_view_product_status" class="fa fa-2x"></i>
+													</div>
+												</div>
 											</div>
 											<hr>
 											<h4>Product description</h4>
 
-											<div class="small text-muted">
-												It is a long established fact that a reader will be distracted by the readable
-												content of a page when looking at its layout. The point of using Lorem Ipsum is
-												that it has a more-or-less normal distribution of letters, as opposed to using
-												'Content here, content here', making it look like readable English.
-												<br/>
-												<br/>
-												There are many variations of passages of Lorem Ipsum available, but the majority
-												have suffered alteration in some form, by injected humour, or randomised words
-												which don't look even slightly believable.
+											<div class="small text-muted" id="modal_view_product_description">
 											</div>
+											<hr>
+											<h4>Specification</h4>
+											<table class="table table-hover">
+												<tbody>
+												<tr>
+													<td>Color:</td>
+													<td class="text-muted">Gray</td>
+												</tr>
+												<tr>
+													<td>Size:</td>
+													<td>34.93 cm &times; 24.07 cm &times; 1.55cm</td>
+												</tr>
+												<tr>
+													<td>Weight:</td>
+													<td>1.83 kg</td>
+												</tr>
+												<tr>
+													<td>Manufacturer:</td>
+													<td>Apple Inc</td>
+												</tr>
+												</tbody>
+											</table>
 										</div>
 									</div>
 
-								</div>
-								<div class="ibox-footer">
-                            <span class="pull-right">
-                                Full stock - <i class="fa fa-clock-o"></i> 14.04.2016 10:04 pm
-                            </span>
-									The generated Lorem Ipsum is therefore always free
 								</div>
 							</div>
 						</div>
@@ -358,37 +343,32 @@
 								<div class="panel-body">
 
 									<fieldset class="form-horizontal">
-										<div class="form-group"><label class="col-sm-2 control-label">ID:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="543"></div>
+										<div class="form-group"><label class="col-sm-2 control-label">Color:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="Green" value="Gray"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Model:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="..."></div>
+										<hr>
+										<h3>Size</h3>
+										<div class="form-group"><label class="col-sm-2 control-label">Height:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="34.93"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Location:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="location"></div>
+										<div class="form-group"><label class="col-sm-2 control-label">Width:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="24.07"></div>
 										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Tax Class:</label>
+										<div class="form-group"><label class="col-sm-2 control-label">Depth:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="10" value="1.55"></div>
+										</div>
+										<hr>
+										<div class="form-group"><label class="col-sm-2 control-label">Weight:</label>
+											<div class="col-sm-10"><input type="text" class="form-control" placeholder="1" value="1.83"></div>
+										</div>
+										<div class="form-group"><label class="col-sm-2 control-label">Manufacturer:</label>
 											<div class="col-sm-10">
 												<select class="form-control">
-													<option>option 1</option>
-													<option>option 2</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Quantity:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="Quantity"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Minimum quantity:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="2"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Sort order:</label>
-											<div class="col-sm-10"><input type="text" class="form-control" placeholder="0"></div>
-										</div>
-										<div class="form-group"><label class="col-sm-2 control-label">Status:</label>
-											<div class="col-sm-10">
-												<select class="form-control">
-													<option>option 1</option>
-													<option>option 2</option>
+													<option selected>Apple Inc</option>
+													<option>Microsoft</option>
+													<option>Dell</option>
+													<option>Lenovo</option>
+													<option>MSI</option>
 												</select>
 											</div>
 										</div>
@@ -409,6 +389,8 @@
 			</div>
 		</div>
 	</div>
+
+
 {% endblock content %}
 {% block script %}
 	<script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
@@ -419,171 +401,192 @@
 	<script>
 
 
-        Dropzone.options.dropzoneFormEdit = {
-            url: "{% url 'ajax:uploadProductImage' %}",
-            method: 'POST',
-            paramName: "image", // The name that will be used to transfer the file
-            maxFilesize: 5, // MB
-            dictDefaultMessage: "<strong>Drop files here or click.</strong>",
-            addRemoveLinks: true,
-            maxFiles: 1,
-            acceptedFiles: "image/*",
-            init: function () {
-                this.on("sending", function (file, xhr, formData) {
-                    formData.append("Pid", $('#modal_edit_product_id').val())
-                }),
-                    this.on("success", function (file, xhr) {
-                        var url = JSON.parse(xhr).url;
-                        $row.find("td:nth-child(2) img").attr('src', url);
-                        $('#modal_edit_product_img').attr("src", url);
+		Dropzone.options.dropzoneFormEdit = {
+			url: "{% url 'ajax:uploadProductImage' %}",
+			method: 'POST',
+			paramName: "image", // The name that will be used to transfer the file
+			maxFilesize: 5, // MB
+			dictDefaultMessage: "<strong>Drop files here or click.</strong>",
+			addRemoveLinks: true,
+			maxFiles: 1,
+			acceptedFiles: "image/*",
+			init: function () {
+				this.on("sending", function (file, xhr, formData) {
+					formData.append("Pid", $('#modal_edit_product_id').val())
+				}),
+					this.on("success", function (file, xhr) {
+						var url = JSON.parse(xhr).url;
+						$row.find("td:nth-child(2) img").attr('src', url);
+						$('#modal_edit_product_img').attr("src", url);
 
-                    });
-            }
-        };
-
-
-        var $row;
-
-        $(document).ready(function () {
-            $("#te").submit(function () {
-
-                var formData = new FormData($(this)[0]);
-
-                $.ajax({
-                    url: window.location.pathname,
-                    type: 'POST',
-                    data: formData,
-                    async: false,
-                    success: function (data) {
-                        alert(data)
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
-
-                return false;
-            });
-            $('.footable').footable();
-
-            $('.product-images').slick({
-                dots: true
-            });
-
-            $('.product_edit_button').click(function () {
-                $('#dropzoneFormEdit')[0].dropzone.removeAllFiles(true);
-                $row = $(this).closest("tr");
-                var id = $row.find("td:nth-child(1)").text().trim();
-                var imgSrc = $row.find("td:nth-child(2) img").attr("src");
-                var name = $row.find("td:nth-child(3)").text().trim();
-                var model = $row.find("td:nth-child(4)").text().trim();
-                var description = $row.find("td:nth-child(5)").text().trim();
-                var price = $row.find("td:nth-child(6)").text().trim();
-                var $status = $row.find("td:nth-child(7)");
-
-                $('#modal_edit_product_id').val(id);
-                $('#modal_edit_product_img').attr("src", imgSrc);
-                $('#modal_edit_title').html(name);
-                $('#modal_edit_product_name').val(name);
-                $('#modal_edit_product_model').val(model);
-                $('#modal_edit_product_price').val(price);
-                $('#modal_edit_description').val(description);
-
-                if ($status.text().trim() == 'Enable') {
-                    $("#modal_edit_product_status").attr('checked', true)
-                } else {
-                    $("#modal_edit_product_status").attr('checked', false)
-
-                }
-                $('#EditModal').modal('show');
-            });
-
-            $('#submitProductDetails').click(function () {
-                var productID = $('#modal_edit_product_id').val();
-                var productName = $('#modal_edit_product_name').val();
-                var productModel = $('#modal_edit_product_model').val();
-                var productPrice = $('#modal_edit_product_price').val();
-                var productStatus = $("#modal_edit_product_status").is(":checked");
-                var productDescription = $('#modal_edit_description').val();
-                console.log('HERE!!!');
-                $.ajax({
-                    url: "{% url 'ajax:editProductDetails' %}",
-                    data: {
-                        'productID': productID,
-                        'productName': productName,
-                        'productModel': productModel,
-                        'productPrice': productPrice,
-                        'productStatus': productStatus,
-                        'productDescription': productDescription
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data['status']) {
-                            $row.find("td:nth-child(3)").text(data['n_name']);
-                            $row.find("td:nth-child(4)").text(data['n_model']);
-                            $row.find("td:nth-child(5)").text(data['n_description']);
-                            $row.find("td:nth-child(6)").text(data['n_price']);
-                            $status = $row.find("td:nth-child(7)").find('span:first');
-                            if (data['n_status']) {
-                                $status.removeClass('label-danger').addClass('label-primary');
-                                $status.text('Enable');
-                            } else {
-                                $status.removeClass('label-primary').addClass('label-danger');
-                                $status.text('Disable');
-                            }
-                        }
-                    }
-                });
-            });
+					});
+			}
+		};
 
 
-            $('#submitNewProductDetails').click(function () {
-                var productName = $('#modal_new_product_name').val();
-                var productModel = $('#modal_new_product_model').val();
-                var productPrice = $('#modal_new_product_price').val();
-                var productStatus = $("#modal_new_product_status").is(":checked");
-                var productDescription = $('#modal_new_description').val();
-                $.ajax({
-                    url: "{% url 'ajax:newProductDetails' %}",
-                    data: {
-                        'productName': productName,
-                        'productModel': productModel,
-                        'productPrice': productPrice,
-                        'productStatus': productStatus,
-                        'productDescription': productDescription,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data['status']) {
-                            var row = "<tr><td>" + data['n_id'] + "</td><td class='center-version'><img src=" + data['n_image'] + " class='img-circle img-sm'></td><td>" + data['n_name'] + "</td><td>" + data['n_model'] + "</td><td>" + data['n_description'] + "</td><td>" +
-                                data['n_price'] + "</td><td>" + (data['n_status'] ? '<span class="label label-primary">Enable</span>' : '<span class="label label-danger">Disable</span>') +
-                                '</td><td class="text-right"><div class="btn-group"> <button class="btn-white btn btn-xs product_view_button">View</button>' +
-                                '<button class="btn-primary btn btn-xs product_edit_btn product_edit_button">Edit</button></div></td></tr>';
+		var $row;
 
-                            $('table tbody').append(row);
-                            $('table').trigger('footable_initialize');
-                        }
-                    }
-                });
-            });
+		$(document).ready(function () {
+			$("#te").submit(function () {
+
+				var formData = new FormData($(this)[0]);
+
+				$.ajax({
+					url: window.location.pathname,
+					type: 'POST',
+					data: formData,
+					async: false,
+					success: function (data) {
+						alert(data)
+					},
+					cache: false,
+					contentType: false,
+					processData: false
+				});
+
+				return false;
+			});
+			$('.footable').footable();
+
+			$('.product-images').slick({
+				dots: true
+			});
+
+			$('.product_edit_button').click(function () {
+				$('#dropzoneFormEdit')[0].dropzone.removeAllFiles(true);
+				$row = $(this).closest("tr");
+				var id = $row.find("td:nth-child(1)").text().trim();
+				var imgSrc = $row.find("td:nth-child(2) img").attr("src");
+				var name = $row.find("td:nth-child(3)").text().trim();
+				var model = $row.find("td:nth-child(4)").text().trim();
+				var description = $row.find("td:nth-child(5)").text().trim();
+				var price = $row.find("td:nth-child(6)").text().trim();
+				var $status = $row.find("td:nth-child(7)");
+
+				$('#modal_edit_product_id').val(id);
+				$('#modal_edit_product_img').attr("src", imgSrc);
+				$('#modal_edit_title').html(name);
+				$('#modal_edit_product_name').val(name);
+				$('#modal_edit_product_model').val(model);
+				$('#modal_edit_product_price').val(price);
+				$('#modal_edit_description').val(description);
+
+				if ($status.text().trim() == 'Enable') {
+					$("#modal_edit_product_status").attr('checked', true)
+				} else {
+					$("#modal_edit_product_status").attr('checked', false)
+
+				}
+				$('#EditModal').modal('show');
+			});
+
+			$('#submitProductDetails').click(function () {
+				var productID = $('#modal_edit_product_id').val();
+				var productName = $('#modal_edit_product_name').val();
+				var productModel = $('#modal_edit_product_model').val();
+				var productPrice = $('#modal_edit_product_price').val();
+				var productStatus = $("#modal_edit_product_status").is(":checked");
+				var productDescription = $('#modal_edit_description').val();
+				console.log('HERE!!!');
+				$.ajax({
+					url: "{% url 'ajax:editProductDetails' %}",
+					data: {
+						'productID': productID,
+						'productName': productName,
+						'productModel': productModel,
+						'productPrice': productPrice,
+						'productStatus': productStatus,
+						'productDescription': productDescription
+					},
+					dataType: 'json',
+					success: function (data) {
+						if (data['status']) {
+							$row.find("td:nth-child(3)").text(data['n_name']);
+							$row.find("td:nth-child(4)").text(data['n_model']);
+							$row.find("td:nth-child(5)").text(data['n_description']);
+							$row.find("td:nth-child(6)").text(data['n_price']);
+							$status = $row.find("td:nth-child(7)").find('span:first');
+							if (data['n_status']) {
+								$status.removeClass('label-danger').addClass('label-primary');
+								$status.text('Enable');
+							} else {
+								$status.removeClass('label-primary').addClass('label-danger');
+								$status.text('Disable');
+							}
+						}
+					}
+				});
+			});
 
 
-            {#modal 2#}
-            $('.product_view_button').click(function () {
-                $('#ViewModal').modal('show');
-            });
+			$('#submitNewProductDetails').click(function () {
+				var productName = $('#modal_new_product_name').val();
+				var productModel = $('#modal_new_product_model').val();
+				var productPrice = $('#modal_new_product_price').val();
+				var productStatus = $("#modal_new_product_status").is(":checked");
+				var productDescription = $('#modal_new_description').val();
+				$.ajax({
+					url: "{% url 'ajax:newProductDetails' %}",
+					data: {
+						'productName': productName,
+						'productModel': productModel,
+						'productPrice': productPrice,
+						'productStatus': productStatus,
+						'productDescription': productDescription
+					},
+					dataType: 'json',
+					success: function (data) {
+						if (data['status']) {
+							var row = "<tr><td>" + data['n_id'] + "</td><td class='center-version'><img src=" + data['n_image'] + " class='img-circle img-sm'></td><td>" + data['n_name'] + "</td><td>" + data['n_model'] + "</td><td>" + data['n_description'] + "</td><td>" +
+								data['n_price'] + "</td><td>" + (data['n_status'] ? '<span class="label label-primary">Enable</span>' : '<span class="label label-danger">Disable</span>') +
+								'</td><td class="text-right"><div class="btn-group"> <button class="btn-white btn btn-xs product_view_button">View</button>' +
+								'<button class="btn-primary btn btn-xs product_edit_btn product_edit_button">Edit</button></div></td></tr>';
 
-            $('#new-product').click(function () {
+							$('table tbody').append(row);
+							$('table').trigger('footable_initialize');
+						}
+					}
+				});
+			});
 
-                $('#modal_new_product_name').val("");
-                $('#modal_new_product_model').val("");
-                $('#modal_new_product_price').val("");
-                $('#modal_new_description').val("");
 
-                $('#newModel').modal('show');
-            });
+			{#modal 2#}
+			$('.product_view_button').click(function () {
+				$row = $(this).closest("tr");
+				var imgSrc = $row.find("td:nth-child(2) img").attr("src");
+				var name = $row.find("td:nth-child(3)").text().trim();
+				var model = $row.find("td:nth-child(4)").text().trim();
+				var description = $row.find("td:nth-child(5)").text().trim();
+				var price = $row.find("td:nth-child(6)").text().trim();
+				var $status = $row.find("td:nth-child(7)");
 
-        });
+				$('#modal_view_product_image').attr("src", imgSrc);
+				$('#modal_view_product_name').html(name);
+				$('#modal_view_product_model').html(model);
+				$('#modal_view_product_price').html(price);
+				$('#modal_view_product_description').html(description);
+
+				if ($status.text().trim() == 'Enable') {
+					$("#modal_view_product_status").removeClass('fa-times').removeClass('text-danger').addClass('fa-check-square-o').addClass('text-navy');
+				} else {
+					$("#modal_view_product_status").removeClass('fa-check-square-o').removeClass('text-navy').addClass('fa-times').addClass('text-danger');
+
+				}
+
+				$('#ViewModal').modal('show');
+			});
+
+			$('#new-product').click(function () {
+
+				$('#modal_new_product_name').val("");
+				$('#modal_new_product_model').val("");
+				$('#modal_new_product_price').val("");
+				$('#modal_new_description').val("");
+
+				$('#newModel').modal('show');
+			});
+
+		});
 
 	</script>
 {% endblock script %}
