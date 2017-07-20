@@ -216,7 +216,7 @@
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
 							class="sr-only">{% trans "Close" %}</span>
 					</button>
-					<h4 class="modal-title" id="modal_view_title">{% trans "View Product Details" %}</h4>
+					<h4 class="modal-title persian-font large" id="modal_view_title">{% trans "View Product Details" %}</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -511,10 +511,10 @@
 							$status = $row.find("td:nth-child(7)").find('span:first');
 							if (data['n_status']) {
 								$status.removeClass('label-danger').addClass('label-primary');
-								$status.text('Enable');
+								$status.text('{% trans "Enable" %}');
 							} else {
 								$status.removeClass('label-primary').addClass('label-danger');
-								$status.text('Disable');
+								$status.text('{% trans "Disable" %}');
 							}
 						}
 					}

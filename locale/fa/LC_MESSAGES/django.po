@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-20 14:41+0000\n"
+"POT-Creation-Date: 2017-07-20 16:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,6 +75,7 @@ msgid "Total Price"
 msgstr "قیمت کل"
 
 #: templates/Advertisements-fa.html:159 templates/Advertisements-fa.html:223
+#: templates/Booth_Management-fa.html:99
 msgid "Save"
 msgstr "ذخیره"
 
@@ -160,41 +161,49 @@ msgstr "شرکت پارسیوت &copy; ۹۶-۱۳۹۵"
 msgid "Booth Management"
 msgstr "مدیریت غرفه"
 
-#: templates/Booth_Management-fa.html:16
+#: templates/Booth_Management-fa.html:17
 msgid "Booth Owner Profile"
 msgstr "پروفایل صاحب غرفه"
 
-#: templates/Booth_Management-fa.html:25
-msgid "First Name:"
-msgstr "نام:"
-
-#: templates/Booth_Management-fa.html:33
-msgid "Last Name:"
-msgstr "نام خانوادگی:"
-
-#: templates/Booth_Management-fa.html:44
-msgid "Email:"
-msgstr "ایمیل:"
-
-#: templates/Booth_Management-fa.html:50
-msgid "Owner Company:"
-msgstr "شرکت:"
-
-#: templates/Booth_Management-fa.html:60
-msgid "Booth Name:"
+#: templates/Booth_Management-fa.html:27
+msgid "Booth Name"
 msgstr "نام غرفه"
 
-#: templates/Booth_Management-fa.html:66
-msgid "Phone:"
-msgstr "شماره ی همراه"
+#: templates/Booth_Management-fa.html:41
+msgid "Booth Information"
+msgstr "اطلاعات غرفه"
 
-#: templates/Booth_Management-fa.html:76
-msgid "Description:"
-msgstr "توضیحات:"
+#: templates/Booth_Management-fa.html:47 templates/Products_Details-fa.html:36
+#: templates/Products_Details-fa.html:142
+#: templates/Products_Details-fa.html:336
+msgid "Description"
+msgstr "توضیحات"
+
+#: templates/Booth_Management-fa.html:70
+msgid "Owner Information"
+msgstr "شرکت:"
+
+#: templates/Booth_Management-fa.html:76 templates/Products_Details-fa.html:115
+#: templates/Products_Details-fa.html:307
+msgid "Name"
+msgstr "نام"
 
 #: templates/Booth_Management-fa.html:85
-msgid "Save:"
-msgstr "ذخیره"
+msgid "Phone"
+msgstr "شماره ی همراه"
+
+#: templates/Booth_Management-fa.html:116
+#: templates/Booth_Management-fa.html:128 templates/Products_Details-fa.html:98
+#: templates/Products_Details-fa.html:205
+#: templates/Products_Details-fa.html:217
+#: templates/Products_Details-fa.html:292
+#: templates/Products_Details-fa.html:389
+msgid "Close"
+msgstr "بستن"
+
+#: templates/Booth_Management-fa.html:118
+msgid "Upload New Image"
+msgstr "آپلود عکس"
 
 #: templates/Products_Details-fa.html:23
 msgid "Search in table ..."
@@ -213,11 +222,6 @@ msgstr "نام محصول"
 msgid "Model"
 msgstr "مدل"
 
-#: templates/Products_Details-fa.html:36 templates/Products_Details-fa.html:142
-#: templates/Products_Details-fa.html:336
-msgid "Description"
-msgstr "توضیحات"
-
 #: templates/Products_Details-fa.html:37
 msgid "price"
 msgstr "قیمت"
@@ -226,24 +230,17 @@ msgstr "قیمت"
 msgid "status"
 msgstr "وضعیت"
 
-#: templates/Products_Details-fa.html:65
+#: templates/Products_Details-fa.html:65 templates/Products_Details-fa.html:514
 msgid "Enable"
 msgstr "فعال"
 
-#: templates/Products_Details-fa.html:67
+#: templates/Products_Details-fa.html:67 templates/Products_Details-fa.html:517
 msgid "Disable"
 msgstr "غیر فعال"
 
 #: templates/Products_Details-fa.html:72
 msgid "View"
 msgstr "نمایش"
-
-#: templates/Products_Details-fa.html:98 templates/Products_Details-fa.html:205
-#: templates/Products_Details-fa.html:217
-#: templates/Products_Details-fa.html:292
-#: templates/Products_Details-fa.html:389
-msgid "Close"
-msgstr "بستن"
 
 #: templates/Products_Details-fa.html:100
 msgid "Editing"
@@ -257,12 +254,7 @@ msgstr "نام محصول"
 #: templates/Products_Details-fa.html:107
 #: templates/Products_Details-fa.html:301
 msgid "Product Details"
-msgstr "ویرایش مشخصات غرفه"
-
-#: templates/Products_Details-fa.html:115
-#: templates/Products_Details-fa.html:307
-msgid "Name"
-msgstr "نام"
+msgstr "اطلاعات محصول"
 
 #: templates/Products_Details-fa.html:128
 #: templates/Products_Details-fa.html:322
@@ -337,6 +329,24 @@ msgstr "مدل محصول"
 msgid "Drop files here or click."
 msgstr "برای افزودن تصویر آن را در این ناحیه بیندازید یا روی اینجا کلیک کنید"
 
+#~ msgid "First Name:"
+#~ msgstr "نام:"
+
+#~ msgid "Last Name:"
+#~ msgstr "نام خانوادگی:"
+
+#~ msgid "Email:"
+#~ msgstr "ایمیل:"
+
+#~ msgid "Phone:"
+#~ msgstr "شماره ی همراه"
+
+#~ msgid "Description:"
+#~ msgstr "توضیحات:"
+
+#~ msgid "Save:"
+#~ msgstr "ذخیره"
+
 #~ msgid "warning"
 #~ msgstr "اخطار"
 
@@ -348,9 +358,6 @@ msgstr "برای افزودن تصویر آن را در این ناحیه بین
 
 #~ msgid "Booth Advertisments"
 #~ msgstr "تبلیغات غرفه"
-
-#~ msgid "Phone"
-#~ msgstr "شماره ی همراه"
 
 #~ msgid "Model:"
 #~ msgstr "مدل:"

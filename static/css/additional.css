@@ -15,11 +15,20 @@
 .persian-font {
 	font-family: "BMitra", 'Open Sans', helvetica, arial, sans-serif;
 	direction: rtl;
-	text-align: right;
+}
+
+.persian-font.small {
+	font-size: 10px;
+
 }
 
 .persian-font.medium {
-	font-size: 22px;
+	font-size: 25px;
+
+}
+
+.persian-font.large {
+	font-size: 30px;
 
 }
 

@@ -5,99 +5,162 @@
     {% trans 'Booth Management' %}
 {% endblock title %}
 {% block head %}
-    <link href="{% static "css/plugins/footable/footable.core.css" %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/basic.css' %}" rel="stylesheet">
+	<link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
 {% endblock head %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel-body">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title" style="border-width: 0px">
-                        <h3 class="per">{% trans 'Booth Owner Profile' %} </h3>
-                    </div>
-                    <div class="ibox-content">
-                        <form action="" method="post" class="form-horizontal">
-                            {#                            {% csrf_token %}#}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per">
-                                            {% trans "First Name:" %}
-                                        </label>
-                                        <div class="col-sm-8">
-                                            {{ form.firstName }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per">
-                                            {% trans "Last Name:" %}
-                                        </label>
-                                        <div class="col-sm-8">
-                                            {{ form.lastName }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per"> {% trans "Email:" %}</label>
-                                        <div class="col-sm-8">
-                                            {{ form.email }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per"> {% trans "Owner Company:" %}</label>
-                                        <div class="col-sm-8">
-                                            {{ form.company }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per">{% trans "Booth Name:" %}</label>
-                                        <div class="col-sm-8">
-                                            {{ form.boothName }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-sm-4 control-label per">{% trans "Phone:" %}</label>
-                                        <div class="col-sm-8">
-                                            {{ form.phone }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label per">{% trans "Description:" %}</label>
-                                        <div class="col-sm-9">
-                                            {{ form.description }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row ibox-footer">
-                                <div class="pull-right">
-                                    <button type="submit" id="save_button" class="btn btn-primary per">{% trans "Save:" %}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock content %}
-{% block script %}
-    <script src="{% static "js/plugins/footable/footable.all.min.js" %}"></script>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel-body">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title" style="border-width: 0px">
+						<h3 class="persian-font large">{% trans 'Booth Owner Profile' %} </h3>
+					</div>
+					<div class="ibox-content">
+						<form action="" method="POST" enctype="multipart/form-data" class="form-horizontal">
+							{# {% csrf_token %} #}
+							<div class="row">
+								<div class="col-md-8 col-md-offset-1">
+									<div class="row">
+										<div class="form-group">
+											<label class="col-md-4 control-label per">
+												{% trans "Booth Name" %}:
+											</label>
+											<div class="col-md-8">
+												{{ form.boothName }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 
-    <script>
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="panel panel-default">
+										<div class="panel-heading per">
+											{% trans "Booth Information" %}
+										</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-9 col-xs-12">
+													<div class="form-group">
+														<label class="col-sm-2 control-label per">{% trans "Description" %}:</label>
+														<div class="col-sm-9">
+															{{ form.description }}
+														</div>
+													</div>
+												</div>
+												<div class="col-md-3 col-xs-6 col-xs-offset-3 col-md-offset-0">
+													<div class="form-group">
+														<img id="boothImage" src="{{ image.url }}" class="img-preview img-rounded img-container" style="cursor: pointer;">
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="panel panel-default">
+										<div class="panel-heading per">
+											{% trans "Owner Information" %}
+										</div>
+										<div class="panel-body">
+											<div class="row">
+												<div class="form-group">
+													<label class="col-md-2 control-label per">
+														{% trans "Name" %}:
+													</label>
+													<div class="col-md-9">
+														{{ form.lastName }}
+													</div>
+												</div>
+
+
+												<div class="form-group">
+													<label class="col-md-2 control-label per">{% trans "Phone" %}:</label>
+													<div class="col-md-9">
+														{{ form.phone }}
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row ibox-footer">
+								<div class="pull-right">
+									<button type="submit" id="save_button" class="btn btn-primary per">{% trans "Save" %}</button>
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal inmodal fade" id="imageUploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+							class="sr-only per">{% trans "Close" %}</span>
+					</button>
+					<h4 class="modal-title per">{% trans "Upload New Image" %}</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" class="dropzone" id="dropzoneForm">
+						<div class="fallback">
+							<input name="file" type="file" multiple/>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info per" data-dismiss="modal">{% trans "Close" %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% block script %}
+	<script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
+
+	<script>
+		Dropzone.options.dropzoneForm = {
+			url: "{% url 'ajax:uploadBoothImage' %}",
+			method: 'POST',
+			paramName: "image", // The name that will be used to transfer the file
+			maxFilesize: 5, // MB
+			dictDefaultMessage: "<strong>Drop files here or click.</strong>",
+			addRemoveLinks: true,
+			maxFiles: 1,
+			acceptedFiles: "image/*",
+			init: function () {
+				this.on("success", function (file, xhr) {
+					$('#boothImage').attr("src", JSON.parse(xhr).url);
+
+				});
+			}
+		};
+
         $(document).ready(function () {
-            $('.footable').footable();
+	        $('#boothImage').css('height', $('#id_description').outerHeight() + 'px');
+
+	        $('#boothImage').click(function () {
+		        $('#imageUploadModal').modal('show');
+	        });
+
         });
-    </script>
+	</script>
 {% endblock script %}
