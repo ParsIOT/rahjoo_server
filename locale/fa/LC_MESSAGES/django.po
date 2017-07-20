@@ -139,7 +139,7 @@ msgstr "مشخصات غرفه"
 
 #: templates/Base-fa.html:55
 msgid "Products Details"
-msgstr "ویرایش مشخصات غرفه"
+msgstr "مشخصات محصول"
 
 #: templates/Base-fa.html:61
 msgid "Advertisements"
