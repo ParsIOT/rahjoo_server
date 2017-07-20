@@ -205,6 +205,11 @@ msgstr "بستن"
 msgid "Upload New Image"
 msgstr "آپلود عکس"
 
+#: templates/Booth_Management-fa.html:145
+#: templates/Products_Details-fa.html:412
+msgid "Drop files here or click."
+msgstr "برای افزودن تصویر آن را در این ناحیه بیندازید یا روی اینجا کلیک کنید"
+
 #: templates/Products_Details-fa.html:23
 msgid "Search in table ..."
 msgstr "جستجو در جدول..."
@@ -324,10 +329,6 @@ msgstr "محصول جدید"
 #: templates/Products_Details-fa.html:314
 msgid "Product Model"
 msgstr "مدل محصول"
-
-#: templates/Products_Details-fa.html:412
-msgid "Drop files here or click."
-msgstr "برای افزودن تصویر آن را در این ناحیه بیندازید یا روی اینجا کلیک کنید"
 
 #~ msgid "First Name:"
 #~ msgstr "نام:"
