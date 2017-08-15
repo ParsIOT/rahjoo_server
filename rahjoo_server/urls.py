@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+	              url(r'^$', auth_views.login, {'template_name': 'login.html'}, name='login'),
 	              url(r'^ajax/', include('ajax.urls', namespace='ajax')),
 	              url(r'^admin/', admin.site.urls),
 	              url(r'^i18n/', include('django.conf.urls.i18n'), name='set_language'),

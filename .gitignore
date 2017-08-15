@@ -4,3 +4,4 @@
 *.sqlite3
 media/*
 !media/default
+venv/
