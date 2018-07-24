@@ -22,7 +22,7 @@ def change_language(request, template_name):
 
 
 def index(request):
-    template = loader.get_template('set_language.html')
+    template = loader.get_template('draw.html')
     context = {}
     return HttpResponse(template.render(context, request))
 
@@ -141,3 +141,8 @@ def checkServer(request):
 
 def user_logout(request):
     logout(request)
+
+def homepage(request):
+    template = loader.get_template('Homepage-fa.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
